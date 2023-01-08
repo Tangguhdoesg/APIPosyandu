@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -18,6 +20,7 @@ public class Kegiatan {
 	
 	@Id
 	@Column(name="idkegiatan")
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Integer idKegiatan;
 	
 	@Column(name="namakegiatan")
@@ -30,7 +33,7 @@ public class Kegiatan {
 	private String lokasiKegiatan;
 	
 	@OneToOne
-	@JoinColumn(name = "idpenanggungjawab")
+	@JoinColumn(name = "iduser")
 //	@Column(name="IdPenanggungJawab")
 	private UserPosyandu idPenanggungJawab;
 

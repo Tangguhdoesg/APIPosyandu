@@ -1,12 +1,10 @@
 package com.skirpsi.api.posyandu.entity;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -19,6 +17,7 @@ public class UserPosyandu {
 	
 	@Id
 	@Column(name="iduser")
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Integer idUser;
 	
 	@Column(name="namauser")
@@ -36,14 +35,14 @@ public class UserPosyandu {
 	@Column(name="usertype")
 	private Integer userType;
 	
-	@OneToMany
-	@JoinColumn(name = "idbalita")
-//	@Column(name="IdUser")
-	private List<Balita> balita;
-	
-	@OneToMany
-	@JoinColumn(name = "idkegiatan")
-//	@Column(name="IdUser")
-	private List<Kegiatan> kegiatan;
+//	@OneToMany
+//	@JoinColumn(name = "idbalita")
+////	@Column(name="IdUser")
+//	private List<Balita> balita;
+//	
+//	@OneToMany
+//	@JoinColumn(name = "idkegiatan")
+////	@Column(name="IdUser")
+//	private List<Kegiatan> kegiatan;
 
 }

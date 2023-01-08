@@ -1,14 +1,13 @@
 package com.skirpsi.api.posyandu.entity;
 
 import java.sql.Timestamp;
-import java.util.Collection;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -21,6 +20,7 @@ public class Balita {
 	
 	@Id
 	@Column(name = "idbalita")
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Integer idBalita;
 	
 	@OneToOne
@@ -46,13 +46,13 @@ public class Balita {
 	@Column(name="tinggisaatlahir")
 	private Float tinggiSaatLahir;
 	
-	@OneToMany
-	@JoinColumn(name = "idcheckup")
-//	@Column(name="IdUser")
-	private List<CheckUp> checkup;
-	
-	@OneToMany
-	@JoinColumn(name = "idimunisasi")
-//	@Column(name="IdUser")
-	private List<Imunisasi> imunisasi;
+//	@OneToMany
+//	@JoinColumn(name = "idcheckup")
+////	@Column(name="IdUser")
+//	private List<CheckUp> checkup;
+//	
+//	@OneToMany
+//	@JoinColumn(name = "idimunisasi")
+////	@Column(name="IdUser")
+//	private List<Imunisasi> imunisasi;
 }
