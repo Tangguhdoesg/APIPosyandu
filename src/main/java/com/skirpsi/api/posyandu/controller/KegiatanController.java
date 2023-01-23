@@ -1,6 +1,6 @@
 package com.skirpsi.api.posyandu.controller;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,89 +15,79 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skirpsi.api.posyandu.entity.Kegiatan;
-import com.skirpsi.api.posyandu.repository.KegiatanRepository;
+import com.skirpsi.api.posyandu.service.KegiatanService;
 
 @RestController
 @RequestMapping("kegiatan")
 public class KegiatanController {
 	
-	@Autowired KegiatanRepository kegiatanRepo;
+	@Autowired KegiatanService kegiatanSer;
 	
-	@GetMapping("/getone")
-	public ResponseEntity<Kegiatan> testGet() {
-		Kegiatan x = kegiatanRepo.findById(1).get();
+	@GetMapping("/all")
+	public ResponseEntity<List<Kegiatan>> testGet(){
+		List<Kegiatan> ret = kegiatanSer.getAll();
 		
-		try {
-			return new ResponseEntity<>(x, HttpStatus.OK);	
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println(e);
+		if(ret.size()>0) {
+			return new ResponseEntity<>(ret,HttpStatus.OK);
+		}else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Kegiatan> getKegiatan(@PathVariable("id") Integer id){
-		Optional<Kegiatan> kegiatanData = kegiatanRepo.findById(id);
+		Kegiatan ret = kegiatanSer.getById(id);
 		
-		if(kegiatanData.isPresent()) {
-			return new ResponseEntity<>(kegiatanData.get(), HttpStatus.OK);
-		}else {
+		if(ret==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}else {
+			return new ResponseEntity<>(ret,HttpStatus.OK);
 		}
+		
 	}
 	
 	@PostMapping()
 	public ResponseEntity<Kegiatan> createKegiatan(@RequestBody Kegiatan kegiatan){
-		try {
-			Kegiatan _kegiatan  = new Kegiatan();
-			_kegiatan.setAnggalKegiatan(kegiatan.getAnggalKegiatan());
-//			_kegiatan.setIdKegiatan(null);
-			_kegiatan.setIdPenanggungJawab(kegiatan.getIdPenanggungJawab());
-			_kegiatan.setLokasiKegiatan(kegiatan.getLokasiKegiatan());
-			_kegiatan.setNamaKegiatan(kegiatan.getNamaKegiatan());
-			kegiatanRepo.save(_kegiatan);
-			return new ResponseEntity<>(_kegiatan,HttpStatus.CREATED);
-		} catch (Exception e) {
-			// TODO: handle exception
+		Kegiatan ret = kegiatanSer.insert(kegiatan);
+		
+		if(ret==null) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}else {
+			return new ResponseEntity<>(ret,HttpStatus.OK);
 		}
 	}
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<Kegiatan> updateKegiatan(@RequestBody Kegiatan kegiatan,@PathVariable("id") Integer id){
-		Optional<Kegiatan> kegiatanData = kegiatanRepo.findById(id);
-		if(kegiatanData.isPresent()) {
-			try {
-				Kegiatan _kegiatan  = kegiatanData.get();
-				_kegiatan.setAnggalKegiatan(kegiatan.getAnggalKegiatan());
-//				_kegiatan.setIdKegiatan(null);
-				_kegiatan.setIdPenanggungJawab(kegiatan.getIdPenanggungJawab());
-				_kegiatan.setLokasiKegiatan(kegiatan.getLokasiKegiatan());
-				_kegiatan.setNamaKegiatan(kegiatan.getNamaKegiatan());
-				kegiatanRepo.save(_kegiatan);
-				return new ResponseEntity<>(_kegiatan,HttpStatus.CREATED);
-			} catch (Exception e) {
-				// TODO: handle exception
-				return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-			}
-		}else {
+		Kegiatan keg = kegiatanSer.getById(id);
+		
+		if(keg==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}else {
+			keg.setAnggalKegiatan(kegiatan.getAnggalKegiatan());
+			keg.setIdPenanggungJawab(kegiatan.getIdPenanggungJawab());
+			keg.setLokasiKegiatan(kegiatan.getLokasiKegiatan());
+			keg.setNamaKegiatan(kegiatan.getNamaKegiatan());
+			keg.setNamaPoster(kegiatan.getNamaPoster());
+			keg.setPosterKegiatan(kegiatan.getPosterKegiatan());
+			
+			kegiatanSer.insert(keg);
+			
+			return new ResponseEntity<>(keg,HttpStatus.OK);
 		}
-		
-		
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Kegiatan> deleteKegiatan(@PathVariable("id") Integer id){
-		Optional<Kegiatan> kegiatanData = kegiatanRepo.findById(id);
+//		Optional<Kegiatan> kegiatanData = kegiatanRepo.findById(id);
+		Kegiatan x = kegiatanSer.delete(id);
 		
-		if(kegiatanData.isPresent()) {
-			kegiatanRepo.deleteById(id);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		if(x==null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
+		
 	}
 
 }

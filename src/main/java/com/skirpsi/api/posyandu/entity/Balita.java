@@ -24,8 +24,7 @@ public class Balita {
 	private Integer idBalita;
 	
 	@OneToOne
-	@JoinColumn(name = "iduser")
-//	@Column(name="IdUser")
+	@JoinColumn(name = "idorangtua")
 	private UserPosyandu user;
 	
 	@Column(name="namabalita")
@@ -46,13 +45,4 @@ public class Balita {
 	@Column(name="tinggisaatlahir")
 	private Float tinggiSaatLahir;
 	
-//	@OneToMany
-//	@JoinColumn(name = "idcheckup")
-////	@Column(name="IdUser")
-//	private List<CheckUp> checkup;
-//	
-//	@OneToMany
-//	@JoinColumn(name = "idimunisasi")
-////	@Column(name="IdUser")
-//	private List<Imunisasi> imunisasi;
 }

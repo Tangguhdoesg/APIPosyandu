@@ -1,6 +1,6 @@
 package com.skirpsi.api.posyandu.controller;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,86 +15,72 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skirpsi.api.posyandu.entity.Imunisasi;
-//import com.skirpsi.api.posyandu.entity.UserPosyandu;
-import com.skirpsi.api.posyandu.repository.ImunisasiRepository;
+import com.skirpsi.api.posyandu.service.ImunisasiService;
 
 @RestController
 @RequestMapping("imunisasi")
 public class ImunisasiController {
 	
-	@Autowired ImunisasiRepository imunisasiRepo;
+	@Autowired ImunisasiService imunisasiSer;
 	
-	@GetMapping("/getone")
-	public ResponseEntity<Imunisasi> testGet(){
-		Imunisasi x = imunisasiRepo.findById(1).get();
-		try {
-			return new ResponseEntity<>(x, HttpStatus.OK);	
-		} catch (Exception e) {
-			System.out.println(e);
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	@GetMapping("/all")
+	public ResponseEntity<List<Imunisasi>> getAll(){
+		List<Imunisasi> all = imunisasiSer.getAll();
+		
+		if(all.size()>0) {
+			return new ResponseEntity<>(all,HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
 		}
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Imunisasi> getImunisasiById(@PathVariable("id") Integer id){
-		Optional<Imunisasi> imunisasiData = imunisasiRepo.findById(1);
+		Imunisasi data = imunisasiSer.getById(id);
 		
-		if(imunisasiData.isPresent()) {
-			return new ResponseEntity<>(imunisasiData.get(), HttpStatus.OK);	
-		}else {
+		if(data==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}else {
+			return new ResponseEntity<>(data,HttpStatus.OK);
 		}
 	}
 	
 	@PostMapping()
 	public ResponseEntity<Imunisasi> createImunisasi(@RequestBody Imunisasi imunisasi){
-		try {
-			Imunisasi _imunisasi = new Imunisasi();
-			_imunisasi.setBalita(imunisasi.getBalita());
-//			_imunisasi.setIdImunisasi(null);
-			_imunisasi.setNamaImunisasi(imunisasi.getNamaImunisasi());
-			_imunisasi.setTanggalImunisasi(imunisasi.getTanggalImunisasi());
-//			_imunisasi.set
-			imunisasiRepo.save(_imunisasi);
-			return new ResponseEntity<>(_imunisasi, HttpStatus.CREATED);
-		} catch (Exception e) {
-			// TODO: handle exception
+		Imunisasi x = imunisasiSer.insert(imunisasi);
+		
+		if(x==null) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}else {
+			return new ResponseEntity<>(x,HttpStatus.OK);
 		}
 	}
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<Imunisasi> updateImunisasi(@RequestBody Imunisasi imunisasi,@PathVariable("id") Integer id){
-		Optional<Imunisasi> imunisasiData = imunisasiRepo.findById(id);
+		Imunisasi _imunisasi = imunisasiSer.getById(id);
 		
-		if(imunisasiData.isPresent()) {
-			try {
-				Imunisasi _imunisasi = imunisasiData.get();
-				_imunisasi.setBalita(imunisasi.getBalita());
-//				_imunisasi.setIdImunisasi(null);
-				_imunisasi.setNamaImunisasi(imunisasi.getNamaImunisasi());
-				_imunisasi.setTanggalImunisasi(imunisasi.getTanggalImunisasi());
-//				_imunisasi.set
-				imunisasiRepo.save(_imunisasi);
-				return new ResponseEntity<>(_imunisasi, HttpStatus.CREATED);
-			} catch (Exception e) {
-				// TODO: handle exception
-				return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-			}
+		if(_imunisasi==null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}else {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			_imunisasi.setBalita(imunisasi.getBalita());
+			_imunisasi.setNamaImunisasi(imunisasi.getNamaImunisasi());
+			_imunisasi.setTanggalImunisasi(imunisasi.getTanggalImunisasi());
+			_imunisasi.setCatatanImunisasi(imunisasi.getCatatanImunisasi());
+			imunisasiSer.insert(_imunisasi);
+			
+			return new ResponseEntity<>(_imunisasi,HttpStatus.OK);
 		}
-		
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<HttpStatus> deleteImunisasi(@PathVariable("id") Integer id) {
-		Optional<Imunisasi>  imunisasiData = imunisasiRepo.findById(id);
-		if(imunisasiData.isPresent()) {
-			imunisasiRepo.deleteById(id);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	public ResponseEntity<Imunisasi> deleteImunisasi(@PathVariable("id") Integer id) {
+		Imunisasi x = imunisasiSer.delete(id);
+		
+		if(x==null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
 	}
   

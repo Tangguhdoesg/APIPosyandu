@@ -1,6 +1,6 @@
 package com.skirpsi.api.posyandu.controller;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,37 +15,55 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skirpsi.api.posyandu.entity.Balita;
-import com.skirpsi.api.posyandu.repository.BalitaRepository;
+import com.skirpsi.api.posyandu.service.BalitaService;
 
 @RestController
 @RequestMapping("balita")
 public class BalitaController {
 	
-	@Autowired BalitaRepository balitaRepo;
+	@Autowired BalitaService balitaSer;
 	
-	@GetMapping("/getone")
-	public ResponseEntity<Balita> testGet(){
-		Balita x = balitaRepo.findById(1).get();
+	
+	@GetMapping("/all")
+	public ResponseEntity<List<Balita>> getAll(){
+		List<Balita> all = balitaSer.getAll();
 		
-		return new ResponseEntity<>(x,HttpStatus.OK);
+		if(all.size()>0) {
+			return new ResponseEntity<>(all,HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
+		}
 	}
-	
 	@GetMapping("/{id}")
 	public ResponseEntity<Balita> getUserbyId(@PathVariable("id") Integer id){
-		Optional<Balita> userData = balitaRepo.findById(id);
 		
-		if(userData.isPresent()) {
-			return new ResponseEntity<>(userData.get(), HttpStatus.OK);
-		}else {
+		Balita data = balitaSer.getById(id);
+		
+		if(data==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}else {
+			return new ResponseEntity<>(data,HttpStatus.OK);
 		}
 	}
 	
 	@PostMapping()
-	public ResponseEntity<Balita> createKegiatan(@RequestBody Balita balita){
-		try {
-//			Kegiatan _kegiatan  = new Kegiatan();
-			Balita _balita = new Balita();
+	public ResponseEntity<Balita> createBalita(@RequestBody Balita balita){
+		Balita x = balitaSer.Insert(balita);
+		
+		if(x==null) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}else {
+			return new ResponseEntity<>(x,HttpStatus.OK);
+		}
+	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<Balita> updateBalita(@RequestBody Balita balita,@PathVariable("id") Integer id){
+		Balita _balita = balitaSer.getById(id);
+		
+		if(_balita==null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}else {
 			_balita.setBeratSaatLahir(balita.getBeratSaatLahir());
 			_balita.setJenisKelaminBalita(balita.getJenisKelaminBalita());
 			_balita.setNamabalita(balita.getNamabalita());
@@ -53,49 +71,21 @@ public class BalitaController {
 			_balita.setTempatLahirBalita(balita.getTempatLahirBalita());
 			_balita.setTinggiSaatLahir(balita.getTinggiSaatLahir());
 			_balita.setUser(balita.getUser());
-			balitaRepo.save(_balita);
-			return new ResponseEntity<>(_balita,HttpStatus.CREATED);
-		} catch (Exception e) {
-			// TODO: handle exception
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-	
-	@PutMapping("/{id}")
-	public ResponseEntity<Balita> updateKegiatan(@RequestBody Balita balita,@PathVariable("id") Integer id){
-		Optional<Balita> balitaData = balitaRepo.findById(id);
-		if(balitaData.isPresent()) {
-			try {
-//				Kegiatan _kegiatan  = new Kegiatan();
-				Balita _balita = balitaData.get();
-				_balita.setBeratSaatLahir(balita.getBeratSaatLahir());
-				_balita.setJenisKelaminBalita(balita.getJenisKelaminBalita());
-				_balita.setNamabalita(balita.getNamabalita());
-				_balita.setTanggalLahirBalita(balita.getTanggalLahirBalita());
-				_balita.setTempatLahirBalita(balita.getTempatLahirBalita());
-				_balita.setTinggiSaatLahir(balita.getTinggiSaatLahir());
-				_balita.setUser(balita.getUser());
-				balitaRepo.save(_balita);
-				return new ResponseEntity<>(_balita,HttpStatus.CREATED);
-			} catch (Exception e) {
-				// TODO: handle exception
-				return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-			}
-		}else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			balitaSer.Insert(_balita);
+			
+			return new ResponseEntity<>(_balita,HttpStatus.OK);
 		}
 		
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Balita> deleteBalita(@PathVariable("id") Integer id){
-		Optional<Balita> kegiatanData = balitaRepo.findById(id);
+		Balita x = balitaSer.delete(id);
 		
-		if(kegiatanData.isPresent()) {
-			balitaRepo.deleteById(id);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		if(x==null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
 	}
 	

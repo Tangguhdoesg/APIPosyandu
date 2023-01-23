@@ -1,5 +1,7 @@
 package com.skirpsi.api.posyandu.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,6 +25,12 @@ public class UserPosyandu {
 	@Column(name="namauser")
 	private String namaUser;
 	
+	@Column(name="NIKUser")
+	private String nik;
+	
+	@Column(name="tanggallahir")
+	private Date TanggalLahir;
+	
 	@Column(name="passworduser")
 	private String PasswordUser;
 	
@@ -35,14 +43,5 @@ public class UserPosyandu {
 	@Column(name="usertype")
 	private Integer userType;
 	
-//	@OneToMany
-//	@JoinColumn(name = "idbalita")
-////	@Column(name="IdUser")
-//	private List<Balita> balita;
-//	
-//	@OneToMany
-//	@JoinColumn(name = "idkegiatan")
-////	@Column(name="IdUser")
-//	private List<Kegiatan> kegiatan;
 
 }

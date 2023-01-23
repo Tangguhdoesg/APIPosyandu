@@ -34,7 +34,12 @@ public class Kegiatan {
 	
 	@OneToOne
 	@JoinColumn(name = "iduser")
-//	@Column(name="IdPenanggungJawab")
 	private UserPosyandu idPenanggungJawab;
+	
+	@Column(name="posterkegiatan")
+	private byte[] posterKegiatan;
+	
+	@Column(name="namaposter")
+	private String namaPoster;
 
 }

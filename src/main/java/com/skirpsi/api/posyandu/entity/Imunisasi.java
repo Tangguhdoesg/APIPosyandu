@@ -24,12 +24,14 @@ public class Imunisasi {
 	
 	@OneToOne
 	@JoinColumn(name = "idbalita")
-//	@Column(name="IdBalita")
 	private Balita balita;
 	
 	@Column(name="namaimunisasi")
 	private String namaImunisasi;
 	
 	@Column(name="tanggalimunisasi")
-	private Timestamp TanggalImunisasi;
+	private Timestamp tanggalImunisasi;
+	
+	@Column(name="catatanimunisasi")
+	private String catatanImunisasi;
 }

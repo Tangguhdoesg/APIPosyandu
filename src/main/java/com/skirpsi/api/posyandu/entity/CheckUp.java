@@ -25,7 +25,6 @@ public class CheckUp {
 	
 	@OneToOne
 	@JoinColumn(name = "idbalita")
-//	@Column(name="IdBalita")
 	private Balita balita;
 	
 	@Column(name="tinggibadan")
@@ -45,4 +44,7 @@ public class CheckUp {
 	
 	@Column(name="tanggalcheckupberikutnya")
 	private Timestamp tanggalCheckupBerikutnya;
+	
+	@Column(name="catatancheckup")
+	private String catatan;
 }
