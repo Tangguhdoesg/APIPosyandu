@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.skirpsi.api.posyandu.entity.Balita;
 import com.skirpsi.api.posyandu.entity.CheckUp;
 import com.skirpsi.api.posyandu.repository.CheckupRepository;
 
@@ -55,6 +56,12 @@ public class CheckupService {
 				return null;
 			}
 		}
+		return x;
+	}
+	
+	public List<CheckUp> getByBalita(Balita b){
+		List<CheckUp> x = checkupRepo.findAllCheckupByBalita(b);
+		
 		return x;
 	}
 }

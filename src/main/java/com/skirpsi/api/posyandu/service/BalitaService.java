@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skirpsi.api.posyandu.entity.Balita;
+import com.skirpsi.api.posyandu.entity.UserPosyandu;
 import com.skirpsi.api.posyandu.repository.BalitaRepository;
 
 @Service
@@ -29,6 +30,12 @@ public class BalitaService {
 		}else {
 			return null;
 		}
+	}
+	
+	public List<Balita> getByUser(UserPosyandu o) {
+		List<Balita> x = balitaRepo.findAllBalitaByUser(o);
+		
+		return x;
 	}
 	
 	public Balita Insert(Balita data) {

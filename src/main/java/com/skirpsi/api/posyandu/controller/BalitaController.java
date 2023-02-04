@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skirpsi.api.posyandu.entity.Balita;
+import com.skirpsi.api.posyandu.entity.UserPosyandu;
 import com.skirpsi.api.posyandu.service.BalitaService;
 
 @RestController
@@ -35,7 +36,7 @@ public class BalitaController {
 		}
 	}
 	@GetMapping("/{id}")
-	public ResponseEntity<Balita> getUserbyId(@PathVariable("id") Integer id){
+	public ResponseEntity<Balita> getBalitaById(@PathVariable("id") Integer id){
 		
 		Balita data = balitaSer.getById(id);
 		
@@ -44,6 +45,13 @@ public class BalitaController {
 		}else {
 			return new ResponseEntity<>(data,HttpStatus.OK);
 		}
+	}
+	
+	@GetMapping("/ortu")
+	public ResponseEntity<List<Balita>> getBalitaByUser(@RequestBody UserPosyandu x){
+		List<Balita> data = balitaSer.getByUser(x);
+		
+		return new ResponseEntity<>(data,HttpStatus.OK);
 	}
 	
 	@PostMapping()

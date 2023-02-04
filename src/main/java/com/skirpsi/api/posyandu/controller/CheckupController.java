@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.skirpsi.api.posyandu.entity.Balita;
 import com.skirpsi.api.posyandu.entity.CheckUp;
 import com.skirpsi.api.posyandu.service.CheckupService;
 
@@ -89,5 +90,14 @@ public class CheckupController {
 			  return new ResponseEntity<>(HttpStatus.OK);
 		  }
 
+	  }
+	  
+	  @GetMapping("/balita")
+	  public ResponseEntity<List<CheckUp>> getByBalita(@RequestBody Balita b){
+		  List<CheckUp> data = checkupSer.getByBalita(b);
+		  
+		  return new ResponseEntity<>(data,HttpStatus.OK);
+		  
+		  
 	  }
 }

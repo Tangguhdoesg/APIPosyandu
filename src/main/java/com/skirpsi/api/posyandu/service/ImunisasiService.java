@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.skirpsi.api.posyandu.entity.Balita;
 import com.skirpsi.api.posyandu.entity.Imunisasi;
 import com.skirpsi.api.posyandu.repository.ImunisasiRepository;
 
@@ -55,6 +56,12 @@ public class ImunisasiService {
 				return null;
 			}
 		}
+		return x;
+	}
+	
+	public List<Imunisasi> getByBalita (Balita b){
+		List<Imunisasi> x = imunisasiRepo.findAllImunisasiByBalita(b);
+		
 		return x;
 	}
 }

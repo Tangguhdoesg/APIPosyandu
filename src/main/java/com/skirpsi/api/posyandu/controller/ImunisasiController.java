@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.skirpsi.api.posyandu.entity.Balita;
 import com.skirpsi.api.posyandu.entity.Imunisasi;
 import com.skirpsi.api.posyandu.service.ImunisasiService;
 
@@ -82,6 +83,13 @@ public class ImunisasiController {
 		}else {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
+	}
+	
+	@GetMapping("/balita")
+	public ResponseEntity<List<Imunisasi>> getImunisasiByBalita(@RequestBody Balita b){
+		List<Imunisasi> data = imunisasiSer.getByBalita(b);
+		
+		return new ResponseEntity<>(data,HttpStatus.OK);
 	}
   
   
