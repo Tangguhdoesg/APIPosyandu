@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.skirpsi.api.posyandu.entity.Balita;
 import com.skirpsi.api.posyandu.entity.CheckUp;
+import com.skirpsi.api.posyandu.entity.intfc.CheckupInterface;
 import com.skirpsi.api.posyandu.service.CheckupService;
 
 @RestController
@@ -97,7 +98,14 @@ public class CheckupController {
 		  List<CheckUp> data = checkupSer.getByBalita(b);
 		  
 		  return new ResponseEntity<>(data,HttpStatus.OK);
+	  }
+	  
+	  @GetMapping("/balita/{id}")
+	  public ResponseEntity<List<CheckupInterface>> getByIdBalita(@PathVariable("id") Integer id){
 		  
+		  List<CheckupInterface> data = checkupSer.getByIdBalita(id);
+		  
+		  return new ResponseEntity<List<CheckupInterface>>(data,HttpStatus.OK);
 		  
 	  }
 }

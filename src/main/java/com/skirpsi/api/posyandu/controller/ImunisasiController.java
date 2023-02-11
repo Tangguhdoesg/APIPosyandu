@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.skirpsi.api.posyandu.entity.Balita;
 import com.skirpsi.api.posyandu.entity.Imunisasi;
+import com.skirpsi.api.posyandu.entity.intfc.ImunisasiInterface;
 import com.skirpsi.api.posyandu.service.ImunisasiService;
 
 @RestController
@@ -90,6 +91,14 @@ public class ImunisasiController {
 		List<Imunisasi> data = imunisasiSer.getByBalita(b);
 		
 		return new ResponseEntity<>(data,HttpStatus.OK);
+	}
+	
+	@GetMapping("/balita/{id}")
+	public ResponseEntity<List<ImunisasiInterface>> getImunisasiByBalitaId(@PathVariable("id") Integer id){
+		List<ImunisasiInterface> data = imunisasiSer.getByIdBalita(id);
+		
+		return new ResponseEntity<List<ImunisasiInterface>>(data,HttpStatus.OK);
+		
 	}
   
   

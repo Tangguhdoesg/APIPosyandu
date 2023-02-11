@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.skirpsi.api.posyandu.entity.Balita;
 import com.skirpsi.api.posyandu.entity.UserPosyandu;
+import com.skirpsi.api.posyandu.entity.intfc.BalitaInterface;
 import com.skirpsi.api.posyandu.service.BalitaService;
 
 @RestController
@@ -97,5 +98,18 @@ public class BalitaController {
 		}
 	}
 	
+	@GetMapping("/test")
+	public ResponseEntity<List<BalitaInterface>> gettest(@RequestBody UserPosyandu x){
+		List<BalitaInterface> som = balitaSer.getWithoutIdUser(x);
+		
+		return new ResponseEntity<>(som,HttpStatus.OK);
+	}
+	
+	@GetMapping("/testId/{id}")
+	public ResponseEntity<List<BalitaInterface>> getTestId(@PathVariable("id") Integer id){
+		List<BalitaInterface> som = balitaSer.getWithIntId(id);
+		
+		return new ResponseEntity<>(som,HttpStatus.OK);
+	}
 
 }

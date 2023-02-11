@@ -2,6 +2,7 @@ package com.skirpsi.api.posyandu.controller;
 
 import java.util.List;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skirpsi.api.posyandu.entity.Kegiatan;
+import com.skirpsi.api.posyandu.entity.intfc.KegiatanInterface;
 import com.skirpsi.api.posyandu.service.KegiatanService;
 
 @RestController
@@ -88,6 +90,13 @@ public class KegiatanController {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		
+	}
+	
+	@GetMapping("/user/{id}")
+	public ResponseEntity<List<KegiatanInterface>> findByIdUser(@PathVariable("id") Integer id){
+		List<KegiatanInterface> data = kegiatanSer.findByIdUser(id);
+		
+		return new ResponseEntity<List<KegiatanInterface>>(data,HttpStatus.OK);
 	}
 
 }

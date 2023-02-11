@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.skirpsi.api.posyandu.entity.Balita;
 import com.skirpsi.api.posyandu.entity.UserPosyandu;
+import com.skirpsi.api.posyandu.entity.intfc.BalitaInterface;
 import com.skirpsi.api.posyandu.repository.BalitaRepository;
 
 @Service
@@ -63,5 +64,17 @@ public class BalitaService {
 			}
 		}
 		return x;
+	}
+	
+	public List<BalitaInterface> getWithoutIdUser(UserPosyandu x){
+		List<BalitaInterface> y = balitaRepo.findByUser(x);
+		
+		return y;
+	}
+	
+	public List<BalitaInterface> getWithIntId(Integer x){
+		List<BalitaInterface> y = balitaRepo.customStuff(x);
+		
+		return y;
 	}
 }

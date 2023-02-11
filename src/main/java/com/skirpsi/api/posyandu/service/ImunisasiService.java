@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.skirpsi.api.posyandu.entity.Balita;
 import com.skirpsi.api.posyandu.entity.Imunisasi;
+import com.skirpsi.api.posyandu.entity.intfc.ImunisasiInterface;
 import com.skirpsi.api.posyandu.repository.ImunisasiRepository;
 
 @Service
@@ -61,6 +62,12 @@ public class ImunisasiService {
 	
 	public List<Imunisasi> getByBalita (Balita b){
 		List<Imunisasi> x = imunisasiRepo.findAllImunisasiByBalita(b);
+		
+		return x;
+	}
+	
+	public List<ImunisasiInterface> getByIdBalita(Integer id){
+		List<ImunisasiInterface> x = imunisasiRepo.findByIdBalitaWithoutBalitaObj(id);
 		
 		return x;
 	}

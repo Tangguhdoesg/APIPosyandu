@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skirpsi.api.posyandu.entity.Kegiatan;
+import com.skirpsi.api.posyandu.entity.intfc.KegiatanInterface;
 import com.skirpsi.api.posyandu.repository.KegiatanRepository;
 
 @Service
@@ -57,6 +58,14 @@ public class KegiatanService {
 			}
 		}
 		return x;
+	}
+	
+	public List<KegiatanInterface> findByIdUser(Integer id){
+		
+		List<KegiatanInterface> x = kegiatanRepo.findByIdUser(id);
+		
+		return x;
+		
 	}
 
 }

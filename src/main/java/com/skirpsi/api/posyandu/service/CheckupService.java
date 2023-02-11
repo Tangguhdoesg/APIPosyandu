@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.skirpsi.api.posyandu.entity.Balita;
 import com.skirpsi.api.posyandu.entity.CheckUp;
+import com.skirpsi.api.posyandu.entity.intfc.CheckupInterface;
 import com.skirpsi.api.posyandu.repository.CheckupRepository;
 
 @Service
@@ -61,6 +62,12 @@ public class CheckupService {
 	
 	public List<CheckUp> getByBalita(Balita b){
 		List<CheckUp> x = checkupRepo.findAllCheckupByBalita(b);
+		
+		return x;
+	}
+	
+	public List<CheckupInterface> getByIdBalita(Integer id){
+		List<CheckupInterface> x = checkupRepo.findAllByIdBalita(id);
 		
 		return x;
 	}
