@@ -25,7 +25,7 @@ public class KegiatanController {
 	
 	@Autowired KegiatanService kegiatanSer;
 	
-	@GetMapping("/all")
+	@GetMapping("/user/all")
 	public ResponseEntity<List<Kegiatan>> testGet(){
 		List<Kegiatan> ret = kegiatanSer.getAll();
 		
@@ -36,7 +36,7 @@ public class KegiatanController {
 		}
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/user/{id}")
 	public ResponseEntity<Kegiatan> getKegiatan(@PathVariable("id") Integer id){
 		Kegiatan ret = kegiatanSer.getById(id);
 		
@@ -92,11 +92,18 @@ public class KegiatanController {
 		
 	}
 	
-	@GetMapping("/user/{id}")
-	public ResponseEntity<List<KegiatanInterface>> findByIdUser(@PathVariable("id") Integer id){
-		List<KegiatanInterface> data = kegiatanSer.findByIdUser(id);
+	@GetMapping("/{id}")
+	public ResponseEntity<KegiatanInterface> findByIdUser(@PathVariable("id") Integer id){
+		KegiatanInterface data = kegiatanSer.findByIdUser(id);
 		
-		return new ResponseEntity<List<KegiatanInterface>>(data,HttpStatus.OK);
+		return new ResponseEntity<KegiatanInterface>(data,HttpStatus.OK);
+	}
+	
+	@GetMapping("/all")
+	public ResponseEntity<List<KegiatanInterface>> findAllWithoutUser(){
+		List<KegiatanInterface> data = kegiatanSer.findALlWithoutUser();
+		
+		return new ResponseEntity<>(data,HttpStatus.OK);
 	}
 
 }

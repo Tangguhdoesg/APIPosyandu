@@ -24,7 +24,7 @@ public class CheckupController {
 	
 	@Autowired CheckupService checkupSer;
 	
-	@GetMapping("/all")
+	@GetMapping("/balita/all")
 	public ResponseEntity<List<CheckUp>> getAll(){
 		List<CheckUp> all = checkupSer.getAll();
 		
@@ -36,7 +36,7 @@ public class CheckupController {
 		
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/balita/{id}")
 	public ResponseEntity<CheckUp> getCheckup(@PathVariable("id") Integer id){
 		CheckUp data = checkupSer.getById(id);
 		
@@ -100,12 +100,17 @@ public class CheckupController {
 		  return new ResponseEntity<>(data,HttpStatus.OK);
 	  }
 	  
-	  @GetMapping("/balita/{id}")
-	  public ResponseEntity<List<CheckupInterface>> getByIdBalita(@PathVariable("id") Integer id){
+	  @GetMapping("/{id}")
+	  public ResponseEntity<CheckupInterface> getByIdBalita(@PathVariable("id") Integer id){
 		  
-		  List<CheckupInterface> data = checkupSer.getByIdBalita(id);
+		  CheckupInterface data = checkupSer.getByIdBalita(id);
 		  
-		  return new ResponseEntity<List<CheckupInterface>>(data,HttpStatus.OK);
+		  return new ResponseEntity<>(data,HttpStatus.OK);  
+	  }
+	  @GetMapping("/all")
+	  public ResponseEntity<List<CheckupInterface>> getAllWithoutBalita(){
+		  List<CheckupInterface> data = checkupSer.getAllWithoutBalita();
 		  
+		  return new ResponseEntity<>(data,HttpStatus.OK);
 	  }
 }

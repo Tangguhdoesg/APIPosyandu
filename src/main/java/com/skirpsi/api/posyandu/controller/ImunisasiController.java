@@ -25,7 +25,7 @@ public class ImunisasiController {
 	
 	@Autowired ImunisasiService imunisasiSer;
 	
-	@GetMapping("/all")
+	@GetMapping("/balita/all")
 	public ResponseEntity<List<Imunisasi>> getAll(){
 		List<Imunisasi> all = imunisasiSer.getAll();
 		
@@ -36,7 +36,7 @@ public class ImunisasiController {
 		}
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/balita/{id}")
 	public ResponseEntity<Imunisasi> getImunisasiById(@PathVariable("id") Integer id){
 		Imunisasi data = imunisasiSer.getById(id);
 		
@@ -93,12 +93,18 @@ public class ImunisasiController {
 		return new ResponseEntity<>(data,HttpStatus.OK);
 	}
 	
-	@GetMapping("/balita/{id}")
-	public ResponseEntity<List<ImunisasiInterface>> getImunisasiByBalitaId(@PathVariable("id") Integer id){
-		List<ImunisasiInterface> data = imunisasiSer.getByIdBalita(id);
+	@GetMapping("/{id}")
+	public ResponseEntity<ImunisasiInterface> getImunisasiByBalitaId(@PathVariable("id") Integer id){
+		ImunisasiInterface data = imunisasiSer.getByIdBalita(id);
 		
-		return new ResponseEntity<List<ImunisasiInterface>>(data,HttpStatus.OK);
+		return new ResponseEntity<>(data,HttpStatus.OK);
+	}
+	
+	@GetMapping("/all")
+	public ResponseEntity<List<ImunisasiInterface>> getAllWithoutBalita(){
+		List<ImunisasiInterface> data = imunisasiSer.getAllWithoutBalita();
 		
+		return new ResponseEntity<>(data,HttpStatus.OK);
 	}
   
   

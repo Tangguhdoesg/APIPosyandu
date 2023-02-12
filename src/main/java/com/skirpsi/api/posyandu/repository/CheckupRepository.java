@@ -15,5 +15,8 @@ public interface CheckupRepository extends JpaRepository<CheckUp, Integer>{
 	List<CheckUp> findAllCheckupByBalita(Balita x);
 	
 	@Query(value="select idcheckup, tinggibadan ,beratbadan ,lingkarkepala ,lingkarlengan , tanggalcheckup ,tanggalcheckupberikutnya ,catatancheckup  from checkup c  where idbalita = ?1",nativeQuery = true)
-	List<CheckupInterface> findAllByIdBalita(Integer x);
+	CheckupInterface findByIdBalita(Integer x);
+	
+	@Query(value="select idcheckup, tinggibadan ,beratbadan ,lingkarkepala ,lingkarlengan , tanggalcheckup ,tanggalcheckupberikutnya ,catatancheckup  from checkup c ",nativeQuery = true)
+	List<CheckupInterface> findAllWithoutBalita();
 }

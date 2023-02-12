@@ -16,6 +16,9 @@ public interface ImunisasiRepository extends JpaRepository<Imunisasi, Integer>{
 	List<Imunisasi> findAllImunisasiByBalita(Balita x);
 	
 	@Query(value = "select idimunisasi,namaimunisasi ,tanggalimunisasi ,catatanimunisasi  from imunisasi i where idbalita = ?1", nativeQuery = true)
-	List<ImunisasiInterface> findByIdBalitaWithoutBalitaObj(Integer id);
+	ImunisasiInterface findByIdBalitaWithoutBalitaObj(Integer id);
+	
+	@Query(value = "select idimunisasi,namaimunisasi ,tanggalimunisasi ,catatanimunisasi  from imunisasi i", nativeQuery = true)
+	List<ImunisasiInterface> findAllWithourBalita();
 	
 }

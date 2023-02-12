@@ -66,8 +66,14 @@ public class CheckupService {
 		return x;
 	}
 	
-	public List<CheckupInterface> getByIdBalita(Integer id){
-		List<CheckupInterface> x = checkupRepo.findAllByIdBalita(id);
+	public CheckupInterface getByIdBalita(Integer id){
+		CheckupInterface x = checkupRepo.findByIdBalita(id);
+		
+		return x;
+	}
+	
+	public List<CheckupInterface> getAllWithoutBalita(){
+		List<CheckupInterface> x = checkupRepo.findAllWithoutBalita();
 		
 		return x;
 	}

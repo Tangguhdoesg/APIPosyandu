@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skirpsi.api.posyandu.entity.UserPosyandu;
+import com.skirpsi.api.posyandu.entity.intfc.UserInterface;
 import com.skirpsi.api.posyandu.repository.UserRepository;
 
 @Service
@@ -57,5 +58,16 @@ public class UserService {
 		}
 		
 	}
-
+	
+	public UserInterface getOneByIdWithoutPassword(Integer id) {
+		UserInterface x = userRepo.findOneWithId(id);
+		
+		return x;
+	}
+	
+	public List<UserInterface> getAllWithoutPassword(){
+		List<UserInterface> x = userRepo.findAllWithourPassword();
+		
+		return x;
+	}
 }

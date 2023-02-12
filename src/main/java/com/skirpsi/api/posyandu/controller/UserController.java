@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skirpsi.api.posyandu.entity.UserPosyandu;
+import com.skirpsi.api.posyandu.entity.intfc.UserInterface;
 import com.skirpsi.api.posyandu.service.UserService;
 
 @RestController
@@ -27,7 +28,7 @@ public class UserController {
 	
 	@Autowired UserService userServ;
 	
-	@GetMapping("/all")
+	@GetMapping("/pass/all")
 	public ResponseEntity<List<UserPosyandu>> getAllUser(){
 		List<UserPosyandu> all = userServ.getAll();
 		
@@ -38,7 +39,7 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/pass/{id}")
 	public ResponseEntity<UserPosyandu> getById(@PathVariable("id") Integer id){
 		UserPosyandu data = userServ.getOneById(id);
 		
@@ -106,7 +107,21 @@ public class UserController {
 //
 //	    String jwt = tokenProvider.generateToken(authentication);
 //	    return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
-//	}
+//	}'
+	
+	@GetMapping("/all")
+	public ResponseEntity<List<UserInterface>> getAllUserWithoutPassword(){
+		List<UserInterface> data = userServ.getAllWithoutPassword();
+		
+		return new ResponseEntity<>(data,HttpStatus.OK);
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<UserInterface> getOneWithourPaswword(@PathVariable("id") Integer id){
+		UserInterface data = userServ.getOneByIdWithoutPassword(id);
+		
+		return new ResponseEntity<>(data,HttpStatus.OK);
+	}
 
 	  
 }

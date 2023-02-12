@@ -26,7 +26,7 @@ public class BalitaController {
 	@Autowired BalitaService balitaSer;
 	
 	
-	@GetMapping("/all")
+	@GetMapping("/user/all")
 	public ResponseEntity<List<Balita>> getAll(){
 		List<Balita> all = balitaSer.getAll();
 		
@@ -36,7 +36,7 @@ public class BalitaController {
 			return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
 		}
 	}
-	@GetMapping("/{id}")
+	@GetMapping("/user/{id}")
 	public ResponseEntity<Balita> getBalitaById(@PathVariable("id") Integer id){
 		
 		Balita data = balitaSer.getById(id);
@@ -98,18 +98,18 @@ public class BalitaController {
 		}
 	}
 	
-	@GetMapping("/test")
-	public ResponseEntity<List<BalitaInterface>> gettest(@RequestBody UserPosyandu x){
-		List<BalitaInterface> som = balitaSer.getWithoutIdUser(x);
+	@GetMapping("/{id}")
+	public ResponseEntity<BalitaInterface> getByIdWithoutUser(@PathVariable("id") Integer id){
+		BalitaInterface data = balitaSer.getByIdWithoutUser(id);
 		
-		return new ResponseEntity<>(som,HttpStatus.OK);
+		return new ResponseEntity<>(data,HttpStatus.OK);
 	}
 	
-	@GetMapping("/testId/{id}")
-	public ResponseEntity<List<BalitaInterface>> getTestId(@PathVariable("id") Integer id){
-		List<BalitaInterface> som = balitaSer.getWithIntId(id);
+	@GetMapping("/all")
+	public ResponseEntity<List<BalitaInterface>> getAllWithoutUser(){
+		List<BalitaInterface> data = balitaSer.getAllWithoutUser();
 		
-		return new ResponseEntity<>(som,HttpStatus.OK);
+		return new ResponseEntity<>(data,HttpStatus.OK);
 	}
 
 }

@@ -60,12 +60,18 @@ public class KegiatanService {
 		return x;
 	}
 	
-	public List<KegiatanInterface> findByIdUser(Integer id){
-		
-		List<KegiatanInterface> x = kegiatanRepo.findByIdUser(id);
+	public KegiatanInterface findByIdUser(Integer id){
+		KegiatanInterface x = kegiatanRepo.findByIdUser(id);
 		
 		return x;
 		
 	}
+	
+	public List<KegiatanInterface> findALlWithoutUser(){
+		List<KegiatanInterface> x = kegiatanRepo.findAllWihoutUser();
+		
+		return x;
+	}
+	
 
 }

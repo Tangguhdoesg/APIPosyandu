@@ -72,8 +72,14 @@ public class BalitaService {
 		return y;
 	}
 	
-	public List<BalitaInterface> getWithIntId(Integer x){
-		List<BalitaInterface> y = balitaRepo.customStuff(x);
+	public BalitaInterface getByIdWithoutUser(Integer x){
+		BalitaInterface y = balitaRepo.findByIdWithoutUser(x);
+		
+		return y;
+	}
+	
+	public List<BalitaInterface> getAllWithoutUser(){
+		List<BalitaInterface> y = balitaRepo.findAllWithoutUser();
 		
 		return y;
 	}
