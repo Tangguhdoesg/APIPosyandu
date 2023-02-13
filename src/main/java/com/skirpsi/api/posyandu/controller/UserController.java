@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.skirpsi.api.posyandu.entity.UserPosyandu;
 import com.skirpsi.api.posyandu.entity.intfc.UserInterface;
 import com.skirpsi.api.posyandu.service.UserService;
+import com.skirpsi.api.posyandu.service.WhatsappService;
 
 @RestController
 @RequestMapping("user")
@@ -27,6 +28,8 @@ public class UserController {
 	
 	
 	@Autowired UserService userServ;
+	
+	@Autowired WhatsappService whatsServ;
 	
 	@GetMapping("/pass/all")
 	public ResponseEntity<List<UserPosyandu>> getAllUser(){
@@ -122,6 +125,15 @@ public class UserController {
 		
 		return new ResponseEntity<>(data,HttpStatus.OK);
 	}
-
+	
+	@GetMapping("/wa")
+	public ResponseEntity<String> testWa(@RequestBody UserPosyandu user){
+//		whatsServ.testSendAPI();
+//		System.out.println(user.getNamaUser());
+//		System.out.println(user.getNoTeleponUser());
+		whatsServ.sendPassword(user);
+		
+		return new ResponseEntity<>("GOOD",HttpStatus.OK);
+	}
 	  
 }
