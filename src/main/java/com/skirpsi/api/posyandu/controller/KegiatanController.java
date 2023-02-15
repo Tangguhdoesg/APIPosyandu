@@ -66,11 +66,11 @@ public class KegiatanController {
 		if(keg==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}else {
-			keg.setAnggalKegiatan(kegiatan.getAnggalKegiatan());
-			keg.setIdPenanggungJawab(kegiatan.getIdPenanggungJawab());
+			keg.setTanggalKegiatan(kegiatan.getTanggalKegiatan());
+			keg.setPenanggungJawabKegiatan(kegiatan.getPenanggungJawabKegiatan());
 			keg.setLokasiKegiatan(kegiatan.getLokasiKegiatan());
 			keg.setNamaKegiatan(kegiatan.getNamaKegiatan());
-			keg.setNamaPoster(kegiatan.getNamaPoster());
+			keg.setNamaPosterKegiatan(kegiatan.getNamaPosterKegiatan());
 			keg.setPosterKegiatan(kegiatan.getPosterKegiatan());
 			
 			kegiatanSer.insert(keg);
