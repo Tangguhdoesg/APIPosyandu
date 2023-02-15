@@ -21,28 +21,31 @@ public class Balita {
 	@Id
 	@Column(name = "idbalita")
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	private Integer idBalita;
+	private Integer IdBalita;
 	
 	@OneToOne
 	@JoinColumn(name = "idorangtua")
-	private UserPosyandu user;
+	private UserPosyandu IdUser;
 	
 	@Column(name="namabalita")
-	private String namabalita;
+	private String NamaBalita;
+	
+	@Column(name="nikbalita")
+	private String NIKBalita;
 	
 	@Column(name="tempatlahirbalita")
-	private String tempatLahirBalita;
+	private String TempatLahirBalita;
 	
 	@Column(name="tanggallahirbalita")
-	private Timestamp tanggalLahirBalita;
+	private Timestamp TanggalLahirBalita;
 	
 	@Column(name="jeniskelaminbalita")
-	private String jenisKelaminBalita;
+	private String JenisKelaminBalita;
 	
 	@Column(name="beratsaatlahir")
-	private Float beratSaatLahir;
+	private Float BeratSaatLahirBalita;
 	
 	@Column(name="tinggisaatlahir")
-	private Float tinggiSaatLahir;
+	private Float TinggiSaatLahirBalita;
 	
 }

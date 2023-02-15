@@ -21,25 +21,25 @@ public class Kegiatan {
 	@Id
 	@Column(name="idkegiatan")
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	private Integer idKegiatan;
+	private Integer IdKegiatan;
 	
 	@Column(name="namakegiatan")
-	private String namaKegiatan;
+	private String NamaKegiatan;
 	
 	@Column(name="tanggalkegiatan")
-	private Timestamp anggalKegiatan;
+	private Timestamp TanggalKegiatan;
 	
 	@Column(name="lokasikegiatan")
-	private String lokasiKegiatan;
+	private String LokasiKegiatan;
 	
 	@OneToOne
 	@JoinColumn(name = "iduser")
-	private UserPosyandu idPenanggungJawab;
+	private UserPosyandu PenanggungJawabKegiatan;
 	
 	@Column(name="posterkegiatan")
-	private byte[] posterKegiatan;
+	private byte[] PosterKegiatan;
 	
 	@Column(name="namaposter")
-	private String namaPoster;
+	private String NamaPosterKegiatan;
 
 }

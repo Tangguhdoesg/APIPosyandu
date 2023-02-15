@@ -54,15 +54,10 @@ public class AuthController {
 		System.out.println("THIS IS SIGNIN");
 		System.out.println(loginRequest.getUsername());
 		System.out.println(loginRequest.getPassword());
-//		THIS IS NOT RIGHT AKHRINYA NGASIH 401
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-		System.out.println("AUTH OK");
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
-		System.out.println("SIGNIN");
-		System.out.println(jwt);
-		
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
 		List<String> roles = userDetails.getAuthorities().stream()
 				.map(item -> item.getAuthority())

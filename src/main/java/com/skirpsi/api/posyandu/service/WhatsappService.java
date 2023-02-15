@@ -1,10 +1,5 @@
 package com.skirpsi.api.posyandu.service;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpResponse.BodyHandlers;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 
@@ -17,9 +12,6 @@ import com.twilio.rest.api.v2010.account.Message;
 
 @Service
 public class WhatsappService {
-	
-//    public static final String ACCOUNT_SID = System.getenv("AC1a47f7cce3e43a519d9c7452411e7387");
-//    public static final String AUTH_TOKEN = System.getenv("12c39c97dbc31723e67f951226aa6cc0");
 	@Value("${trilio.user}")
 	private String usertrilio;
 	
@@ -36,24 +28,6 @@ public class WhatsappService {
             .create();
 
         System.out.println(message.getSid());
-//		try {
-//			HttpRequest req = HttpRequest.newBuilder()
-//					.uri(new URI("https://graph.facebook.com/v13.0/62-811-3704-895/messages"))
-//					.header("Authorization", "Bearer EAAH9sphjag4BAMjw53Ra6NWfdKCE1zNawOgZCkr9q3bYDDmXslZAAZAYTRhCYFnluuAm44DFHYhcuz18LDplEJlft203fRIGVr4OvO2ICnXZCdjnQwamKcgbHo8kIyqsm6aiIEeZCqukN1jkkq5LgyZBMz2iA0dCT43gs86Xv5AK2XelxseAuNVZAEd5qhVNgDlKRxSDbWYtbzOd5SZAqUGTiamnoy5YpZBsZD").header("Content-Type", "application/json")
-//					.POST(HttpRequest.BodyPublishers.ofString(
-////							"{ \"messaging_product\": \"whatsapp\", \"recipient_type\": \"individual\", \"to\": \"+6287854472001\", \"type\": \"template\", \"template\": { \"name\": \"hello_world\", \"language\": { \"code\": \"en_US\" } } }"))
-//							"{ \"messaging_product\": \"whatsapp\", \"recipient_type\": \"individual\", \"to\": \"+6287854472001\", \"type\": \"text\", \"text\": { // the text object\r\n"
-//							+ "        \"preview_url\": false, "
-//							+ "        \"body\": \"WELCOME TO PELTIA, HERE ARE YOUR CRED. \" "
-//							+ "        } }"))
-//					.build();
-//			HttpClient http = HttpClient.newHttpClient();
-//			HttpResponse<String> response = http.send(req, BodyHandlers.ofString());
-//			System.out.println(response.body());
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//			System.out.println("ERROR " + e);
-//		}
 	}
 	
 	public void sendPassword(UserPosyandu user){

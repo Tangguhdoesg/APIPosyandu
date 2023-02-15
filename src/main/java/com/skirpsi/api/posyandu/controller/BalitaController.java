@@ -73,13 +73,13 @@ public class BalitaController {
 		if(_balita==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}else {
-			_balita.setBeratSaatLahir(balita.getBeratSaatLahir());
+			_balita.setBeratSaatLahirBalita(balita.getBeratSaatLahirBalita());
 			_balita.setJenisKelaminBalita(balita.getJenisKelaminBalita());
-			_balita.setNamabalita(balita.getNamabalita());
+			_balita.setNamaBalita(balita.getNamaBalita());
 			_balita.setTanggalLahirBalita(balita.getTanggalLahirBalita());
 			_balita.setTempatLahirBalita(balita.getTempatLahirBalita());
-			_balita.setTinggiSaatLahir(balita.getTinggiSaatLahir());
-			_balita.setUser(balita.getUser());
+			_balita.setTinggiSaatLahirBalita(balita.getTinggiSaatLahirBalita());
+			_balita.setIdUser(balita.getIdUser());
 			balitaSer.Insert(_balita);
 			
 			return new ResponseEntity<>(_balita,HttpStatus.OK);
