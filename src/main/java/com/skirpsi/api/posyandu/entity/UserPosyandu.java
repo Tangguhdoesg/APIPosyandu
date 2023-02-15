@@ -20,16 +20,16 @@ public class UserPosyandu {
 	@Id
 	@Column(name="iduser")
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	private Integer idUser;
+	private Integer IdUser;
 	
 	@Column(name="namauser")
-	private String namaUser;
+	private String NamaUser;
 	
 	@Column(name="NIKUser")
-	private String nik;
+	private String NIKUser;
 	
 	@Column(name="tanggallahir")
-	private Date TanggalLahir;
+	private Date TanggalLahirUser;
 	
 	@Column(name="passworduser")
 	private String PasswordUser;
@@ -41,7 +41,7 @@ public class UserPosyandu {
 	private String AlamatUser;
 	
 	@Column(name="usertype")
-	private Integer userType;
+	private Integer UserType;
 	
 
 }
