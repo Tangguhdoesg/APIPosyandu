@@ -66,11 +66,11 @@ public class BalitaService {
 		return x;
 	}
 	
-	public List<BalitaInterface> getWithoutIdUser(UserPosyandu x){
-		List<BalitaInterface> y = balitaRepo.findByUser(x);
-		
-		return y;
-	}
+//	public List<BalitaInterface> getWithoutIdUser(UserPosyandu x){
+//		List<BalitaInterface> y = balitaRepo.findByIdUser(x);
+//		
+//		return y;
+//	}
 	
 	public BalitaInterface getByIdWithoutUser(Integer x){
 		BalitaInterface y = balitaRepo.findByIdWithoutUser(x);

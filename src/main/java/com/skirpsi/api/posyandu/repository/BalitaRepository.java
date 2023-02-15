@@ -11,11 +11,11 @@ import com.skirpsi.api.posyandu.entity.intfc.BalitaInterface;
 
 public interface BalitaRepository extends JpaRepository<Balita, Integer>{
 
-	@Query("select b from Balita b where b.user = ?1")
+	@Query("select b from Balita b where b.IdUser = ?1")
 	List<Balita> findAllBalitaByUser(UserPosyandu s);
 	
 //	@Query("")
-	List<BalitaInterface> findByUser(UserPosyandu user);
+//	List<BalitaInterface> findByUser(UserPosyandu user);
 	
 	@Query(value = "select idbalita,namabalita,tempatlahirbalita,tanggallahirbalita, jeniskelaminbalita, beratsaatlahir, tinggisaatlahir  from balita where idorangtua  = ?1", nativeQuery =  true)
 	BalitaInterface findByIdWithoutUser(Integer id);
