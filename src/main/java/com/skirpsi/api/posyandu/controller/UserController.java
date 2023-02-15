@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import com.skirpsi.api.posyandu.entity.intfc.UserInterface;
 import com.skirpsi.api.posyandu.service.UserService;
 import com.skirpsi.api.posyandu.service.WhatsappService;
 
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 @RequestMapping("user")
 public class UserController {
@@ -77,8 +79,8 @@ public class UserController {
 	    	_user.setNoTeleponUser(user.getNoTeleponUser());
 	    	_user.setPasswordUser(user.getPasswordUser());
 	    	_user.setUserType(user.getUserType());
-	    	_user.setNik(user.getNik());
-	    	_user.setTanggalLahir(user.getTanggalLahir());
+	    	_user.setNIKUser(user.getNIKUser());
+	    	_user.setTanggalLahirUser(user.getTanggalLahirUser());
 	    	
 	    	userServ.insert(_user);
 	    	return new ResponseEntity<>(_user,HttpStatus.OK);

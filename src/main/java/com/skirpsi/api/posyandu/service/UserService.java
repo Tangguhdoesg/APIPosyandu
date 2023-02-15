@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 
 import com.skirpsi.api.posyandu.entity.UserPosyandu;
 import com.skirpsi.api.posyandu.entity.intfc.UserInterface;
-import com.skirpsi.api.posyandu.repository.UserRepository;
+import com.skirpsi.api.posyandu.repository.UserPosyanduRepository;
 
 @Service
 public class UserService {
 	
-	@Autowired UserRepository userRepo;
+	@Autowired UserPosyanduRepository userRepo;
 	
 	public List<UserPosyandu> getAll(){
 		List<UserPosyandu> ret = userRepo.findAll();
