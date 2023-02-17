@@ -65,10 +65,10 @@ public class ImunisasiController {
 		if(_imunisasi==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}else {
-			_imunisasi.setBalita(imunisasi.getBalita());
+			_imunisasi.setIdBalita(imunisasi.getIdBalita());
 			_imunisasi.setNamaImunisasi(imunisasi.getNamaImunisasi());
 			_imunisasi.setTanggalImunisasi(imunisasi.getTanggalImunisasi());
-			_imunisasi.setCatatanImunisasi(imunisasi.getCatatanImunisasi());
+			_imunisasi.setCatatan(imunisasi.getCatatan());
 			imunisasiSer.insert(_imunisasi);
 			
 			return new ResponseEntity<>(_imunisasi,HttpStatus.OK);

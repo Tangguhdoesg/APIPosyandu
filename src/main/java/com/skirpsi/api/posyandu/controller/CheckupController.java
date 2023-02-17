@@ -66,13 +66,13 @@ public class CheckupController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		else {
-			_checkup.setBalita(checkup.getBalita());
+			_checkup.setIdBalita(checkup.getIdBalita());
 			_checkup.setBeratBadan(checkup.getBeratBadan());
 			_checkup.setLingkarKepala(checkup.getLingkarKepala());
 			_checkup.setLingkarLengan(checkup.getLingkarLengan());
 			_checkup.setTanggalCheckup(checkup.getTanggalCheckup());
 			_checkup.setTanggalCheckupBerikutnya(checkup.getTanggalCheckupBerikutnya());
-			_checkup.setTinggibadan(checkup.getTinggibadan());
+			_checkup.setTinggiBadan(checkup.getTinggiBadan());
 			_checkup.setCatatan(checkup.getCatatan());
 			
 			checkupSer.insert(_checkup);
