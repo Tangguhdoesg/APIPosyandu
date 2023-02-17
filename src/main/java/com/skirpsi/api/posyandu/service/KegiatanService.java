@@ -60,8 +60,8 @@ public class KegiatanService {
 		return x;
 	}
 	
-	public KegiatanInterface findByIdUser(Integer id){
-		KegiatanInterface x = kegiatanRepo.findByIdUser(id);
+	public List<KegiatanInterface> findByIdUser(Integer id){
+		List<KegiatanInterface> x = kegiatanRepo.findByIdUser(id);
 		
 		return x;
 		

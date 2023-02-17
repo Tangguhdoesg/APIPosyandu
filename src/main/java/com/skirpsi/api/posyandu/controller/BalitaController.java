@@ -99,8 +99,8 @@ public class BalitaController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<BalitaInterface> getByIdWithoutUser(@PathVariable("id") Integer id){
-		BalitaInterface data = balitaSer.getByIdWithoutUser(id);
+	public ResponseEntity<List<BalitaInterface>> getByIdWithoutUser(@PathVariable("id") Integer id){
+		List<BalitaInterface> data = balitaSer.getByIdWithoutUser(id);
 		
 		return new ResponseEntity<>(data,HttpStatus.OK);
 	}

@@ -93,10 +93,10 @@ public class KegiatanController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<KegiatanInterface> findByIdUser(@PathVariable("id") Integer id){
-		KegiatanInterface data = kegiatanSer.findByIdUser(id);
+	public ResponseEntity<List<KegiatanInterface>> findByIdUser(@PathVariable("id") Integer id){
+		List<KegiatanInterface> data = kegiatanSer.findByIdUser(id);
 		
-		return new ResponseEntity<KegiatanInterface>(data,HttpStatus.OK);
+		return new ResponseEntity<>(data,HttpStatus.OK);
 	}
 	
 	@GetMapping("/all")

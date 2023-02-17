@@ -18,7 +18,7 @@ public interface BalitaRepository extends JpaRepository<Balita, Integer>{
 //	List<BalitaInterface> findByUser(UserPosyandu user);
 	
 	@Query(value = "select idbalita,namabalita,tempatlahirbalita,tanggallahirbalita, jeniskelaminbalita, beratsaatlahir, tinggisaatlahir  from balita where idorangtua  = ?1", nativeQuery =  true)
-	BalitaInterface findByIdWithoutUser(Integer id);
+	List<BalitaInterface> findByIdWithoutUser(Integer id);
 	
 	@Query(value = "select idbalita,namabalita,tempatlahirbalita,tanggallahirbalita, jeniskelaminbalita, beratsaatlahir, tinggisaatlahir  from balita ", nativeQuery =  true)
 	List<BalitaInterface> findAllWithoutUser();

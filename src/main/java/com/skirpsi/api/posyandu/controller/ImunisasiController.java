@@ -94,8 +94,8 @@ public class ImunisasiController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<ImunisasiInterface> getImunisasiByBalitaId(@PathVariable("id") Integer id){
-		ImunisasiInterface data = imunisasiSer.getByIdBalita(id);
+	public ResponseEntity<List<ImunisasiInterface>> getImunisasiByBalitaId(@PathVariable("id") Integer id){
+		List<ImunisasiInterface> data = imunisasiSer.getByIdBalita(id);
 		
 		return new ResponseEntity<>(data,HttpStatus.OK);
 	}

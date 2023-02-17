@@ -93,17 +93,17 @@ public class CheckupController {
 
 	  }
 	  
-	  @GetMapping("/balita")
-	  public ResponseEntity<List<CheckUp>> getByBalita(@RequestBody Balita b){
-		  List<CheckUp> data = checkupSer.getByBalita(b);
-		  
-		  return new ResponseEntity<>(data,HttpStatus.OK);
-	  }
+//	  @GetMapping("/balita")
+//	  public ResponseEntity<List<CheckUp>> getByBalita(@RequestBody Balita b){
+//		  List<CheckUp> data = checkupSer.getByBalita(b);
+//		  
+//		  return new ResponseEntity<>(data,HttpStatus.OK);
+//	  }
 	  
 	  @GetMapping("/{id}")
-	  public ResponseEntity<CheckupInterface> getByIdBalita(@PathVariable("id") Integer id){
+	  public ResponseEntity<List<CheckupInterface>> getByIdBalita(@PathVariable("id") Integer id){
 		  
-		  CheckupInterface data = checkupSer.getByIdBalita(id);
+		  List<CheckupInterface> data = checkupSer.getByIdBalita(id);
 		  
 		  return new ResponseEntity<>(data,HttpStatus.OK);  
 	  }
