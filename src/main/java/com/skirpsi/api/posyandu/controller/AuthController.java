@@ -51,9 +51,6 @@ public class AuthController {
 	
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-		System.out.println("THIS IS SIGNIN");
-		System.out.println(loginRequest.getUsername());
-		System.out.println(loginRequest.getPassword());
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -70,6 +67,17 @@ public class AuthController {
 												 roles));
 	}
 	
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest){
+		
+		return ResponseEntity.ok("something");
+	}
+	
+	@PostMapping("/create")
+	public ResponseEntity<?> createUser(@Valid @RequestBody SignupRequest signUpRequest){
+		
+		return ResponseEntity.ok("something");
+	}
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {

@@ -4,11 +4,11 @@ import java.sql.Timestamp;
 
 public interface UserInterface {
 	
-	Integer getIduser();
-	String getNamauser();
-	String getNikuser();
-	Timestamp getTanggallahir();
-	String getNoteleponuser();
-	String getAlamatuser();
-	Integer getUsertype();
+	Integer getIdUser();
+	String getNamaUser();
+	String getNikUser();
+	Timestamp getTanggaLahirUser();
+	String getNoTeleponUser();
+	String getAlamatUser();
+	Integer getUserType();
 }

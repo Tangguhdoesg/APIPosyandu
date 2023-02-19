@@ -21,30 +21,30 @@ public class CheckUp {
 	@Id
 	@Column(name="idcheckup")
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	private Integer IdCheckup;
+	private Integer idCheckup;
 	
 	@OneToOne
 	@JoinColumn(name = "idbalita")
-	private Balita IdBalita;
+	private Balita idBalita;
 	
 	@Column(name="tinggibadan")
-	private Float TinggiBadan;
+	private Float tinggiBadan;
 	
 	@Column(name="beratbadan")
-	private Float BeratBadan;
+	private Float beratBadan;
 	
 	@Column(name="lingkarkepala")
-	private Float LingkarKepala;
+	private Float lingkarKepala;
 	
 	@Column(name="lingkarlengan")
-	private Float LingkarLengan;
+	private Float lingkarLengan;
 	
 	@Column(name="tanggalcheckup")
-	private Timestamp TanggalCheckup;
+	private Timestamp tanggalCheckup;
 	
 	@Column(name="tanggalcheckupberikutnya")
-	private Timestamp TanggalCheckupBerikutnya;
+	private Timestamp tanggalCheckupBerikutnya;
 	
 	@Column(name="catatancheckup")
-	private String Catatan;
+	private String catatan;
 }

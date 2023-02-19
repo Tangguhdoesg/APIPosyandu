@@ -20,18 +20,18 @@ public class Imunisasi {
 	@Id
 	@Column(name="idimunisasi")
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	private Integer IdImunisasi;
+	private Integer idImunisasi;
 	
 	@OneToOne
 	@JoinColumn(name = "idbalita")
-	private Balita IdBalita;
+	private Balita idBalita;
 	
 	@Column(name="namaimunisasi")
-	private String NamaImunisasi;
+	private String namaImunisasi;
 	
 	@Column(name="tanggalimunisasi")
-	private Timestamp TanggalImunisasi;
+	private Timestamp tanggalImunisasi;
 	
 	@Column(name="catatanimunisasi")
-	private String Catatan;
+	private String catatan;
 }

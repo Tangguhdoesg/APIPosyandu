@@ -70,4 +70,10 @@ public class UserService {
 		
 		return x;
 	}
+	
+	public Boolean checkIfExistByPhone(String noTelp) {
+		Boolean ret = userRepo.existsByNoTeleponUser(noTelp);
+		
+		return ret;
+	}
 }

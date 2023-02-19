@@ -1,5 +1,6 @@
 package com.skirpsi.api.posyandu.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,11 +25,12 @@ import com.skirpsi.api.posyandu.entity.intfc.UserInterface;
 import com.skirpsi.api.posyandu.service.UserService;
 import com.skirpsi.api.posyandu.service.WhatsappService;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+//@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 @RequestMapping("user")
 public class UserController {
-	
+	@Autowired
+	PasswordEncoder encoder;
 	
 	@Autowired UserService userServ;
 	
@@ -57,8 +60,35 @@ public class UserController {
 	
 	@PostMapping()
 	public ResponseEntity<UserPosyandu> createUser(@RequestBody UserPosyandu user){
+		String pattern = "yyyy-MM-dd";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 		
-		UserPosyandu x = userServ.insert(user);
+		
+		System.out.println(user.getNamaUser());
+		System.out.println(user.getPasswordUser());
+		System.out.println(user.getTanggalLahirUser());
+		System.out.println(user.getNoTeleponUser());
+		System.out.println(user.getAlamatUser());
+		System.out.println(user.getUserType());
+		
+		user.setPasswordUser("INI PASSWORD DEFAULT");
+		
+		if(userServ.checkIfExistByPhone(user.getNoTeleponUser())) {
+			return new ResponseEntity<>(null, HttpStatus.CONFLICT); 
+		}
+		
+		String defPass = simpleDateFormat.format(user.getTanggalLahirUser());
+		
+		UserPosyandu newUser = new UserPosyandu();
+		newUser.setAlamatUser(user.getAlamatUser());
+		newUser.setNamaUser(user.getNamaUser());
+		newUser.setNoTeleponUser(user.getNoTeleponUser());
+		newUser.setPasswordUser(encoder.encode(defPass));
+		newUser.setUserType(user.getUserType());
+		newUser.setNikUser(user.getNikUser());
+		newUser.setTanggalLahirUser(user.getTanggalLahirUser());
+		
+		UserPosyandu x = userServ.insert(newUser);
 		
 		if(x==null) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -79,7 +109,7 @@ public class UserController {
 	    	_user.setNoTeleponUser(user.getNoTeleponUser());
 	    	_user.setPasswordUser(user.getPasswordUser());
 	    	_user.setUserType(user.getUserType());
-	    	_user.setNIKUser(user.getNIKUser());
+	    	_user.setNikUser(user.getNikUser());
 	    	_user.setTanggalLahirUser(user.getTanggalLahirUser());
 	    	
 	    	userServ.insert(_user);

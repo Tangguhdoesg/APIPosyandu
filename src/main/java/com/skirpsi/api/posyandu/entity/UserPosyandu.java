@@ -1,47 +1,59 @@
 package com.skirpsi.api.posyandu.entity;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Entity
 @Data
+@NoArgsConstructor
+@Entity
 @Table(name="userposyandu")
-//@JoinColumn(name = "secondary_address_id")
 public class UserPosyandu {
 	
 	@Id
 	@Column(name="iduser")
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	private Integer IdUser;
+	private Integer idUser;
 	
 	@Column(name="namauser")
-	private String NamaUser;
+	private String namaUser;
 	
 	@Column(name="NIKUser")
-	private String NIKUser;
+	private String nikUser;
 	
 	@Column(name="tanggallahir")
-	private Date TanggalLahirUser;
+	private Date tanggalLahirUser;
 	
 	@Column(name="passworduser")
-	private String PasswordUser;
+	private String passwordUser;
 	
 	@Column(name="noteleponuser")
-	private String  NoTeleponUser;
+	private String  noTeleponUser;
 	
 	@Column(name="alamatuser")
-	private String AlamatUser;
+	private String alamatUser;
 	
 	@Column(name="usertype")
-	private Integer UserType;
+	private Integer userType;
 	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(	name = "user_roles", 
+				joinColumns = @JoinColumn(name = "user_id"), 
+				inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles = new HashSet<>();
 
 }

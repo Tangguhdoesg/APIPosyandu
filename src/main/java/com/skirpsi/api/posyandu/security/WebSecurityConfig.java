@@ -35,7 +35,9 @@ public class WebSecurityConfig {
 	  @Bean
 	  public DaoAuthenticationProvider authenticationProvider() {
 	      DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-	       
+	      
+	      System.out.println("SOMETHING HERE");
+	      
 	      authProvider.setUserDetailsService(userDetailsService);
 	      authProvider.setPasswordEncoder(passwordEncoder());
 	   
@@ -54,14 +56,15 @@ public class WebSecurityConfig {
 	  
 	  @Bean
 	  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//	    http.cors().and().csrf().disable()
-//	        .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-//	        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-//	        .authorizeRequests().antMatchers("/api/auth/**").permitAll()
-//	        .antMatchers("/api/test/**").permitAll()
-//	        .anyRequest().authenticated();
-		  
-		http.authorizeRequests().antMatchers("/").permitAll();
+	    http.cors().and().csrf().disable()
+	        .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+	        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+	        .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+	        .antMatchers("/api/test/**").permitAll()
+	        .anyRequest().authenticated();
+//		  
+//		http.authorizeRequests().antMatchers("/").permitAll();
+//		http.csrf().disable();
 		
 	    http.authenticationProvider(authenticationProvider());
 
