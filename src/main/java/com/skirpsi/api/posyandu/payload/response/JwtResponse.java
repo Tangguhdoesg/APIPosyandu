@@ -2,6 +2,8 @@ package com.skirpsi.api.posyandu.payload.response;
 
 import java.util.List;
 
+import com.skirpsi.api.posyandu.entity.UserPosyandu;
+
 public class JwtResponse {
 	  private String token;
 	  private String type = "Bearer";
@@ -9,13 +11,16 @@ public class JwtResponse {
 	  private String username;
 	  private String email;
 	  private List<String> roles;
+	  
+	  private UserPosyandu user;
 
-	  public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles) {
+	  public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles, UserPosyandu user) {
 	    this.token = accessToken;
 	    this.id = id;
 	    this.username = username;
 	    this.email = email;
 	    this.roles = roles;
+	    this.user=user;
 	  }
 
 	  public String getAccessToken() {

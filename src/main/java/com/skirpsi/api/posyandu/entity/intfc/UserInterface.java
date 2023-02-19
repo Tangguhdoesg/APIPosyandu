@@ -7,7 +7,7 @@ public interface UserInterface {
 	Integer getIdUser();
 	String getNamaUser();
 	String getNikUser();
-	Timestamp getTanggaLahirUser();
+	Timestamp getTanggalLahirUser();
 	String getNoTeleponUser();
 	String getAlamatUser();
 	Integer getUserType();
