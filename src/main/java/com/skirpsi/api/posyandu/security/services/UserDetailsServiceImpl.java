@@ -29,15 +29,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 		return UserDetailsImpl.build(user);
 	}
-//	@Override
-//	@Transactional
-//	public UserDetails loadUserByUsername(String phone) throws UsernameNotFoundException{
-//		UserPosyandu x = userPosRepo.findByNoTeleponUser(phone).orElseThrow(() -> new UsernameNotFoundException("User Not found with phone : " + phone));
-//		
-//		System.out.println(x.getNoTeleponUser());
-//		System.out.println(phone);
-//		System.out.println(x.getPasswordUser());
-//		
-//		return UserDetailsImpl.buildUserPosyandu(x);
-//	}
 }

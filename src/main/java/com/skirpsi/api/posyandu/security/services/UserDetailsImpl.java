@@ -1,6 +1,5 @@
 package com.skirpsi.api.posyandu.security.services;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -12,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.skirpsi.api.posyandu.entity.User;
-import com.skirpsi.api.posyandu.entity.UserPosyandu;
 
 public class UserDetailsImpl implements UserDetails{
 	private static final long serialVersionUID = 1L;
@@ -50,13 +48,6 @@ public class UserDetailsImpl implements UserDetails{
 				authorities);
 	}
 	
-	public static UserDetailsImpl buildUserPosyandu(UserPosyandu user) {
-		List<GrantedAuthority> authorities = user.getRoles().stream()
-				.map(role -> new SimpleGrantedAuthority(role.getName().name()))
-				.collect(Collectors.toList());
-		return new UserDetailsImpl(new Long(user.getIdUser()) , user.getNoTeleponUser(), user.getNamaUser(), user.getPasswordUser(), authorities);
-		
-	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
