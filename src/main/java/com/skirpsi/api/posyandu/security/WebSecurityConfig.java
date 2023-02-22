@@ -56,16 +56,16 @@ public class WebSecurityConfig {
 	  
 	  @Bean
 	  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-	    http.cors().and().csrf().disable()
-	        .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-	        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-	        .authorizeRequests().antMatchers("/api/auth/**").permitAll()
-	        .antMatchers("/api/test/**").permitAll()
-	        .antMatchers("/user/**").permitAll()
-	        .anyRequest().authenticated();
+//	    http.cors().and().csrf().disable()
+//	        .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+//	        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+//	        .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+//	        .antMatchers("/api/test/**").permitAll()
+//	        .antMatchers("/user/**").permitAll()
+//	        .anyRequest().authenticated();
 //		  
-//		http.authorizeRequests().antMatchers("/").permitAll();
-//		http.csrf().disable();
+		http.authorizeRequests().antMatchers("/").permitAll();
+		http.csrf().disable();
 		
 	    http.authenticationProvider(authenticationProvider());
 

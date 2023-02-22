@@ -1,11 +1,18 @@
 package com.skirpsi.api.posyandu.service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Base64;
+import java.util.Date;
 
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.skirpsi.api.posyandu.entity.Balita;
 import com.skirpsi.api.posyandu.entity.UserPosyandu;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
@@ -31,20 +38,41 @@ public class WhatsappService {
 	}
 	
 	public void sendPassword(UserPosyandu user){
-		SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
+		String pattern = "yyyy-MM-dd";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 		Twilio.init(usertrilio, token);
-		String telpUser = "+62"+user.getNoTeleponUser().substring(1,user.getNoTeleponUser().length());
-		String passwordUser=sdf.format(user.getTanggalLahirUser());
-		String passwordUserEncode = Base64.getEncoder().encodeToString(passwordUser.getBytes());
+//		String telpUser = "+62"+user.getNoTeleponUser().substring(1,user.getNoTeleponUser().length());
+		String telpUser = "+6287854472001";
+		String passwordUser=simpleDateFormat.format(user.getTanggalLahirUser());
 		String templateMessage = "Selamat Datang di Aplikasi Pelita.\r\n"
 				+ "Aplikasi ini dapat membantu anda untuk memantau informasi kesehatan balita anda.\r\n"
-				+ "Gunakan nomor telepon ini untuk login kedalam aplikasi pada web : ....\r\n"
+				+ "Gunakan nomor telepon ini untuk login kedalam aplikasi pada web : PELITA.COM\r\n"
 				+ "Password yang dapat anda gunakan adalah sebagai berikut : \r\n"
 				+ passwordUser+"\r\n"
 				+ "Mohon tidak menshare password ini dan jaga selalu keamanan password tersebut.\r\n"
 				+ "Terimakasih.";
-//		System.out.println(telpUser);
-		System.out.println(templateMessage);
+        Message message = Message.creator(
+                new com.twilio.type.PhoneNumber("whatsapp:"+telpUser),
+                new com.twilio.type.PhoneNumber("whatsapp:+14155238886"),
+                templateMessage)
+            .create();
+	}
+	
+	public void sendReminder(UserPosyandu user,Balita balita) {
+		Twilio.init(usertrilio, token);
+		
+		Date date = new Date();
+		LocalDate now = LocalDate.now().plusDays(1);
+		System.out.println(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).format(now));
+		String tanggal =  DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).format(now);
+//		String telpUser = "+62"+user.getNoTeleponUser().substring(1,user.getNoTeleponUser().length());
+		String telpUser = "+6287854472001";
+		String templateMessage="Selamat Pagi, "+user.getNamaUser()+"\r\n"
+				+ "Mohon Melakukan Checkup pada Posyandu X dengan membawa balita "+ balita.getNamaBalita()+"\r\n"
+				+ "Pada Tanggal : "+tanggal+"\r\n"
+				+ "Pukul : 08.00 WIB\r\n"
+				+ "Mohon membawa seluruh persyaratan checkup.\r\n"
+				+ "Sekian dan Terimakasih.";
         Message message = Message.creator(
                 new com.twilio.type.PhoneNumber("whatsapp:"+telpUser),
                 new com.twilio.type.PhoneNumber("whatsapp:+14155238886"),

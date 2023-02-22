@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 public interface CheckupInterface {
 	
+	Integer getIdBalita();
 	Integer getIdcheckup();
 	Integer getTinggibadan(); 
 	Integer getBeratbadan(); 

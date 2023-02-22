@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,14 +16,26 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.skirpsi.api.posyandu.entity.Balita;
 import com.skirpsi.api.posyandu.entity.CheckUp;
+import com.skirpsi.api.posyandu.entity.UserPosyandu;
+import com.skirpsi.api.posyandu.entity.intfc.BalitaInterface;
 import com.skirpsi.api.posyandu.entity.intfc.CheckupInterface;
+import com.skirpsi.api.posyandu.entity.intfc.UserInterface;
+import com.skirpsi.api.posyandu.service.BalitaService;
 import com.skirpsi.api.posyandu.service.CheckupService;
+import com.skirpsi.api.posyandu.service.UserService;
+import com.skirpsi.api.posyandu.service.WhatsappService;
 
 @RestController
 @RequestMapping("checkup")
 public class CheckupController {
 	
 	@Autowired CheckupService checkupSer;
+	
+	@Autowired WhatsappService whatServ;
+	
+	@Autowired UserService userServ;
+	
+	@Autowired BalitaService balitaServ;
 	
 	@GetMapping("/balita/all")
 	public ResponseEntity<List<CheckUp>> getAll(){
@@ -93,13 +106,6 @@ public class CheckupController {
 
 	  }
 	  
-//	  @GetMapping("/balita")
-//	  public ResponseEntity<List<CheckUp>> getByBalita(@RequestBody Balita b){
-//		  List<CheckUp> data = checkupSer.getByBalita(b);
-//		  
-//		  return new ResponseEntity<>(data,HttpStatus.OK);
-//	  }
-	  
 	  @GetMapping("/{id}")
 	  public ResponseEntity<List<CheckupInterface>> getByIdBalita(@PathVariable("id") Integer id){
 		  
@@ -112,5 +118,22 @@ public class CheckupController {
 		  List<CheckupInterface> data = checkupSer.getAllWithoutBalita();
 		  
 		  return new ResponseEntity<>(data,HttpStatus.OK);
+	  }
+	  
+	  @Scheduled(cron = "0 7 * * *")
+	  @GetMapping("/reminder")
+	  public void sendReminderForCheckup() {
+		  List<CheckupInterface> res = checkupSer.getForReminder();
+		  
+		  System.out.println();
+		  
+		  for (CheckupInterface x : res) {
+			  Balita balita = balitaServ.getById(x.getIdBalita());
+			  UserPosyandu user = balita.getIdUser();
+			  
+			  whatServ.sendReminder(user,balita);
+			  System.out.println("DONE");
+
+		  }
 	  }
 }

@@ -61,9 +61,11 @@ public class UserController {
 	@Autowired
 	PasswordEncoder encoder;
 	
-	@Autowired UserService userServ;
+	@Autowired 
+	UserService userServ;
 	
-	@Autowired WhatsappService whatsServ;
+	@Autowired 
+	WhatsappService whatsServ;
 	
 	@GetMapping("/pass/all")
 	public ResponseEntity<List<UserPosyandu>> getAllUser(){
@@ -92,7 +94,6 @@ public class UserController {
 		String pattern = "yyyy-MM-dd";
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 		
-		
 		System.out.println(user.getNamaUser());
 		System.out.println(user.getPasswordUser());
 		System.out.println(user.getTanggalLahirUser());
@@ -114,21 +115,19 @@ public class UserController {
 		newUser.setAlamatUser(user.getAlamatUser());
 		newUser.setNamaUser(user.getNamaUser());
 		newUser.setNoTeleponUser(user.getNoTeleponUser());
-		newUser.setPasswordUser(defPass);
+		newUser.setPasswordUser(encoder.encode(defPass));
 		newUser.setUserType(user.getUserType());
 		newUser.setNikUser(user.getNikUser());
 		newUser.setTanggalLahirUser(user.getTanggalLahirUser());
 		
 		UserPosyandu x = userServ.insert(newUser);
-
-		
-		
+		whatsServ.sendPassword(x);
 		if(x==null) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}else {
 			User userReq = new User(x.getNoTeleponUser(), 
 					 x.getNamaUser(),
-					 encoder.encode(x.getPasswordUser()));
+					 encoder.encode(defPass));
 
 			Set<Role> roles = new HashSet<>();
 			if(x.getUserType()==0) {

@@ -1,5 +1,6 @@
 package com.skirpsi.api.posyandu.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,6 +69,12 @@ public class CheckupService {
 	
 	public List<CheckupInterface> getAllWithoutBalita(){
 		List<CheckupInterface> x = checkupRepo.findAllWithoutBalita();
+		
+		return x;
+	}
+	
+	public List<CheckupInterface> getForReminder(){
+		List<CheckupInterface> x = checkupRepo.getDataforReminder();
 		
 		return x;
 	}
