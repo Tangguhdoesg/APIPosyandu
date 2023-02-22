@@ -1,6 +1,7 @@
 package com.skirpsi.api.posyandu.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -151,12 +152,14 @@ public class UserController {
 	@PostMapping("/login")
 	public ResponseEntity<Map<String, Object>> login(@Valid @RequestBody LoginRequest loginRequest){
 		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+				new UsernamePasswordAuthenticationToken(loginRequest.getnotelepon(), loginRequest.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
 		UserPosyandu retUser = userServ.getOneById(userDetails.getId().intValue());
 		ObjectMapper oMapper = new ObjectMapper();
+		System.out.println(retUser.getTanggalLahirUser());
+		
 		@SuppressWarnings("unchecked")
 		Map<String, Object> result = oMapper.convertValue(retUser, Map.class);
 		System.out.println(userDetails.getId());
@@ -164,7 +167,14 @@ public class UserController {
 			return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
 		}else {
 			result.put("accessToken", jwt);
+			String pattern = "dd-MM-yyyy";
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+			Date d = new Date(Long.parseLong(result.get("tanggalLahirUser").toString()));
+			String date = simpleDateFormat.format(d);
+			System.out.println(date);
 			result.remove("passwordUser");
+			result.remove("tanggalLahirUser");
+			result.put("tanggalLahirUser", date);
 			return new ResponseEntity<>(result,HttpStatus.OK);
 		}
 		

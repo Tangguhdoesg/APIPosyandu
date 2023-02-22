@@ -2,10 +2,12 @@ package com.skirpsi.api.posyandu.service;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Locale;
 
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.springframework.beans.factory.annotation.Value;
@@ -60,23 +62,27 @@ public class WhatsappService {
 	
 	public void sendReminder(UserPosyandu user,Balita balita) {
 		Twilio.init(usertrilio, token);
-		
-		Date date = new Date();
+
 		LocalDate now = LocalDate.now().plusDays(1);
-		System.out.println(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).format(now));
-		String tanggal =  DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).format(now);
+		Date date = Date.from(now.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		Locale locale = new Locale("id", "ID");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, dd MMM yyyy", locale);
+		String formatted = dateFormat.format(date);
+//		System.out.println(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).format(now));
+//		String tanggal =  DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).format(now);
 //		String telpUser = "+62"+user.getNoTeleponUser().substring(1,user.getNoTeleponUser().length());
 		String telpUser = "+6287854472001";
 		String templateMessage="Selamat Pagi, "+user.getNamaUser()+"\r\n"
 				+ "Mohon Melakukan Checkup pada Posyandu X dengan membawa balita "+ balita.getNamaBalita()+"\r\n"
-				+ "Pada Tanggal : "+tanggal+"\r\n"
+				+ "Pada Tanggal : "+formatted+"\r\n"
 				+ "Pukul : 08.00 WIB\r\n"
 				+ "Mohon membawa seluruh persyaratan checkup.\r\n"
 				+ "Sekian dan Terimakasih.";
-        Message message = Message.creator(
-                new com.twilio.type.PhoneNumber("whatsapp:"+telpUser),
-                new com.twilio.type.PhoneNumber("whatsapp:+14155238886"),
-                templateMessage)
-            .create();
+		System.out.println(templateMessage);
+//        Message message = Message.creator(
+//                new com.twilio.type.PhoneNumber("whatsapp:"+telpUser),
+//                new com.twilio.type.PhoneNumber("whatsapp:+14155238886"),
+//                templateMessage)
+//            .create();
 	}
 }
