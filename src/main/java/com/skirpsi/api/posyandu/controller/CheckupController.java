@@ -22,6 +22,7 @@ import com.skirpsi.api.posyandu.entity.intfc.CheckupInterface;
 import com.skirpsi.api.posyandu.entity.intfc.UserInterface;
 import com.skirpsi.api.posyandu.service.BalitaService;
 import com.skirpsi.api.posyandu.service.CheckupService;
+import com.skirpsi.api.posyandu.service.ReportService;
 import com.skirpsi.api.posyandu.service.UserService;
 import com.skirpsi.api.posyandu.service.WhatsappService;
 
@@ -36,6 +37,8 @@ public class CheckupController {
 	@Autowired UserService userServ;
 	
 	@Autowired BalitaService balitaServ;
+	
+	@Autowired ReportService reportServ;
 	
 	@GetMapping("/balita/all")
 	public ResponseEntity<List<CheckUp>> getAll(){
@@ -135,5 +138,14 @@ public class CheckupController {
 			  System.out.println("DONE");
 
 		  }
+	  }
+	  
+	  @GetMapping("/excel")
+	  public void generateExcel() {
+		  
+		  
+		  String dateFrom = "2023-02-01";
+		  String dateTo = "2023-02-28";
+		  reportServ.createCheckupReport(dateFrom, dateTo);
 	  }
 }
