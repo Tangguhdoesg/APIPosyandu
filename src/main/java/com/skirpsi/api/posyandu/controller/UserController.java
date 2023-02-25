@@ -102,8 +102,6 @@ public class UserController {
 		System.out.println(user.getAlamatUser());
 		System.out.println(user.getUserType());
 		
-		user.setPasswordUser("INI PASSWORD DEFAULT");
-		
 		if(userServ.checkIfExistByPhone(user.getNoTeleponUser())) {
 			return new ResponseEntity<>(null, HttpStatus.CONFLICT); 
 		}

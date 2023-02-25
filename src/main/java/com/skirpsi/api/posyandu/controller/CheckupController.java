@@ -38,8 +38,6 @@ public class CheckupController {
 	
 	@Autowired BalitaService balitaServ;
 	
-	@Autowired ReportService reportServ;
-	
 	@GetMapping("/balita/all")
 	public ResponseEntity<List<CheckUp>> getAll(){
 		List<CheckUp> all = checkupSer.getAll();
@@ -138,14 +136,5 @@ public class CheckupController {
 			  System.out.println("DONE");
 
 		  }
-	  }
-	  
-	  @GetMapping("/excel")
-	  public void generateExcel() {
-		  
-		  
-		  String dateFrom = "2023-02-01";
-		  String dateTo = "2023-02-28";
-		  reportServ.createCheckupReport(dateFrom, dateTo);
 	  }
 }
