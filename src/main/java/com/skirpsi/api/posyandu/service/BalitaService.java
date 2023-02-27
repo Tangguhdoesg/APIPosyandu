@@ -66,14 +66,8 @@ public class BalitaService {
 		return x;
 	}
 	
-//	public List<BalitaInterface> getWithoutIdUser(UserPosyandu x){
-//		List<BalitaInterface> y = balitaRepo.findByIdUser(x);
-//		
-//		return y;
-//	}
-	
-	public List<BalitaInterface> getByIdWithoutUser(Integer x){
-		List<BalitaInterface> y = balitaRepo.findByIdWithoutUser(x);
+	public List<BalitaInterface> getByIdWithIdUser(Integer x){
+		List<BalitaInterface> y = balitaRepo.findByIdWithIdUser(x);
 		
 		return y;
 	}
@@ -82,5 +76,11 @@ public class BalitaService {
 		List<BalitaInterface> y = balitaRepo.findAllWithoutUser();
 		
 		return y;
+	}
+	
+	public BalitaInterface getBalitaInterfaceById(Integer id) {
+		BalitaInterface ret = balitaRepo.findByIdBalitaInterface(id);
+		
+		return ret;
 	}
 }

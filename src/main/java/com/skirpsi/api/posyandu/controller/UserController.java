@@ -120,7 +120,7 @@ public class UserController {
 		newUser.setTanggalLahirUser(user.getTanggalLahirUser());
 		
 		UserPosyandu x = userServ.insert(newUser);
-		whatsServ.sendPassword(x);
+//		whatsServ.sendPassword(x);
 		if(x==null) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}else {

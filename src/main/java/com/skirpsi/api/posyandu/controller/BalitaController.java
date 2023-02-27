@@ -37,9 +37,9 @@ public class BalitaController {
 		}
 	}
 	@GetMapping("/user/{id}")
-	public ResponseEntity<Balita> getBalitaById(@PathVariable("id") Integer id){
+	public ResponseEntity<List<BalitaInterface>> getBalitaById(@PathVariable("id") Integer id){
 		
-		Balita data = balitaSer.getById(id);
+		List<BalitaInterface> data = balitaSer.getByIdWithIdUser(id);
 		
 		if(data==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -99,8 +99,8 @@ public class BalitaController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<List<BalitaInterface>> getByIdWithoutUser(@PathVariable("id") Integer id){
-		List<BalitaInterface> data = balitaSer.getByIdWithoutUser(id);
+	public ResponseEntity<BalitaInterface> getByIdWithoutUser(@PathVariable("id") Integer id){
+		BalitaInterface data = balitaSer.getBalitaInterfaceById(id);
 		
 		return new ResponseEntity<>(data,HttpStatus.OK);
 	}
