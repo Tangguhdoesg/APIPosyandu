@@ -51,8 +51,8 @@ public class UserPosyandu {
 	@Column(name="alamatuser")
 	private String alamatUser;
 	
-	@Column(name="usertype")
-	private Integer userType;
+	@Column(name="tipeuser")
+	private Integer tipeUser;
 
 
 }

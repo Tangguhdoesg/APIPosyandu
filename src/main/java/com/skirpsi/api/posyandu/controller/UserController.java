@@ -17,6 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,7 +41,7 @@ import com.skirpsi.api.posyandu.security.services.UserDetailsImpl;
 import com.skirpsi.api.posyandu.service.UserService;
 import com.skirpsi.api.posyandu.service.WhatsappService;
 
-//@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 @RequestMapping("user")
 public class UserController {
@@ -57,9 +58,6 @@ public class UserController {
 	RoleRepository roleRepository;
 	
 	@Autowired
-	AuthController authControl;
-	
-	@Autowired
 	PasswordEncoder encoder;
 	
 	@Autowired 
@@ -68,7 +66,7 @@ public class UserController {
 	@Autowired 
 	WhatsappService whatsServ;
 	
-	@GetMapping("/pass/all")
+	@GetMapping("/pass/all") //unused
 	public ResponseEntity<List<UserPosyandu>> getAllUser(){
 		List<UserPosyandu> all = userServ.getAll();
 		
@@ -79,7 +77,7 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("/pass/{id}")
+	@GetMapping("/pass/{id}") //unused
 	public ResponseEntity<UserPosyandu> getById(@PathVariable("id") Integer id){
 		UserPosyandu data = userServ.getOneById(id);
 		
@@ -100,7 +98,7 @@ public class UserController {
 		System.out.println(user.getTanggalLahirUser());
 		System.out.println(user.getNoTeleponUser());
 		System.out.println(user.getAlamatUser());
-		System.out.println(user.getUserType());
+		System.out.println(user.getTipeUser());
 		
 		if(userServ.checkIfExistByPhone(user.getNoTeleponUser())) {
 			return new ResponseEntity<>(null, HttpStatus.CONFLICT); 
@@ -108,32 +106,32 @@ public class UserController {
 		
 		String defPass = simpleDateFormat.format(user.getTanggalLahirUser());
 		
-		System.out.println(defPass);
+		System.out.println("Def Pass : " + defPass);
 		
 		UserPosyandu newUser = new UserPosyandu();
 		newUser.setAlamatUser(user.getAlamatUser());
 		newUser.setNamaUser(user.getNamaUser());
 		newUser.setNoTeleponUser(user.getNoTeleponUser());
 		newUser.setPasswordUser(encoder.encode(defPass));
-		newUser.setUserType(user.getUserType());
+		newUser.setTipeUser(user.getTipeUser());
 		newUser.setNikUser(user.getNikUser());
 		newUser.setTanggalLahirUser(user.getTanggalLahirUser());
 		
 		UserPosyandu x = userServ.insert(newUser);
 //		whatsServ.sendPassword(x);
 		if(x==null) {
+			userServ.delete(x.getIdUser());
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}else {
-			User userReq = new User(x.getNoTeleponUser(), 
-					 x.getNamaUser(),
+			User userReq = new User(x.getNoTeleponUser(),
 					 encoder.encode(defPass));
 
 			Set<Role> roles = new HashSet<>();
-			if(x.getUserType()==0) {
+			if(x.getTipeUser()==0) {
 				Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
 						.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 				roles.add(adminRole);
-			}else if(x.getUserType()==1) {
+			}else if(x.getTipeUser()==1) {
 				Role modRole = roleRepository.findByName(ERole.ROLE_PETUGAS)
 						.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 				roles.add(modRole);
@@ -173,6 +171,7 @@ public class UserController {
 			result.remove("passwordUser");
 			result.remove("tanggalLahirUser");
 			result.put("tanggalLahirUser", date);
+			result.put("integer", 4);
 			return new ResponseEntity<>(result,HttpStatus.OK);
 		}
 		
@@ -190,7 +189,7 @@ public class UserController {
 	    	_user.setNamaUser(user.getNamaUser());
 	    	_user.setNoTeleponUser(user.getNoTeleponUser());
 	    	_user.setPasswordUser(user.getPasswordUser());
-	    	_user.setUserType(user.getUserType());
+	    	_user.setTipeUser(user.getTipeUser());
 	    	_user.setNikUser(user.getNikUser());
 	    	_user.setTanggalLahirUser(user.getTanggalLahirUser());
 	    	
