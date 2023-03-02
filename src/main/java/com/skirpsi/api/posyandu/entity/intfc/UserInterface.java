@@ -10,5 +10,5 @@ public interface UserInterface {
 	Timestamp getTanggalLahirUser();
 	String getNoTeleponUser();
 	String getAlamatUser();
-	Integer getUserType();
+	Integer getTipeUser();
 }

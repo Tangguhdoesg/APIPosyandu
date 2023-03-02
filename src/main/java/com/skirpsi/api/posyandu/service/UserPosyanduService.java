@@ -11,7 +11,7 @@ import com.skirpsi.api.posyandu.entity.intfc.UserInterface;
 import com.skirpsi.api.posyandu.repository.UserPosyanduRepository;
 
 @Service
-public class UserService {
+public class UserPosyanduService {
 	
 	@Autowired UserPosyanduRepository userRepo;
 	
@@ -75,5 +75,11 @@ public class UserService {
 		Boolean ret = userRepo.existsByNoTeleponUser(noTelp);
 		
 		return ret;
+	}
+	
+	public List<UserInterface> getAllOrangTua(){
+		List<UserInterface> x = userRepo.getAllOrangTua();
+		
+		return x;
 	}
 }

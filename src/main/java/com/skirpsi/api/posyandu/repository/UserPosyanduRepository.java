@@ -13,11 +13,14 @@ import com.skirpsi.api.posyandu.entity.intfc.UserInterface;
 @Repository
 public interface UserPosyanduRepository extends JpaRepository<UserPosyandu, Integer>{
 	
-	@Query(value ="select iduser as IdUser ,namauser as NamaUser ,nikuser as NIKUser,tanggallahir as TanggalLahirUser,noteleponuser as NoTeleponUser,alamatuser as AlamatUser,usertype as UserType  from userposyandu u ", nativeQuery = true)
+	@Query(value ="select iduser as IdUser ,namauser as NamaUser ,nikuser as NIKUser,tanggallahir as TanggalLahirUser,noteleponuser as NoTeleponUser,alamatuser as AlamatUser,tipeuser as tipeuser  from userposyandu u ", nativeQuery = true)
 	List<UserInterface> findAllWithourPassword();
 	
-	@Query(value ="select iduser as IdUser ,namauser as NamaUser ,nikuser as NIKUser,tanggallahir as TanggalLahirUser,noteleponuser as NoTeleponUser,alamatuser as AlamatUser,usertype as UserType from userposyandu u where iduser=?1", nativeQuery = true)
+	@Query(value ="select iduser as IdUser ,namauser as NamaUser ,nikuser as NIKUser,tanggallahir as TanggalLahirUser,noteleponuser as NoTeleponUser,alamatuser as AlamatUser,tipeuser as tipeuser from userposyandu u where iduser=?1", nativeQuery = true)
 	UserInterface findOneWithId(Integer id);
+	
+	@Query(value ="select iduser as IdUser ,namauser as NamaUser ,nikuser as NIKUser,tanggallahir as TanggalLahirUser,noteleponuser as NoTeleponUser,alamatuser as AlamatUser,tipeuser as tipeuser  from userposyandu u where tipeuser = 2", nativeQuery = true)
+	List<UserInterface> getAllOrangTua();
 	
 	Boolean existsByNoTeleponUser(String notelp);
 	

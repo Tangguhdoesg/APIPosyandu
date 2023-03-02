@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,14 +17,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.skirpsi.api.posyandu.entity.Balita;
 import com.skirpsi.api.posyandu.entity.Imunisasi;
+import com.skirpsi.api.posyandu.entity.UserPosyandu;
 import com.skirpsi.api.posyandu.entity.intfc.ImunisasiInterface;
+import com.skirpsi.api.posyandu.repository.ImunisasiRepository;
+import com.skirpsi.api.posyandu.service.BalitaService;
 import com.skirpsi.api.posyandu.service.ImunisasiService;
+import com.skirpsi.api.posyandu.service.UserPosyanduService;
+import com.skirpsi.api.posyandu.service.WhatsappService;
 
 @RestController
 @RequestMapping("imunisasi")
 public class ImunisasiController {
 	
 	@Autowired ImunisasiService imunisasiSer;
+	
+	@Autowired BalitaService balitaServ;
+	
+	@Autowired WhatsappService whatServ;
+	
+	@Autowired UserPosyanduService userServ;
 	
 	@GetMapping("/balita/all")
 	public ResponseEntity<List<Imunisasi>> getAll(){
@@ -105,6 +117,21 @@ public class ImunisasiController {
 		List<ImunisasiInterface> data = imunisasiSer.getAllWithoutBalita();
 		
 		return new ResponseEntity<>(data,HttpStatus.OK);
+	}
+	
+	@Scheduled(cron = "${cronExpresImunisasi}")
+	@GetMapping("/reminder")
+	public void sendReminderForImunisasi(){
+		
+		List<ImunisasiInterface> res = imunisasiSer.getForReminderImunisasi();
+		
+		for(ImunisasiInterface x : res) {
+			  Balita balita = balitaServ.getById(x.getIdBalita());
+			  UserPosyandu user = balita.getIdUser();
+			  
+			  whatServ.sendReminderImunisasi(user, balita);
+		}
+		
 	}
   
   

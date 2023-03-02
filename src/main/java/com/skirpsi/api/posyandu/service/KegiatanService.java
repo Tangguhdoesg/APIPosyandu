@@ -73,5 +73,11 @@ public class KegiatanService {
 		return x;
 	}
 	
+	public List<KegiatanInterface> getForReminderKegiatan(){
+		List<KegiatanInterface> x = kegiatanRepo.getDataforReminderKegiatan();
+		
+		return x;
+	}
+	
 
 }

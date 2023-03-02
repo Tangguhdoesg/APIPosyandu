@@ -32,6 +32,9 @@ public class Imunisasi {
 	@Column(name="tanggalimunisasi")
 	private Timestamp tanggalImunisasi;
 	
+	@Column(name="tanggalimunisasiberikutnya")
+	private Timestamp tanggalImunisasiBerikutnya;
+	
 	@Column(name="catatanimunisasi")
 	private String catatan;
 }

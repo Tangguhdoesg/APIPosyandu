@@ -6,6 +6,7 @@ import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,15 +16,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.skirpsi.api.posyandu.entity.Balita;
 import com.skirpsi.api.posyandu.entity.Kegiatan;
+import com.skirpsi.api.posyandu.entity.UserPosyandu;
 import com.skirpsi.api.posyandu.entity.intfc.KegiatanInterface;
+import com.skirpsi.api.posyandu.entity.intfc.UserInterface;
+import com.skirpsi.api.posyandu.service.BalitaService;
 import com.skirpsi.api.posyandu.service.KegiatanService;
+import com.skirpsi.api.posyandu.service.UserPosyanduService;
+import com.skirpsi.api.posyandu.service.WhatsappService;
 
 @RestController
 @RequestMapping("kegiatan")
 public class KegiatanController {
 	
 	@Autowired KegiatanService kegiatanSer;
+	
+	@Autowired WhatsappService whatServ;
+	
+	@Autowired UserPosyanduService userServ;
+	
+	@Autowired BalitaService balitaServ;
 	
 	@GetMapping("/user/all")
 	public ResponseEntity<List<Kegiatan>> testGet(){
@@ -106,4 +119,18 @@ public class KegiatanController {
 		return new ResponseEntity<>(data,HttpStatus.OK);
 	}
 
+	@Scheduled(cron = "${cronExpresKegiatan}")
+	@GetMapping("/reminder")
+	public void sendReminderForKegiatan(){
+		List<KegiatanInterface> res = kegiatanSer.getForReminderKegiatan();
+		
+		for (KegiatanInterface x : res) {
+//			  Balita balita = balitaServ.getById(x.getIdBalita());
+//			  UserPosyandu user = balita.getIdUser();
+			  List<UserInterface> allUser = userServ.getAllOrangTua();
+			  for (UserInterface y : allUser) {
+				  whatServ.sendReminderKegiatan(y,x);
+			  }
+		}
+	}
 }

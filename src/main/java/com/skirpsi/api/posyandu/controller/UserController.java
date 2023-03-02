@@ -38,7 +38,7 @@ import com.skirpsi.api.posyandu.repository.RoleRepository;
 import com.skirpsi.api.posyandu.repository.UserRepository;
 import com.skirpsi.api.posyandu.security.jwt.JwtUtils;
 import com.skirpsi.api.posyandu.security.services.UserDetailsImpl;
-import com.skirpsi.api.posyandu.service.UserService;
+import com.skirpsi.api.posyandu.service.UserPosyanduService;
 import com.skirpsi.api.posyandu.service.WhatsappService;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
@@ -61,32 +61,10 @@ public class UserController {
 	PasswordEncoder encoder;
 	
 	@Autowired 
-	UserService userServ;
+	UserPosyanduService userServ;
 	
 	@Autowired 
 	WhatsappService whatsServ;
-	
-	@GetMapping("/pass/all") //unused
-	public ResponseEntity<List<UserPosyandu>> getAllUser(){
-		List<UserPosyandu> all = userServ.getAll();
-		
-		if(all.size()>0) {
-			return new ResponseEntity<>(all,HttpStatus.OK);	
-		}else {
-			return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
-		}
-	}
-	
-	@GetMapping("/pass/{id}") //unused
-	public ResponseEntity<UserPosyandu> getById(@PathVariable("id") Integer id){
-		UserPosyandu data = userServ.getOneById(id);
-		
-		if(!(data==null)) {
-			return new ResponseEntity<>(data,HttpStatus.OK);
-		}else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-	}
 	
 	@PostMapping()
 	public ResponseEntity<UserPosyandu> createUser(@RequestBody UserPosyandu user){
@@ -181,19 +159,27 @@ public class UserController {
 	@PutMapping("/{id}")
 	public ResponseEntity<UserPosyandu> updateUser(@RequestBody UserPosyandu user,@PathVariable("id") Integer id){
 		UserPosyandu _user = userServ.getOneById(id);
-		
 		if(_user==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}else {
 			_user.setAlamatUser(user.getAlamatUser());
 	    	_user.setNamaUser(user.getNamaUser());
 	    	_user.setNoTeleponUser(user.getNoTeleponUser());
-	    	_user.setPasswordUser(user.getPasswordUser());
 	    	_user.setTipeUser(user.getTipeUser());
 	    	_user.setNikUser(user.getNikUser());
 	    	_user.setTanggalLahirUser(user.getTanggalLahirUser());
 	    	
 	    	userServ.insert(_user);
+	    	ObjectMapper oMapper = new ObjectMapper();
+	    	@SuppressWarnings("unchecked")
+			Map<String, Object> result = oMapper.convertValue(_user, Map.class);
+	    	result.remove("passwordUser");
+	    	String pattern = "dd-MM-yyyy";
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+			Date d = new Date(Long.parseLong(result.get("tanggalLahirUser").toString()));
+			String date = simpleDateFormat.format(d);
+			result.remove("tanggalLahirUser");
+			result.put("tanggalLahirUser", date);
 	    	return new ResponseEntity<>(_user,HttpStatus.OK);
 		}
 	}

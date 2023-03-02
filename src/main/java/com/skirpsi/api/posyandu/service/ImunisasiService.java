@@ -77,4 +77,10 @@ public class ImunisasiService {
 		
 		return x;
 	}
+	
+	public List<ImunisasiInterface> getForReminderImunisasi(){
+		List<ImunisasiInterface> x = imunisasiRepo.getDataForReminderImunisasi();
+		
+		return x;
+	}
 }

@@ -2,6 +2,7 @@ package com.skirpsi.api.posyandu.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -23,7 +24,7 @@ import com.skirpsi.api.posyandu.entity.intfc.UserInterface;
 import com.skirpsi.api.posyandu.service.BalitaService;
 import com.skirpsi.api.posyandu.service.CheckupService;
 import com.skirpsi.api.posyandu.service.ReportService;
-import com.skirpsi.api.posyandu.service.UserService;
+import com.skirpsi.api.posyandu.service.UserPosyanduService;
 import com.skirpsi.api.posyandu.service.WhatsappService;
 
 @RestController
@@ -34,9 +35,10 @@ public class CheckupController {
 	
 	@Autowired WhatsappService whatServ;
 	
-	@Autowired UserService userServ;
+	@Autowired UserPosyanduService userServ;
 	
 	@Autowired BalitaService balitaServ;
+	
 	
 	@GetMapping("/balita/all")
 	public ResponseEntity<List<CheckUp>> getAll(){
@@ -121,19 +123,16 @@ public class CheckupController {
 		  return new ResponseEntity<>(data,HttpStatus.OK);
 	  }
 	  
-	  @Scheduled(cron = "0 7 * * *")
+	  @Scheduled(cron = "${cronExpresCheckup}")
 	  @GetMapping("/reminder")
 	  public void sendReminderForCheckup() {
 		  List<CheckupInterface> res = checkupSer.getForReminder();
-		  
-		  System.out.println();
 		  
 		  for (CheckupInterface x : res) {
 			  Balita balita = balitaServ.getById(x.getIdBalita());
 			  UserPosyandu user = balita.getIdUser();
 			  
-			  whatServ.sendReminder(user,balita);
-			  System.out.println("DONE");
+			  whatServ.sendReminderCheckup(user,balita);
 
 		  }
 	  }

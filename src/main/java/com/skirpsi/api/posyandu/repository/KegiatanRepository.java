@@ -15,5 +15,10 @@ public interface KegiatanRepository extends JpaRepository<Kegiatan, Integer>{
 	
 	@Query(value="select idkegiatan , namakegiatan ,tanggalkegiatan ,lokasikegiatan ,posterkegiatan, namaposter  from kegiatan k", nativeQuery = true)
 	List<KegiatanInterface> findAllWihoutUser();
+	
+	@Query(value="select idkegiatan , namakegiatan ,tanggalkegiatan ,lokasikegiatan ,posterkegiatan, namaposter  from kegiatan k where tanggalkegiatan > current_date + interval '1 day' ", nativeQuery = true)
+	List<KegiatanInterface> getDataforReminderKegiatan();
+	
+	
 
 }
