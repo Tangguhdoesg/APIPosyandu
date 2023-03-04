@@ -4,11 +4,11 @@ import java.sql.Timestamp;
 
 public interface KegiatanInterface {
 	
-	Integer getIdkegiatan();
-	String getNamakegiatan(); 
-	Timestamp getTanggalkegiatan(); 
-	String getLokasikegiatan();
-	byte[] getPosterkegiatan();
-	String getNamaposter();
+	Integer getIdKegiatan();
+	String getNamaKegiatan(); 
+	Timestamp getTanggalKegiatan(); 
+	String getLokasiKegiatan();
+	byte[] getPosterKegiatan();
+	String getNamaPosterKegiatan();
 
 }

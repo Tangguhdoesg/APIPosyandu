@@ -1,6 +1,7 @@
 package com.skirpsi.api.posyandu.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.skirpsi.api.posyandu.entity.Balita;
 import com.skirpsi.api.posyandu.entity.Kegiatan;
 import com.skirpsi.api.posyandu.entity.UserPosyandu;
@@ -73,14 +75,13 @@ public class KegiatanController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Kegiatan> updateKegiatan(@RequestBody Kegiatan kegiatan,@PathVariable("id") Integer id){
+	public ResponseEntity<Map<String, Object>> updateKegiatan(@RequestBody Kegiatan kegiatan,@PathVariable("id") Integer id){
 		Kegiatan keg = kegiatanSer.getById(id);
-		
+
 		if(keg==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}else {
 			keg.setTanggalKegiatan(kegiatan.getTanggalKegiatan());
-			keg.setPenanggungJawabKegiatan(kegiatan.getPenanggungJawabKegiatan());
 			keg.setLokasiKegiatan(kegiatan.getLokasiKegiatan());
 			keg.setNamaKegiatan(kegiatan.getNamaKegiatan());
 			keg.setNamaPosterKegiatan(kegiatan.getNamaPosterKegiatan());
@@ -88,7 +89,11 @@ public class KegiatanController {
 			
 			kegiatanSer.insert(keg);
 			
-			return new ResponseEntity<>(keg,HttpStatus.OK);
+			ObjectMapper oMapper = new ObjectMapper();
+	    	@SuppressWarnings("unchecked")
+			Map<String, Object> result = oMapper.convertValue(keg, Map.class);
+	    	result.remove("penanggungJawabKegiatan");
+			return new ResponseEntity<>(result,HttpStatus.OK);
 		}
 	}
 	
@@ -106,8 +111,8 @@ public class KegiatanController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<List<KegiatanInterface>> findByIdUser(@PathVariable("id") Integer id){
-		List<KegiatanInterface> data = kegiatanSer.findByIdUser(id);
+	public ResponseEntity<KegiatanInterface> findByIdUser(@PathVariable("id") Integer id){
+		KegiatanInterface data = kegiatanSer.findById(id);
 		
 		return new ResponseEntity<>(data,HttpStatus.OK);
 	}

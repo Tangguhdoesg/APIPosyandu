@@ -62,7 +62,7 @@ public class CheckupController {
 			return new ResponseEntity<>(data,HttpStatus.OK);
 		}
 	}
-//	
+	
 	@PostMapping()
 	public ResponseEntity<CheckUp> createCheckup(@RequestBody CheckUp checkup){
 			CheckUp data = checkupSer.insert(checkup);
@@ -73,7 +73,7 @@ public class CheckupController {
 				return new ResponseEntity<>(data,HttpStatus.OK);
 			}
 	}
-//	
+	
 	@PutMapping("/{id}")
 	public ResponseEntity<CheckUp> updateCheckup(@RequestBody CheckUp checkup,@PathVariable("id") Integer id){
 		CheckUp _checkup = checkupSer.getById(id);
@@ -96,7 +96,7 @@ public class CheckupController {
 			return new ResponseEntity<>(_checkup,HttpStatus.OK);
 		}
 	}
-//	
+	
 	  @DeleteMapping("/{id}")
 	  public ResponseEntity<CheckUp> deleteTutorial(@PathVariable("id") Integer id) {
 		  CheckUp x = checkupSer.delete(id);

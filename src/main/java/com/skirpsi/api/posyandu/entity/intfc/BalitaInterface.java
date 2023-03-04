@@ -8,7 +8,9 @@ public interface BalitaInterface {
 	
 	String getIdBalita();
 	
-	String  getNamabalita();
+	String  getNamaBalita();
+	
+	String getNikBalita();
 	
 	String getTempatLahirBalita();
 	
@@ -16,7 +18,7 @@ public interface BalitaInterface {
 	
 	String getJenisKelaminBalita();
 	
-	Float getBeratSaatLahir();
+	Float getBeratSaatLahirBalita();
 
-	Float getTinggiSaatLahir();
+	Float getTinggiSaatLahirBalita();
 }

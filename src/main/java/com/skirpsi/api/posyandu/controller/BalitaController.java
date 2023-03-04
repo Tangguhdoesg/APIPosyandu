@@ -1,6 +1,7 @@
 package com.skirpsi.api.posyandu.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.skirpsi.api.posyandu.entity.Balita;
 import com.skirpsi.api.posyandu.entity.UserPosyandu;
 import com.skirpsi.api.posyandu.entity.intfc.BalitaInterface;
@@ -39,9 +41,20 @@ public class BalitaController {
 		}
 	}
 	@GetMapping("/user/{id}")
-	public ResponseEntity<List<BalitaInterface>> getBalitaById(@PathVariable("id") Integer id){
+	public ResponseEntity<List<BalitaInterface>> getBalitaByIdOrtu(@PathVariable("id") Integer id){
 		
 		List<BalitaInterface> data = balitaSer.getByIdWithIdUser(id);
+		
+		if(data==null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}else {
+			return new ResponseEntity<>(data,HttpStatus.OK);
+		}
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<BalitaInterface> getBalitaById(@PathVariable("id") Integer id){
+		BalitaInterface data = balitaSer.getBalitaInterfaceById(id);
 		
 		if(data==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -69,8 +82,14 @@ public class BalitaController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Balita> updateBalita(@RequestBody Balita balita,@PathVariable("id") Integer id){
+	public ResponseEntity<Map<String, Object>> updateBalita(@RequestBody Balita balita,@PathVariable("id") Integer id){
 		Balita _balita = balitaSer.getById(id);
+		
+		System.out.println(balita.getNamaBalita());
+		System.out.println(balita.getTempatLahirBalita());
+		System.out.println(balita.getTinggiSaatLahirBalita());
+		System.out.println(balita.getBeratSaatLahirBalita());
+//		System.out.println(balita.getNikBalita());
 		
 		if(_balita==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -81,10 +100,12 @@ public class BalitaController {
 			_balita.setTanggalLahirBalita(balita.getTanggalLahirBalita());
 			_balita.setTempatLahirBalita(balita.getTempatLahirBalita());
 			_balita.setTinggiSaatLahirBalita(balita.getTinggiSaatLahirBalita());
-			_balita.setIdUser(balita.getIdUser());
 			balitaSer.Insert(_balita);
-			
-			return new ResponseEntity<>(_balita,HttpStatus.OK);
+			ObjectMapper oMapper = new ObjectMapper();
+	    	@SuppressWarnings("unchecked")
+			Map<String, Object> result = oMapper.convertValue(_balita, Map.class);
+	    	result.remove("idUser");
+			return new ResponseEntity<>(result,HttpStatus.OK);
 		}
 		
 	}
@@ -98,13 +119,6 @@ public class BalitaController {
 		}else {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
-	}
-	
-	@GetMapping("/{id}")
-	public ResponseEntity<BalitaInterface> getByIdWithoutUser(@PathVariable("id") Integer id){
-		BalitaInterface data = balitaSer.getBalitaInterfaceById(id);
-		
-		return new ResponseEntity<>(data,HttpStatus.OK);
 	}
 	
 	@GetMapping("/all")

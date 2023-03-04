@@ -157,7 +157,7 @@ public class UserController {
 	
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<UserPosyandu> updateUser(@RequestBody UserPosyandu user,@PathVariable("id") Integer id){
+	public ResponseEntity<Map<String, Object>> updateUser(@RequestBody UserPosyandu user,@PathVariable("id") Integer id){
 		UserPosyandu _user = userServ.getOneById(id);
 		if(_user==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -180,7 +180,7 @@ public class UserController {
 			String date = simpleDateFormat.format(d);
 			result.remove("tanggalLahirUser");
 			result.put("tanggalLahirUser", date);
-	    	return new ResponseEntity<>(_user,HttpStatus.OK);
+	    	return new ResponseEntity<>(result,HttpStatus.OK);
 		}
 	}
 	

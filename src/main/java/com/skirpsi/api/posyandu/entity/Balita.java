@@ -42,10 +42,10 @@ public class Balita {
 	@Column(name="jeniskelaminbalita")
 	private String jenisKelaminBalita;
 	
-	@Column(name="beratsaatlahir")
+	@Column(name="beratsaatlahirbalita")
 	private Float beratSaatLahirBalita;
 	
-	@Column(name="tinggisaatlahir")
+	@Column(name="tinggisaatlahirbalita")
 	private Float tinggiSaatLahirBalita;
 	
 }

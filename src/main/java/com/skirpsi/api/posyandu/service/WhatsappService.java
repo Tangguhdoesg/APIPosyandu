@@ -114,11 +114,11 @@ public class WhatsappService {
 		String formatted = dateFormat.format(date);
 		String telpUser = "+6287854472001";
 		String templateMessage="Selamat Pagi, "+user.getNamaUser()+"\r\n"
-				+ "Kami ingin menginformasikan bahwa akan ada kegiatan yang berjudul : "+kegiatan.getNamakegiatan()+"\r\n"
+				+ "Kami ingin menginformasikan bahwa akan ada kegiatan yang berjudul : "+kegiatan.getNamaKegiatan()+"\r\n"
 				+ "Kegiatan ini akan berlangsung pada : "
 				+ "Tanggal : " + formatted
 				+ "Pukul : 08.00 WIB\r\n"
-				+ "Apabila Bapak / Ibu tertarik dengan kegiatan tersebut maka dapat langsung datang ke " + kegiatan.getLokasikegiatan()
+				+ "Apabila Bapak / Ibu tertarik dengan kegiatan tersebut maka dapat langsung datang ke " + kegiatan.getLokasiKegiatan()
 				+ "Sekian dan Terimakasih.";
 		Message.creator(
 	               new PhoneNumber("whatsapp:"+telpUser),

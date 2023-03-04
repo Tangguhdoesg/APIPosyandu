@@ -39,7 +39,7 @@ public class Kegiatan {
 	@Column(name="posterkegiatan")
 	private byte[] posterKegiatan;
 	
-	@Column(name="namaposter")
+	@Column(name="namaposterkegiatan")
 	private String namaPosterKegiatan;
 
 }
