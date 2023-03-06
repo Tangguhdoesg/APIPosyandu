@@ -1,6 +1,7 @@
 package com.skirpsi.api.posyandu.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -71,20 +72,11 @@ public class UserController {
 		String pattern = "yyyy-MM-dd";
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 		
-		System.out.println(user.getNamaUser());
-		System.out.println(user.getPasswordUser());
-		System.out.println(user.getTanggalLahirUser());
-		System.out.println(user.getNoTeleponUser());
-		System.out.println(user.getAlamatUser());
-		System.out.println(user.getTipeUser());
-		
 		if(userServ.checkIfExistByPhone(user.getNoTeleponUser())) {
 			return new ResponseEntity<>(null, HttpStatus.CONFLICT); 
 		}
 		
 		String defPass = simpleDateFormat.format(user.getTanggalLahirUser());
-		
-		System.out.println("Def Pass : " + defPass);
 		
 		UserPosyandu newUser = new UserPosyandu();
 		newUser.setAlamatUser(user.getAlamatUser());
@@ -141,7 +133,7 @@ public class UserController {
 			return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
 		}else {
 			result.put("accessToken", jwt);
-			String pattern = "dd-MM-yyyy";
+			String pattern = "yyyy-MM-dd";
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 			Date d = new Date(Long.parseLong(result.get("tanggalLahirUser").toString()));
 			String date = simpleDateFormat.format(d);
@@ -149,7 +141,6 @@ public class UserController {
 			result.remove("passwordUser");
 			result.remove("tanggalLahirUser");
 			result.put("tanggalLahirUser", date);
-			result.put("integer", 4);
 			return new ResponseEntity<>(result,HttpStatus.OK);
 		}
 		
@@ -195,21 +186,53 @@ public class UserController {
 		}
 	}
 	@GetMapping("/all")
-	public ResponseEntity<List<UserInterface>> getAllUserWithoutPassword(){
+	public ResponseEntity<List<Map<String, Object>>> getAllUserWithoutPassword(){
 		List<UserInterface> data = userServ.getAllWithoutPassword();
 		
-		return new ResponseEntity<>(data,HttpStatus.OK);
+		if(data==null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}else {
+			ObjectMapper oMapper = new ObjectMapper();
+			@SuppressWarnings("unchecked")
+			List<Map<String, Object>> result = oMapper.convertValue(data, List.class);
+			List<Map<String, Object>> res = new ArrayList<>();
+			for (Map<String, Object> x : result) {
+				String pattern = "yyyy-MM-dd";
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+				Date d = new Date(Long.parseLong( x.get("tanggalLahirUser").toString()));
+				String date = simpleDateFormat.format(d);
+				x.remove("tanggalLahirUser");
+				x.put("tanggalLahirUser", date);
+				res.add(x);
+			}
+			return new ResponseEntity<>(res,HttpStatus.OK);	
+		}
+		
+		
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<UserInterface> getOneWithourPaswword(@PathVariable("id") Integer id){
+	public ResponseEntity<Map<String, Object>> getOneWithourPaswword(@PathVariable("id") Integer id){
 		UserInterface data = userServ.getOneByIdWithoutPassword(id);
 		
-		return new ResponseEntity<>(data,HttpStatus.OK);
+		if(data==null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}else {
+			ObjectMapper oMapper = new ObjectMapper();
+			@SuppressWarnings("unchecked")
+			Map<String, Object> result = oMapper.convertValue(data, Map.class);
+			String pattern = "yyyy-MM-dd";
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+			Date d = new Date(Long.parseLong(result.get("tanggalLahirUser").toString()));
+			String date = simpleDateFormat.format(d);
+			result.remove("tanggalLahirUser");
+			result.put("tanggalLahirUser", date);
+			return new ResponseEntity<>(result,HttpStatus.OK);
+		}
 	}
 	
 	@GetMapping("/wa")
-	public ResponseEntity<String> testWa(@RequestBody UserPosyandu user){
+	public ResponseEntity<String> sendPasswordThruWa(@RequestBody UserPosyandu user){
 		whatsServ.sendPassword(user);
 		
 		return new ResponseEntity<>("GOOD",HttpStatus.OK);

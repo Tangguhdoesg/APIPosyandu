@@ -61,8 +61,8 @@ public class CheckupService {
 		return x;
 	}
 	
-	public List<CheckupInterface> getByIdBalita(Integer id){
-		List<CheckupInterface> x = checkupRepo.findByIdBalita(id);
+	public List<CheckupInterface> getByIdBalitax(Integer id){
+		List<CheckupInterface> x = checkupRepo.findByIdBalitax(id);
 		
 		return x;
 	}
@@ -77,5 +77,11 @@ public class CheckupService {
 		List<CheckupInterface> x = checkupRepo.getDataforReminder();
 		
 		return x;
+	}
+	
+	public List<CheckUp> getByIdBalita(Integer id){
+		List<CheckUp> data = checkupRepo.findByIdBalita(id);
+		
+		return data;
 	}
 }

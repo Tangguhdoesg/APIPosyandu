@@ -1,5 +1,8 @@
 package com.skirpsi.api.posyandu.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.skirpsi.api.posyandu.entity.Balita;
-import com.skirpsi.api.posyandu.entity.UserPosyandu;
 import com.skirpsi.api.posyandu.entity.intfc.BalitaInterface;
 import com.skirpsi.api.posyandu.service.BalitaService;
 
@@ -29,45 +31,75 @@ public class BalitaController {
 	
 	@Autowired BalitaService balitaSer;
 	
-	
-	@GetMapping("/user/all")
-	public ResponseEntity<List<Balita>> getAll(){
-		List<Balita> all = balitaSer.getAll();
+	@GetMapping("/all")
+	public ResponseEntity<List<Map<String, Object>>> getAllWithoutUser(){
+		List<BalitaInterface> data = balitaSer.getAllWithoutUser();
 		
-		if(all.size()>0) {
-			return new ResponseEntity<>(all,HttpStatus.OK);
+		if(data == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);	
 		}else {
-			return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
+			ObjectMapper oMapper = new ObjectMapper();
+			@SuppressWarnings("unchecked")
+			List<Map<String, Object>> result = oMapper.convertValue(data, List.class);
+			List<Map<String, Object>> res = new ArrayList<>();
+			for (Map<String, Object> x : result) {
+				String pattern = "yyyy-MM-dd";
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+				Date d = new Date(Long.parseLong( x.get("tanggalLahirBalita").toString()));
+				String date = simpleDateFormat.format(d);
+				x.remove("tanggalLahirBalita");
+				x.put("tanggalLahirBalita", date);
+				res.add(x);
+			}
+			return new ResponseEntity<>(res,HttpStatus.OK);	
 		}
+		
+		
 	}
+	
 	@GetMapping("/user/{id}")
-	public ResponseEntity<List<BalitaInterface>> getBalitaByIdOrtu(@PathVariable("id") Integer id){
+	public ResponseEntity<List<Map<String, Object>>> getBalitaByIdOrtu(@PathVariable("id") Integer id){
 		
 		List<BalitaInterface> data = balitaSer.getByIdWithIdUser(id);
 		
 		if(data==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}else {
-			return new ResponseEntity<>(data,HttpStatus.OK);
+			ObjectMapper oMapper = new ObjectMapper();
+			@SuppressWarnings("unchecked")
+			List<Map<String, Object>> result = oMapper.convertValue(data, List.class);
+			List<Map<String, Object>> res = new ArrayList<>();
+			for (Map<String, Object> x : result) {
+				String pattern = "yyyy-MM-dd";
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+				Date d = new Date(Long.parseLong( x.get("tanggalLahirBalita").toString()));
+				String date = simpleDateFormat.format(d);
+				x.remove("tanggalLahirBalita");
+				x.put("tanggalLahirBalita", date);
+				res.add(x);
+			}
+			return new ResponseEntity<>(res,HttpStatus.OK);
 		}
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<BalitaInterface> getBalitaById(@PathVariable("id") Integer id){
+	public ResponseEntity<Map<String, Object>> getBalitaById(@PathVariable("id") Integer id){
 		BalitaInterface data = balitaSer.getBalitaInterfaceById(id);
-		
-		if(data==null) {
+
+		if(data==null) {			
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}else {
-			return new ResponseEntity<>(data,HttpStatus.OK);
+			ObjectMapper oMapper = new ObjectMapper();
+			@SuppressWarnings("unchecked")
+			Map<String, Object> result = oMapper.convertValue(data, Map.class);
+			String pattern = "yyyy-MM-dd";
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+			Date d = new Date(Long.parseLong(result.get("tanggalLahirBalita").toString()));
+			String date = simpleDateFormat.format(d);
+			result.remove("tanggalLahirBalita");
+			result.put("tanggalLahirBalita", date);
+			return new ResponseEntity<>(result,HttpStatus.OK);
 		}
-	}
-	
-	@GetMapping("/ortu")
-	public ResponseEntity<List<Balita>> getBalitaByUser(@RequestBody UserPosyandu x){
-		List<Balita> data = balitaSer.getByUser(x);
-		
-		return new ResponseEntity<>(data,HttpStatus.OK);
 	}
 	
 	@PostMapping()
@@ -84,27 +116,26 @@ public class BalitaController {
 	@PutMapping("/{id}")
 	public ResponseEntity<Map<String, Object>> updateBalita(@RequestBody Balita balita,@PathVariable("id") Integer id){
 		Balita _balita = balitaSer.getById(id);
-		
-		System.out.println(balita.getNamaBalita());
-		System.out.println(balita.getTempatLahirBalita());
-		System.out.println(balita.getTinggiSaatLahirBalita());
-		System.out.println(balita.getBeratSaatLahirBalita());
-//		System.out.println(balita.getNikBalita());
-		
+
 		if(_balita==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}else {
 			_balita.setBeratSaatLahirBalita(balita.getBeratSaatLahirBalita());
 			_balita.setJenisKelaminBalita(balita.getJenisKelaminBalita());
 			_balita.setNamaBalita(balita.getNamaBalita());
-			_balita.setTanggalLahirBalita(balita.getTanggalLahirBalita());
+			System.out.println(_balita.getTanggalLahirBalita());
 			_balita.setTempatLahirBalita(balita.getTempatLahirBalita());
 			_balita.setTinggiSaatLahirBalita(balita.getTinggiSaatLahirBalita());
-			balitaSer.Insert(_balita);
 			ObjectMapper oMapper = new ObjectMapper();
 	    	@SuppressWarnings("unchecked")
 			Map<String, Object> result = oMapper.convertValue(_balita, Map.class);
+	    	String pattern = "yyyy-MM-dd";
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+			Date d = new Date(Long.parseLong(result.get("tanggalLahirBalita").toString()));
+			String date = simpleDateFormat.format(d);
 	    	result.remove("idUser");
+	    	result.remove("tanggalLahirBalita");
+	    	result.put("tanggalLahirBalita", date);
 			return new ResponseEntity<>(result,HttpStatus.OK);
 		}
 		
@@ -119,13 +150,6 @@ public class BalitaController {
 		}else {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
-	}
-	
-	@GetMapping("/all")
-	public ResponseEntity<List<BalitaInterface>> getAllWithoutUser(){
-		List<BalitaInterface> data = balitaSer.getAllWithoutUser();
-		
-		return new ResponseEntity<>(data,HttpStatus.OK);
 	}
 
 }

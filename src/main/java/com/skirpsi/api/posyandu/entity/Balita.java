@@ -1,6 +1,7 @@
 package com.skirpsi.api.posyandu.entity;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,7 +38,7 @@ public class Balita {
 	private String tempatLahirBalita;
 	
 	@Column(name="tanggallahirbalita")
-	private Timestamp tanggalLahirBalita;
+	private Date tanggalLahirBalita;
 	
 	@Column(name="jeniskelaminbalita")
 	private String jenisKelaminBalita;

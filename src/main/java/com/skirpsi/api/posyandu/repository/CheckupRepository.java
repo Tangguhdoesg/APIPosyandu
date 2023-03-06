@@ -11,8 +11,11 @@ import com.skirpsi.api.posyandu.entity.intfc.ReportInterface;
 
 public interface CheckupRepository extends JpaRepository<CheckUp, Integer>{
 	
-	@Query(value="select idcheckup, tinggibadan ,beratbadan ,lingkarkepala ,lingkarlengan , tanggalcheckup ,tanggalcheckupberikutnya ,catatancheckup  from checkup c  where idbalita = ?1",nativeQuery = true)
-	List<CheckupInterface> findByIdBalita(Integer x);
+	@Query(value="select idcheckup, idbalita,tinggibadan ,beratbadan ,lingkarkepala ,lingkarlengan , tanggalcheckup ,tanggalcheckupberikutnya ,catatancheckup  from checkup c  where idbalita = ?1",nativeQuery = true)
+	List<CheckupInterface> findByIdBalitax(Integer x);
+	
+	@Query(value="select *  from checkup c  where idbalita = ?1",nativeQuery = true)
+	List<CheckUp> findByIdBalita(Integer x);
 	
 	@Query(value="select idcheckup, tinggibadan ,beratbadan ,lingkarkepala ,lingkarlengan , tanggalcheckup ,tanggalcheckupberikutnya ,catatancheckup  from checkup c ",nativeQuery = true)
 	List<CheckupInterface> findAllWithoutBalita();

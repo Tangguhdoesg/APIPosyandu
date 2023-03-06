@@ -36,8 +36,6 @@ public class WebSecurityConfig {
 	  public DaoAuthenticationProvider authenticationProvider() {
 	      DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 	      
-	      System.out.println("SOMETHING HERE");
-	      
 	      authProvider.setUserDetailsService(userDetailsService);
 	      authProvider.setPasswordEncoder(passwordEncoder());
 	   
