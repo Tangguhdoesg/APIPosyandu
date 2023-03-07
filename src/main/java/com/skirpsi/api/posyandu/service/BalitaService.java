@@ -83,4 +83,14 @@ public class BalitaService {
 		
 		return ret;
 	}
+	
+	public Balita getBalitaByNIK(String nik) {
+		Optional<Balita> data = balitaRepo.findByNikBalita(nik);
+		
+		if(data.isPresent()) {
+			return data.get();
+		}else {
+			return null;
+		}
+	}
 }

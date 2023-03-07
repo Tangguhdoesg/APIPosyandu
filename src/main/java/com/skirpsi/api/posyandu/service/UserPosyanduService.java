@@ -82,4 +82,14 @@ public class UserPosyanduService {
 		
 		return x;
 	}
+	
+	public UserPosyandu getByNIKUser(String nik) {
+		Optional<UserPosyandu> userData = userRepo.findByNikUser(nik);
+		
+		if(userData.isPresent()) {
+			return userData.get();
+		}else {
+			return null;
+		}
+	}
 }

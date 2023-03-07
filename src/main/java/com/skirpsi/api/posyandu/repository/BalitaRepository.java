@@ -1,6 +1,7 @@
 package com.skirpsi.api.posyandu.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -25,4 +26,6 @@ public interface BalitaRepository extends JpaRepository<Balita, Integer>{
 	
 	@Query(value = "select idbalita,idorangtua,namabalita,nikbalita,tempatlahirbalita,tanggallahirbalita, jeniskelaminbalita, beratsaatlahirbalita, tinggisaatlahirbalita  from balita where idbalita = ?1", nativeQuery =  true)
 	BalitaInterface findByIdBalitaInterface(Integer id);
+	
+	Optional<Balita> findByNikBalita(String nik);
 }

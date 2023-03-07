@@ -12,17 +12,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.skirpsi.api.posyandu.entity.Balita;
+import com.skirpsi.api.posyandu.entity.UserPosyandu;
 import com.skirpsi.api.posyandu.entity.intfc.BalitaInterface;
+import com.skirpsi.api.posyandu.misc.CreateBalitaEntity;
 import com.skirpsi.api.posyandu.service.BalitaService;
+import com.skirpsi.api.posyandu.service.UserPosyanduService;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
@@ -30,6 +37,8 @@ import com.skirpsi.api.posyandu.service.BalitaService;
 public class BalitaController {
 	
 	@Autowired BalitaService balitaSer;
+	
+	@Autowired UserPosyanduService userSer;
 	
 	@GetMapping("/all")
 	public ResponseEntity<List<Map<String, Object>>> getAllWithoutUser(){
@@ -102,8 +111,8 @@ public class BalitaController {
 		}
 	}
 	
-	@PostMapping()
-	public ResponseEntity<Balita> createBalita(@RequestBody Balita balita){
+	@PostMapping("/old")
+	public ResponseEntity<Balita> createBalitaOld(@RequestBody Balita balita){
 		Balita x = balitaSer.Insert(balita);
 		
 		if(x==null) {
@@ -113,8 +122,76 @@ public class BalitaController {
 		}
 	}
 	
+	@PostMapping()
+	public ResponseEntity<Map<String, Object>> createBalita(@RequestBody CreateBalitaEntity balita){
+		
+		UserPosyandu user = userSer.getByNIKUser(balita.getNikOrangTua());
+		if(user==null) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}else {
+			Balita newBalita = new Balita();
+			newBalita.setBeratSaatLahirBalita(balita.getBeratSaatLahirBalita());
+			newBalita.setTinggiSaatLahirBalita(balita.getTinggiSaatLahirBalita());
+			newBalita.setJenisKelaminBalita(balita.getJenisKelaminBalita());
+			newBalita.setTanggalLahirBalita(balita.getTanggalLahirBalita());
+			newBalita.setTempatLahirBalita(balita.getTempatLahirBalita());
+			newBalita.setNikBalita(balita.getNikBalita());
+			newBalita.setNamaBalita(balita.getNamaBalita());
+			newBalita.setIdUser(user);
+			
+			Balita x = balitaSer.Insert(newBalita);
+			
+			if(x==null) {
+				return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			}else {
+				balita.setNamaOrangTua(user.getNamaUser());
+				balita.setIdbalita(x.getIdBalita());
+				ObjectMapper oMapper = new ObjectMapper();
+		    	@SuppressWarnings("unchecked")
+				Map<String, Object> result = oMapper.convertValue(balita, Map.class);
+		    	String pattern = "yyyy-MM-dd";
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+				Date d = new Date(Long.parseLong(result.get("tanggalLahirBalita").toString()));
+				String date = simpleDateFormat.format(d);
+		    	result.remove("tanggalLahirBalita");
+		    	result.put("tanggalLahirBalita", date);
+				return new ResponseEntity<>(result,HttpStatus.OK);
+			}
+		}
+	}
+	
 	@PutMapping("/{id}")
-	public ResponseEntity<Map<String, Object>> updateBalita(@RequestBody Balita balita,@PathVariable("id") Integer id){
+	public ResponseEntity<Map<String, Object>> updateBalita(@RequestBody CreateBalitaEntity balita,@PathVariable("id") Integer id){
+		Balita _balita = balitaSer.getBalitaByNIK(balita.getNikBalita());
+
+		if(_balita==null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}else {
+			_balita.setBeratSaatLahirBalita(balita.getBeratSaatLahirBalita());
+			_balita.setJenisKelaminBalita(balita.getJenisKelaminBalita());
+			_balita.setNamaBalita(balita.getNamaBalita());
+			_balita.setTempatLahirBalita(balita.getTempatLahirBalita());
+			_balita.setTinggiSaatLahirBalita(balita.getTinggiSaatLahirBalita());
+			
+			balitaSer.Insert(_balita);
+			
+			ObjectMapper oMapper = new ObjectMapper();
+	    	@SuppressWarnings("unchecked")
+			Map<String, Object> result = oMapper.convertValue(_balita, Map.class);
+	    	String pattern = "yyyy-MM-dd";
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+			Date d = new Date(Long.parseLong(result.get("tanggalLahirBalita").toString()));
+			String date = simpleDateFormat.format(d);
+	    	result.remove("idUser");
+	    	result.remove("tanggalLahirBalita");
+	    	result.put("tanggalLahirBalita", date);
+			return new ResponseEntity<>(result,HttpStatus.OK);
+		}
+		
+	}
+	
+	@PutMapping("/old/{id}")
+	public ResponseEntity<Map<String, Object>> updateBalitaold(@RequestBody Balita balita,@PathVariable("id") Integer id){
 		Balita _balita = balitaSer.getById(id);
 
 		if(_balita==null) {
