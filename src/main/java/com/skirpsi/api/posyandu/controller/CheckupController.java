@@ -219,6 +219,11 @@ public class CheckupController {
 		  }
 	  }
 	  
+	  @GetMapping("/user/{id}")
+	  public void getDataforGraph(@PathVariable("id") Integer id) {
+		  
+	  }
+	  
 	  public static final long getMonthsDifference(Date date1, Date date2) {
 		    YearMonth m1 = YearMonth.from(date1.toInstant().atZone(ZoneOffset.UTC));
 		    YearMonth m2 = YearMonth.from(date2.toInstant().atZone(ZoneOffset.UTC));

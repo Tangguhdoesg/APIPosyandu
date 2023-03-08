@@ -44,6 +44,7 @@ public class BalitaController {
 	public ResponseEntity<List<Map<String, Object>>> getAllWithoutUser(){
 		List<BalitaInterface> data = balitaSer.getAllWithoutUser();
 		
+		
 		if(data == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);	
 		}else {
@@ -52,10 +53,13 @@ public class BalitaController {
 			List<Map<String, Object>> result = oMapper.convertValue(data, List.class);
 			List<Map<String, Object>> res = new ArrayList<>();
 			for (Map<String, Object> x : result) {
+				UserPosyandu ortu = userSer.getOneById((Integer) x.get("idOrangTua"));
+				
 				String pattern = "yyyy-MM-dd";
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 				Date d = new Date(Long.parseLong( x.get("tanggalLahirBalita").toString()));
 				String date = simpleDateFormat.format(d);
+				x.put("namaOrangTua", ortu.getNamaUser());
 				x.remove("tanggalLahirBalita");
 				x.put("tanggalLahirBalita", date);
 				res.add(x);
@@ -71,6 +75,8 @@ public class BalitaController {
 		
 		List<BalitaInterface> data = balitaSer.getByIdWithIdUser(id);
 		
+		
+		
 		if(data==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}else {
@@ -79,10 +85,12 @@ public class BalitaController {
 			List<Map<String, Object>> result = oMapper.convertValue(data, List.class);
 			List<Map<String, Object>> res = new ArrayList<>();
 			for (Map<String, Object> x : result) {
+				UserPosyandu ortu = userSer.getOneById((Integer) x.get("idOrangTua"));
 				String pattern = "yyyy-MM-dd";
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 				Date d = new Date(Long.parseLong( x.get("tanggalLahirBalita").toString()));
 				String date = simpleDateFormat.format(d);
+				x.put("namaOrangTua", ortu.getNamaUser());
 				x.remove("tanggalLahirBalita");
 				x.put("tanggalLahirBalita", date);
 				res.add(x);
@@ -98,6 +106,7 @@ public class BalitaController {
 		if(data==null) {			
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}else {
+			UserPosyandu ortu = userSer.getOneById(data.getIdOrangTua());
 			ObjectMapper oMapper = new ObjectMapper();
 			@SuppressWarnings("unchecked")
 			Map<String, Object> result = oMapper.convertValue(data, Map.class);
@@ -105,20 +114,10 @@ public class BalitaController {
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 			Date d = new Date(Long.parseLong(result.get("tanggalLahirBalita").toString()));
 			String date = simpleDateFormat.format(d);
+			result.put("namaOrangTua", ortu.getNamaUser());
 			result.remove("tanggalLahirBalita");
 			result.put("tanggalLahirBalita", date);
 			return new ResponseEntity<>(result,HttpStatus.OK);
-		}
-	}
-	
-	@PostMapping("/old")
-	public ResponseEntity<Balita> createBalitaOld(@RequestBody Balita balita){
-		Balita x = balitaSer.Insert(balita);
-		
-		if(x==null) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}else {
-			return new ResponseEntity<>(x,HttpStatus.OK);
 		}
 	}
 	
@@ -153,6 +152,7 @@ public class BalitaController {
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 				Date d = new Date(Long.parseLong(result.get("tanggalLahirBalita").toString()));
 				String date = simpleDateFormat.format(d);
+				result.put("namaOrangTua", user.getNamaUser());
 		    	result.remove("tanggalLahirBalita");
 		    	result.put("tanggalLahirBalita", date);
 				return new ResponseEntity<>(result,HttpStatus.OK);
@@ -162,7 +162,6 @@ public class BalitaController {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<Map<String, Object>> updateBalita(@RequestBody CreateBalitaEntity balita,@PathVariable("id") Integer id){
-//		Balita _balita = balitaSer.getBalitaByNIK(balita.getNikBalita());
 		Balita _balita = balitaSer.getById(id);
 
 		if(_balita==null) {
@@ -175,7 +174,7 @@ public class BalitaController {
 			_balita.setTinggiSaatLahirBalita(balita.getTinggiSaatLahirBalita());
 			
 			balitaSer.Insert(_balita);
-			
+			UserPosyandu ortu = userSer.getOneById(_balita.getIdUser().getIdUser());
 			ObjectMapper oMapper = new ObjectMapper();
 	    	@SuppressWarnings("unchecked")
 			Map<String, Object> result = oMapper.convertValue(_balita, Map.class);
@@ -183,6 +182,7 @@ public class BalitaController {
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 			Date d = new Date(Long.parseLong(result.get("tanggalLahirBalita").toString()));
 			String date = simpleDateFormat.format(d);
+			result.put("namaOrangTua", ortu.getNamaUser());
 	    	result.remove("idUser");
 	    	result.remove("tanggalLahirBalita");
 	    	result.put("tanggalLahirBalita", date);
