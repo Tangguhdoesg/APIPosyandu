@@ -162,7 +162,8 @@ public class BalitaController {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<Map<String, Object>> updateBalita(@RequestBody CreateBalitaEntity balita,@PathVariable("id") Integer id){
-		Balita _balita = balitaSer.getBalitaByNIK(balita.getNikBalita());
+//		Balita _balita = balitaSer.getBalitaByNIK(balita.getNikBalita());
+		Balita _balita = balitaSer.getById(id);
 
 		if(_balita==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
