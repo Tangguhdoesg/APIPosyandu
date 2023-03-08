@@ -5,11 +5,13 @@ import java.sql.Timestamp;
 public interface CheckupInterface {
 	
 	Integer getIdBalita();
+	Integer getIdOrangTua();
 	Integer getIdcheckup();
 	Integer getTinggibadan(); 
-	Integer getBeratbadan(); 
-	Integer getLingkarkepala(); 
-	Integer getLingkarlengan();
+	String getNamaBalita();
+	Float getBeratbadan(); 
+	Float getLingkarkepala(); 
+	Float getLingkarlengan();
 	Timestamp getTanggalcheckup();
 	Timestamp getTanggalcheckupberikutnya(); 
 	String getCatatancheckup();

@@ -28,4 +28,17 @@ public interface CheckupRepository extends JpaRepository<CheckUp, Integer>{
 			+ "join checkup c on c.idcheckup = b.idbalita "
 			+ "where c.tanggalcheckup >= TO_TIMESTAMP(?1,'YYYY-MM-DD') and c.tanggalcheckup <= TO_TIMESTAMP(?2,'YYYY-MM-DD') ",nativeQuery = true)
 	List<ReportInterface> getDataForReporting(String from, String to);
+	
+	@Query(value = "select idcheckup, b.idorangtua ,b.idbalita,namabalita , tinggibadan , beratbadan , lingkarkepala , lingkarlengan, tanggalcheckup , tanggalcheckupberikutnya, catatancheckup from checkup c "
+			+ "join balita b on b.idbalita = c.idbalita "
+			+ "join userposyandu u ON u.iduser = b.idorangtua "
+			+ "where b.idorangtua  = ?1", nativeQuery = true)
+	List<CheckupInterface> getDataforGraphByIdOrangTua(Integer id);
+	
+	@Query(value = "select idcheckup, b.idorangtua ,b.idbalita,namabalita , tinggibadan , beratbadan , lingkarkepala , lingkarlengan, tanggalcheckup , tanggalcheckupberikutnya, catatancheckup from checkup c "
+			+ "join balita b on b.idbalita = c.idbalita "
+			+ "join userposyandu u ON u.iduser = b.idorangtua "
+			+ "where b.idbalita  = ?1", nativeQuery = true)
+	List<CheckupInterface> getDataforGraphByIdBalita(Integer id);
+	
 }

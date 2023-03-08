@@ -32,6 +32,7 @@ import com.skirpsi.api.posyandu.entity.UserPosyandu;
 import com.skirpsi.api.posyandu.entity.intfc.BalitaInterface;
 import com.skirpsi.api.posyandu.entity.intfc.CheckupInterface;
 import com.skirpsi.api.posyandu.entity.intfc.UserInterface;
+import com.skirpsi.api.posyandu.misc.CreateCheckupEntity;
 import com.skirpsi.api.posyandu.service.BalitaService;
 import com.skirpsi.api.posyandu.service.CheckupService;
 import com.skirpsi.api.posyandu.service.ReportService;
@@ -51,25 +52,53 @@ public class CheckupController {
 	@Autowired BalitaService balitaServ;
 	
 	@PostMapping()
-	public ResponseEntity<CheckUp> createCheckup(@RequestBody CheckUp checkup){
-			CheckUp data = checkupSer.insert(checkup);
+	public ResponseEntity<Map<String, Object>> createCheckup(@RequestBody CreateCheckupEntity checkup){
+			CheckUp data = new CheckUp();
+			Balita balita = balitaServ.getById(checkup.getIdBalita());
+			data.setBeratBadan(checkup.getBeratBadan());
+			data.setCatatan(checkup.getCatatan());
+			data.setIdBalita(balita);
+			data.setLingkarKepala(checkup.getLingkarKepala());
+			data.setLingkarLengan(checkup.getLingkarLengan());
+			data.setTanggalCheckup(checkup.getTanggalCheckup());
+			data.setTanggalCheckupBerikutnya(checkup.getTanggalCheckupBerikutnya());
+			data.setTinggiBadan(checkup.getTinggiBadan());
+			System.out.println();
+			CheckUp newCheckup = checkupSer.insert(data);
 			
-			if(data==null) {
-				return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			if(newCheckup==null) {
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}else{
-				return new ResponseEntity<>(data,HttpStatus.OK);
+				ObjectMapper oMapper = new ObjectMapper();
+				@SuppressWarnings("unchecked")
+				Map<String, Object> result = oMapper.convertValue(data, Map.class);
+				String pattern = "yyyy-MM-dd";
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+				Date d1 = new Date(Long.parseLong(result.get("tanggalCheckup").toString()));
+				Date d2 = new Date(Long.parseLong(result.get("tanggalCheckupBerikutnya").toString()));
+				String date1 = simpleDateFormat.format(d1);
+				String date2 = simpleDateFormat.format(d2);
+				Date lahirBalita = balita.getTanggalLahirBalita();
+				Date tanggalCheckup = data.getTanggalCheckup();
+				result.remove("idBalita");
+				result.remove("tanggalCheckup");
+				result.remove("tanggalCheckupBerikutnya");
+				result.put("tanggalCheckup", date1);
+				result.put("tanggalCheckupBerikutnya", date2);
+				result.put("idBalita",balita.getIdBalita());
+				result.put("umurBalita",getMonthsDifference(lahirBalita, tanggalCheckup));
+				return new ResponseEntity<>(result,HttpStatus.OK);
 			}
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<CheckUp> updateCheckup(@RequestBody CheckUp checkup,@PathVariable("id") Integer id){
+	public ResponseEntity<Map<String, Object>> updateCheckup(@RequestBody CreateCheckupEntity checkup,@PathVariable("id") Integer id){
 		CheckUp _checkup = checkupSer.getById(id);
 		
 		if(_checkup==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		else {
-			_checkup.setIdBalita(checkup.getIdBalita());
 			_checkup.setBeratBadan(checkup.getBeratBadan());
 			_checkup.setLingkarKepala(checkup.getLingkarKepala());
 			_checkup.setLingkarLengan(checkup.getLingkarLengan());
@@ -80,7 +109,26 @@ public class CheckupController {
 			
 			checkupSer.insert(_checkup);
 			
-			return new ResponseEntity<>(_checkup,HttpStatus.OK);
+			ObjectMapper oMapper = new ObjectMapper();
+			Balita z = _checkup.getIdBalita();
+			@SuppressWarnings("unchecked")
+			Map<String, Object> result = oMapper.convertValue(_checkup, Map.class);
+			String pattern = "yyyy-MM-dd";
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+			Date d1 = new Date(Long.parseLong(result.get("tanggalCheckup").toString()));
+			Date d2 = new Date(Long.parseLong(result.get("tanggalCheckupBerikutnya").toString()));
+			String date1 = simpleDateFormat.format(d1);
+			String date2 = simpleDateFormat.format(d2);
+			Date lahirBalita = z.getTanggalLahirBalita();
+			Date tanggalCheckup = _checkup.getTanggalCheckup();
+			result.remove("idBalita");
+			result.remove("tanggalCheckup");
+			result.remove("tanggalCheckupBerikutnya");
+			result.put("tanggalCheckup", date1);
+			result.put("tanggalCheckupBerikutnya", date2);
+			result.put("idBalita",z.getIdBalita());
+			result.put("umurBalita",getMonthsDifference(lahirBalita, tanggalCheckup));
+			return new ResponseEntity<>(result,HttpStatus.OK);
 		}
 	}
 	
@@ -200,7 +248,6 @@ public class CheckupController {
 				result.put("idBalita",x.getIdBalita());
 				result.put("umurBalita",getMonthsDifference(lahirBalita, tanggalCheckup));
 				return new ResponseEntity<>(result,HttpStatus.OK);
-				
 		  }
 		  
 	  }
@@ -220,8 +267,17 @@ public class CheckupController {
 	  }
 	  
 	  @GetMapping("/user/{id}")
-	  public void getDataforGraph(@PathVariable("id") Integer id) {
+	  public List<CheckupInterface> getDataforGraphbyIdOrangTua(@PathVariable("id") Integer id) {
+		  List<CheckupInterface> res = checkupSer.getGraphByIdOrangTua(id);
 		  
+		  return res;
+	  }
+	  
+	  @GetMapping("/graph/balita/{id}")
+	  public List<CheckupInterface> getDataforGraphbyIdBalita(@PathVariable("id") Integer id) {
+		  List<CheckupInterface> res = checkupSer.getGraphByIdBalita(id);
+		  
+		  return res;
 	  }
 	  
 	  public static final long getMonthsDifference(Date date1, Date date2) {
