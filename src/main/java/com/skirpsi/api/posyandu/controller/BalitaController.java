@@ -187,7 +187,6 @@ public class BalitaController {
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 			Date d = new Date(Long.parseLong(result.get("tanggalLahirBalita").toString()));
 			String date = simpleDateFormat.format(d);
-			result.put("namaOrangTua", ortu.getNamaUser());
 			result.put("nikOrangTua", ortu.getNikUser());
 	    	result.remove("idUser");
 	    	result.remove("tanggalLahirBalita");
