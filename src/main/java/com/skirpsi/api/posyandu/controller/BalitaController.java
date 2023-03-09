@@ -60,6 +60,8 @@ public class BalitaController {
 				Date d = new Date(Long.parseLong( x.get("tanggalLahirBalita").toString()));
 				String date = simpleDateFormat.format(d);
 				x.put("namaOrangTua", ortu.getNamaUser());
+//				 "nikOrangTua" : "12341245",
+				x.put("nikOrangTua", ortu.getNikUser());
 				x.remove("tanggalLahirBalita");
 				x.put("tanggalLahirBalita", date);
 				res.add(x);
@@ -91,6 +93,7 @@ public class BalitaController {
 				Date d = new Date(Long.parseLong( x.get("tanggalLahirBalita").toString()));
 				String date = simpleDateFormat.format(d);
 				x.put("namaOrangTua", ortu.getNamaUser());
+				x.put("nikOrangTua", ortu.getNikUser());
 				x.remove("tanggalLahirBalita");
 				x.put("tanggalLahirBalita", date);
 				res.add(x);
@@ -115,6 +118,7 @@ public class BalitaController {
 			Date d = new Date(Long.parseLong(result.get("tanggalLahirBalita").toString()));
 			String date = simpleDateFormat.format(d);
 			result.put("namaOrangTua", ortu.getNamaUser());
+			result.put("nikOrangTua", ortu.getNikUser());
 			result.remove("tanggalLahirBalita");
 			result.put("tanggalLahirBalita", date);
 			return new ResponseEntity<>(result,HttpStatus.OK);
@@ -153,6 +157,7 @@ public class BalitaController {
 				Date d = new Date(Long.parseLong(result.get("tanggalLahirBalita").toString()));
 				String date = simpleDateFormat.format(d);
 				result.put("namaOrangTua", user.getNamaUser());
+				result.put("nikOrangTua", user.getNikUser());
 		    	result.remove("tanggalLahirBalita");
 		    	result.put("tanggalLahirBalita", date);
 				return new ResponseEntity<>(result,HttpStatus.OK);
@@ -183,34 +188,7 @@ public class BalitaController {
 			Date d = new Date(Long.parseLong(result.get("tanggalLahirBalita").toString()));
 			String date = simpleDateFormat.format(d);
 			result.put("namaOrangTua", ortu.getNamaUser());
-	    	result.remove("idUser");
-	    	result.remove("tanggalLahirBalita");
-	    	result.put("tanggalLahirBalita", date);
-			return new ResponseEntity<>(result,HttpStatus.OK);
-		}
-		
-	}
-	
-	@PutMapping("/old/{id}")
-	public ResponseEntity<Map<String, Object>> updateBalitaold(@RequestBody Balita balita,@PathVariable("id") Integer id){
-		Balita _balita = balitaSer.getById(id);
-
-		if(_balita==null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}else {
-			_balita.setBeratSaatLahirBalita(balita.getBeratSaatLahirBalita());
-			_balita.setJenisKelaminBalita(balita.getJenisKelaminBalita());
-			_balita.setNamaBalita(balita.getNamaBalita());
-			System.out.println(_balita.getTanggalLahirBalita());
-			_balita.setTempatLahirBalita(balita.getTempatLahirBalita());
-			_balita.setTinggiSaatLahirBalita(balita.getTinggiSaatLahirBalita());
-			ObjectMapper oMapper = new ObjectMapper();
-	    	@SuppressWarnings("unchecked")
-			Map<String, Object> result = oMapper.convertValue(_balita, Map.class);
-	    	String pattern = "yyyy-MM-dd";
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-			Date d = new Date(Long.parseLong(result.get("tanggalLahirBalita").toString()));
-			String date = simpleDateFormat.format(d);
+			result.put("nikOrangTua", ortu.getNikUser());
 	    	result.remove("idUser");
 	    	result.remove("tanggalLahirBalita");
 	    	result.put("tanggalLahirBalita", date);
