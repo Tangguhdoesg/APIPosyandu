@@ -167,7 +167,7 @@ public class BalitaController {
 	@PutMapping("/{id}")
 	public ResponseEntity<Map<String, Object>> updateBalita(@RequestBody CreateBalitaEntity balita,@PathVariable("id") Integer id){
 		Balita _balita = balitaSer.getById(id);
-
+		UserPosyandu newOrtu = userSer.getByNIKUser(balita.getNikOrangTua());
 		if(_balita==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}else {
@@ -176,6 +176,7 @@ public class BalitaController {
 			_balita.setNamaBalita(balita.getNamaBalita());
 			_balita.setTempatLahirBalita(balita.getTempatLahirBalita());
 			_balita.setTinggiSaatLahirBalita(balita.getTinggiSaatLahirBalita());
+			_balita.setIdUser(newOrtu);
 			
 			balitaSer.Insert(_balita);
 			UserPosyandu ortu = userSer.getOneById(_balita.getIdUser().getIdUser());
