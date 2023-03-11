@@ -87,46 +87,49 @@ public class UserController {
 		newUser.setNikUser(user.getNikUser());
 		newUser.setTanggalLahirUser(user.getTanggalLahirUser());
 		
-		User userReq = new User(newUser.getNoTeleponUser(),
-				 encoder.encode(defPass));
+		UserPosyandu x = userServ.insert(newUser);
+//		whatsServ.sendPassword(x);
+		if(x==null) {
+			userServ.delete(newUser.getIdUser());
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}else {
+			User userReq = new User(x.getNoTeleponUser(),
+					 encoder.encode(defPass));
 
-		Set<Role> roles = new HashSet<>();
-		if(newUser.getTipeUser()==0) {
-			Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-			roles.add(adminRole);
-		}else if(newUser.getTipeUser()==1) {
-			Role modRole = roleRepository.findByName(ERole.ROLE_PETUGAS)
-					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-			roles.add(modRole);
-		}else {
-			Role userRole = roleRepository.findByName(ERole.ROLE_ORANGTUA)
-					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-			roles.add(userRole);
-		}
-		userReq.setRoles(roles);
-		User newUsernameAndPassword = userRepository.save(userReq);
-		if(newUsernameAndPassword == null) {
-			userRepository.delete(userReq);
-			return new ResponseEntity<>(HttpStatus.CONFLICT);
-		}else {
-			UserPosyandu x = userServ.insert(newUser);
+			Set<Role> roles = new HashSet<>();
+			if(x.getTipeUser()==0) {
+				Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+						.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+				roles.add(adminRole);
+			}else if(x.getTipeUser()==1) {
+				Role modRole = roleRepository.findByName(ERole.ROLE_PETUGAS)
+						.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+				roles.add(modRole);
+			}else {
+				Role userRole = roleRepository.findByName(ERole.ROLE_ORANGTUA)
+						.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+				roles.add(userRole);
+			}
+			userReq.setRoles(roles);
+			userRepository.save(userReq);
 			return new ResponseEntity<>(x,HttpStatus.OK);
 		}
 	}
 	@PostMapping("/login")
 	public ResponseEntity<Map<String, Object>> login(@Valid @RequestBody LoginRequest loginRequest){
+		System.out.println(loginRequest.getnotelepon());
+		System.out.println(loginRequest.getPassword());
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getnotelepon(), loginRequest.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
-		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
+		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();	
+		System.out.println("Login : " + userDetails.getId().intValue());
 		UserPosyandu retUser = userServ.getOneById(userDetails.getId().intValue());
 		ObjectMapper oMapper = new ObjectMapper();
 		
 		@SuppressWarnings("unchecked")
 		Map<String, Object> result = oMapper.convertValue(retUser, Map.class);
-		System.out.println(userDetails.getId());
 		if(result==null) {
 			return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
 		}else {
@@ -135,7 +138,6 @@ public class UserController {
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 			Date d = new Date(Long.parseLong(result.get("tanggalLahirUser").toString()));
 			String date = simpleDateFormat.format(d);
-			System.out.println(date);
 			result.remove("passwordUser");
 			result.remove("tanggalLahirUser");
 			result.put("tanggalLahirUser", date);
