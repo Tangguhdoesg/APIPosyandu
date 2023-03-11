@@ -128,6 +128,8 @@ public class CheckupController {
 			result.put("tanggalCheckupBerikutnya", date2);
 			result.put("idBalita",z.getIdBalita());
 			result.put("umurBalita",getMonthsDifference(lahirBalita, tanggalCheckup));
+			result.put("namaBalita",z.getNamaBalita());
+			result.put("namaOrangTua",z.getIdUser().getNamaUser());
 			return new ResponseEntity<>(result,HttpStatus.OK);
 		}
 	}
@@ -174,6 +176,8 @@ public class CheckupController {
 					x.put("tanggalCheckupBerikutnya", date2);
 					x.put("idBalita",z.getIdBalita());
 					x.put("umurBalita",getMonthsDifference(lahirBalita, tanggalCheckup));
+					x.put("namaBalita",z.getNamaBalita());
+					x.put("namaOrangTua",z.getIdUser().getNamaUser());
 					res.add(x);
 					count++;
 			  }
@@ -211,6 +215,8 @@ public class CheckupController {
 					x.put("tanggalCheckupBerikutnya", date2);
 					x.put("idBalita",z.getIdBalita());
 					x.put("umurBalita",getMonthsDifference(lahirBalita, tanggalCheckup));
+					x.put("namaBalita",z.getNamaBalita());
+					x.put("namaOrangTua",z.getIdUser().getNamaUser());
 					res.add(x);
 					count++;
 			  }
@@ -247,6 +253,8 @@ public class CheckupController {
 				result.put("tanggalCheckupBerikutnya", date2);
 				result.put("idBalita",x.getIdBalita());
 				result.put("umurBalita",getMonthsDifference(lahirBalita, tanggalCheckup));
+				result.put("namaBalita",x.getNamaBalita());
+				result.put("namaOrangTua",x.getIdUser().getNamaUser());
 				return new ResponseEntity<>(result,HttpStatus.OK);
 		  }
 		  
