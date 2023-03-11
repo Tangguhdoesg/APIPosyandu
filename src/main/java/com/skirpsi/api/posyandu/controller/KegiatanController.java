@@ -99,7 +99,6 @@ public class KegiatanController {
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Kegiatan> deleteKegiatan(@PathVariable("id") Integer id){
-//		Optional<Kegiatan> kegiatanData = kegiatanRepo.findById(id);
 		Kegiatan x = kegiatanSer.delete(id);
 		
 		if(x==null) {
@@ -130,8 +129,6 @@ public class KegiatanController {
 		List<KegiatanInterface> res = kegiatanSer.getForReminderKegiatan();
 		
 		for (KegiatanInterface x : res) {
-//			  Balita balita = balitaServ.getById(x.getIdBalita());
-//			  UserPosyandu user = balita.getIdUser();
 			  List<UserInterface> allUser = userServ.getAllOrangTua();
 			  for (UserInterface y : allUser) {
 				  whatServ.sendReminderKegiatan(y,x);

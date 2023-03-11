@@ -87,31 +87,30 @@ public class UserController {
 		newUser.setNikUser(user.getNikUser());
 		newUser.setTanggalLahirUser(user.getTanggalLahirUser());
 		
-		UserPosyandu x = userServ.insert(newUser);
-//		whatsServ.sendPassword(x);
-		if(x==null) {
-			userServ.delete(x.getIdUser());
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}else {
-			User userReq = new User(x.getNoTeleponUser(),
-					 encoder.encode(defPass));
+		User userReq = new User(newUser.getNoTeleponUser(),
+				 encoder.encode(defPass));
 
-			Set<Role> roles = new HashSet<>();
-			if(x.getTipeUser()==0) {
-				Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-						.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-				roles.add(adminRole);
-			}else if(x.getTipeUser()==1) {
-				Role modRole = roleRepository.findByName(ERole.ROLE_PETUGAS)
-						.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-				roles.add(modRole);
-			}else {
-				Role userRole = roleRepository.findByName(ERole.ROLE_ORANGTUA)
-						.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-				roles.add(userRole);
-			}
-			userReq.setRoles(roles);
-			userRepository.save(userReq);
+		Set<Role> roles = new HashSet<>();
+		if(newUser.getTipeUser()==0) {
+			Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+			roles.add(adminRole);
+		}else if(newUser.getTipeUser()==1) {
+			Role modRole = roleRepository.findByName(ERole.ROLE_PETUGAS)
+					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+			roles.add(modRole);
+		}else {
+			Role userRole = roleRepository.findByName(ERole.ROLE_ORANGTUA)
+					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+			roles.add(userRole);
+		}
+		userReq.setRoles(roles);
+		User newUsernameAndPassword = userRepository.save(userReq);
+		if(newUsernameAndPassword == null) {
+			userRepository.delete(userReq);
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}else {
+			UserPosyandu x = userServ.insert(newUser);
 			return new ResponseEntity<>(x,HttpStatus.OK);
 		}
 	}
@@ -124,7 +123,6 @@ public class UserController {
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
 		UserPosyandu retUser = userServ.getOneById(userDetails.getId().intValue());
 		ObjectMapper oMapper = new ObjectMapper();
-		System.out.println(retUser.getTanggalLahirUser());
 		
 		@SuppressWarnings("unchecked")
 		Map<String, Object> result = oMapper.convertValue(retUser, Map.class);
