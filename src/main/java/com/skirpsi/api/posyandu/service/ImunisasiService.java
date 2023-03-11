@@ -17,6 +17,7 @@ public class ImunisasiService {
 	@Autowired ImunisasiRepository imunisasiRepo;
 	
 	public List<Imunisasi> getAll(){
+		System.out.println("IMUNIASI ALL");
 		List<Imunisasi> ret = imunisasiRepo.findAll();
 		
 		return ret;
@@ -60,8 +61,8 @@ public class ImunisasiService {
 		return x;
 	}
 	
-	public List<Imunisasi> getByBalita (Balita b){
-		List<Imunisasi> x = imunisasiRepo.findAllImunisasiByBalita(b);
+	public List<Imunisasi> getByIdBalita (Integer id){
+		List<Imunisasi> x = imunisasiRepo.findAllImunisasiByIdBalita(id);
 		
 		return x;
 	}
@@ -72,11 +73,11 @@ public class ImunisasiService {
 		return x;
 	}
 	
-	public List<ImunisasiInterface> getByIdBalita(Integer id) {
-		List<ImunisasiInterface> x = imunisasiRepo.findByIdBalitaWithoutBalitaObj(id);
-		
-		return x;
-	}
+//	public List<ImunisasiInterface> getByIdBalita(Integer id) {
+//		List<ImunisasiInterface> x = imunisasiRepo.findByIdBalitaWithoutBalitaObj(id);
+//		
+//		return x;
+//	}
 	
 	public List<ImunisasiInterface> getForReminderImunisasi(){
 		List<ImunisasiInterface> x = imunisasiRepo.getDataForReminderImunisasi();

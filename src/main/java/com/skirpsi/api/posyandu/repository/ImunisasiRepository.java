@@ -12,8 +12,8 @@ import com.skirpsi.api.posyandu.entity.intfc.ImunisasiInterface;
 public interface ImunisasiRepository extends JpaRepository<Imunisasi, Integer>{
 
 	
-	@Query("select i from Imunisasi i where i.idBalita = ?1")
-	List<Imunisasi> findAllImunisasiByBalita(Balita x);
+	@Query(value = "select * from imunisasi i where idBalita = ?1",nativeQuery =true)
+	List<Imunisasi> findAllImunisasiByIdBalita(Integer id);
 	
 	@Query(value = "select idimunisasi, idbalita, namaimunisasi ,tanggalimunisasi ,catatanimunisasi  from imunisasi i where idbalita = ?1", nativeQuery = true)
 	List<ImunisasiInterface> findByIdBalitaWithoutBalitaObj(Integer id);
