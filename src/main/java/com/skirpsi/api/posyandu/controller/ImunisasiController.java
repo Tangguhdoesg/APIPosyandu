@@ -43,29 +43,7 @@ public class ImunisasiController {
 	@Autowired WhatsappService whatServ;
 	
 	@Autowired UserPosyanduService userServ;
-	
-//	@GetMapping("/balita/all")
-//	public ResponseEntity<List<Imunisasi>> getAll(){
-//		List<Imunisasi> all = imunisasiSer.getAll();
-//		
-//		if(all.size()>0) {
-//			return new ResponseEntity<>(all,HttpStatus.OK);
-//		}else {
-//			return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
-//		}
-//	}
-//	
-//	@GetMapping("/balita/{id}")
-//	public ResponseEntity<Imunisasi> getImunisasiById(@PathVariable("id") Integer id){
-//		Imunisasi data = imunisasiSer.getById(id);
-//		
-//		if(data==null) {
-//			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//		}else {
-//			return new ResponseEntity<>(data,HttpStatus.OK);
-//		}
-//	}
-//	
+
 	@PostMapping()
 	public ResponseEntity<Imunisasi> createImunisasi(@RequestBody Imunisasi imunisasi){
 		Imunisasi x = imunisasiSer.insert(imunisasi);
@@ -184,7 +162,6 @@ public class ImunisasiController {
 				Balita z = y.getIdBalita();
 				String pattern = "yyyy-MM-dd";
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-				System.out.println(x.get("tanggalImunisasi"));
 				Date d1 = new Date(Long.parseLong(x.get("tanggalImunisasi").toString()));
 				Date d2 = new Date(Long.parseLong(x.get("tanggalImunisasiBerikutnya").toString()));
 				String date1 = simpleDateFormat.format(d1);

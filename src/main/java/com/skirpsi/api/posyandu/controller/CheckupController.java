@@ -13,6 +13,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.skirpsi.api.posyandu.entity.Balita;
@@ -56,7 +58,10 @@ public class CheckupController {
 	@PostMapping()
 	public ResponseEntity<Map<String, Object>> createCheckup(@RequestBody CreateCheckupEntity checkup){
 			CheckUp data = new CheckUp();
-			Balita balita = balitaServ.getById(checkup.getIdBalita());
+			Balita balita = balitaServ.getBalitaByNIK(checkup.getNikBalita());
+			if(balita==null) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
 			data.setBeratBadan(checkup.getBeratBadan());
 			data.setCatatan(checkup.getCatatan());
 			data.setIdBalita(balita);

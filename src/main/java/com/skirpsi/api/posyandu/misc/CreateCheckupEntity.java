@@ -23,4 +23,6 @@ public class CreateCheckupEntity {
 	private Timestamp tanggalCheckupBerikutnya;
 	
 	private String catatan;
+	
+	private String nikBalita;
 }
