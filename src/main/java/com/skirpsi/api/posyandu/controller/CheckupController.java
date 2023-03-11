@@ -94,6 +94,7 @@ public class CheckupController {
 				result.put("tanggalCheckupBerikutnya", date2);
 				result.put("idBalita",balita.getIdBalita());
 				result.put("umurBalita",getMonthsDifference(lahirBalita, tanggalCheckup));
+				result.put("namaBalita",balita.getNamaBalita());
 				return new ResponseEntity<>(result,HttpStatus.OK);
 			}
 	}
