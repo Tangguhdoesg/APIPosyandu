@@ -25,6 +25,7 @@ import com.skirpsi.api.posyandu.entity.Balita;
 import com.skirpsi.api.posyandu.entity.Imunisasi;
 import com.skirpsi.api.posyandu.entity.UserPosyandu;
 import com.skirpsi.api.posyandu.entity.intfc.ImunisasiInterface;
+import com.skirpsi.api.posyandu.misc.CreateImunisasiEntity;
 import com.skirpsi.api.posyandu.repository.ImunisasiRepository;
 import com.skirpsi.api.posyandu.service.BalitaService;
 import com.skirpsi.api.posyandu.service.ImunisasiService;
@@ -45,31 +46,77 @@ public class ImunisasiController {
 	@Autowired UserPosyanduService userServ;
 
 	@PostMapping()
-	public ResponseEntity<Imunisasi> createImunisasi(@RequestBody Imunisasi imunisasi){
-		Imunisasi x = imunisasiSer.insert(imunisasi);
+	public ResponseEntity<Map<String, Object>> createImunisasi(@RequestBody CreateImunisasiEntity imunisasi){
+		Imunisasi x = new Imunisasi();
 		
-		if(x==null) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}else {
-			return new ResponseEntity<>(x,HttpStatus.OK);
+		Balita balita = balitaServ.getBalitaByNIK(imunisasi.getNikBalita());
+		
+		if(balita==null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+		
+		x.setCatatanImunisasi(imunisasi.getCatatanImunisasi());
+		x.setIdBalita(balita);
+		x.setNamaImunisasi(imunisasi.getNamaImunisasi());
+		x.setTanggalImunisasi(imunisasi.getTanggalImunisasi());
+		x.setTanggalImunisasiBerikutnya(imunisasi.getTanggalImunisasiBerikutnya());
+		Imunisasi newImunisasi = imunisasiSer.insert(x);
+		if(newImunisasi == null) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		ObjectMapper oMapper = new ObjectMapper();
+		@SuppressWarnings("unchecked")
+		Map<String, Object> result = oMapper.convertValue(x, Map.class);
+		String pattern = "yyyy-MM-dd";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+		Date d1 = new Date(Long.parseLong(result.get("tanggalImunisasi").toString()));
+		Date d2 = new Date(Long.parseLong(result.get("tanggalImunisasiBerikutnya").toString()));
+		String date1 = simpleDateFormat.format(d1);
+		String date2 = simpleDateFormat.format(d2);
+		result.remove("tanggalImunisasi");
+		result.remove("tanggalImunisasiBerikutnya");
+		result.put("tanggalImunisasi", date1);
+		result.put("tanggalImunisasiBerikutnya", date2);
+		result.put("idBalita",balita.getIdBalita());
+		result.put("namaBalita",balita.getNamaBalita());
+		result.put("namaOrangTua",balita.getIdUser().getNamaUser());
+		result.put("nikBalita",balita.getNikBalita());
+		
+		return new ResponseEntity<>(result,HttpStatus.OK);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Imunisasi> updateImunisasi(@RequestBody Imunisasi imunisasi,@PathVariable("id") Integer id){
+	public ResponseEntity<Map<String, Object>> updateImunisasi(@RequestBody CreateImunisasiEntity imunisasi,@PathVariable("id") Integer id){
 		Imunisasi _imunisasi = imunisasiSer.getById(id);
 		
+		Balita balita = balitaServ.getBalitaByNIK(imunisasi.getNikBalita());
 		if(_imunisasi==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}else {
-			_imunisasi.setIdBalita(imunisasi.getIdBalita());
-			_imunisasi.setNamaImunisasi(imunisasi.getNamaImunisasi());
-			_imunisasi.setTanggalImunisasi(imunisasi.getTanggalImunisasi());
-			_imunisasi.setCatatan(imunisasi.getCatatan());
-			imunisasiSer.insert(_imunisasi);
-			
-			return new ResponseEntity<>(_imunisasi,HttpStatus.OK);
 		}
+		_imunisasi.setIdBalita(balita);
+		_imunisasi.setNamaImunisasi(imunisasi.getNamaImunisasi());
+		_imunisasi.setTanggalImunisasi(imunisasi.getTanggalImunisasi());
+		_imunisasi.setCatatanImunisasi(imunisasi.getCatatanImunisasi());
+		imunisasiSer.insert(_imunisasi);
+		ObjectMapper oMapper = new ObjectMapper();
+		@SuppressWarnings("unchecked")
+		Map<String, Object> result = oMapper.convertValue(_imunisasi, Map.class);
+		String pattern = "yyyy-MM-dd";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+		Date d1 = new Date(Long.parseLong(result.get("tanggalImunisasi").toString()));
+		Date d2 = new Date(Long.parseLong(result.get("tanggalImunisasiBerikutnya").toString()));
+		String date1 = simpleDateFormat.format(d1);
+		String date2 = simpleDateFormat.format(d2);
+		result.remove("tanggalImunisasi");
+		result.remove("tanggalImunisasiBerikutnya");
+		result.put("tanggalImunisasi", date1);
+		result.put("tanggalImunisasiBerikutnya", date2);
+		result.put("idBalita",balita.getIdBalita());
+		result.put("namaBalita",balita.getNamaBalita());
+		result.put("namaOrangTua",balita.getIdUser().getNamaUser());
+		result.put("nikBalita",balita.getNikBalita());
+		
+		return new ResponseEntity<>(result,HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
@@ -110,6 +157,7 @@ public class ImunisasiController {
 				x.put("idBalita",z.getIdBalita());
 				x.put("namaBalita",z.getNamaBalita());
 				x.put("namaOrangTua",z.getIdUser().getNamaUser());
+				x.put("nikBalita",z.getNikBalita());
 				res.add(x);
 				count++;
 
@@ -142,6 +190,7 @@ public class ImunisasiController {
 			result.put("idBalita",x.getIdBalita());
 			result.put("namaBalita",x.getNamaBalita());
 			result.put("namaOrangTua",x.getIdUser().getNamaUser());
+			result.put("nikBalita",x.getNikBalita());
 			return new ResponseEntity<>(result,HttpStatus.OK);
 		}
 	}
@@ -173,6 +222,7 @@ public class ImunisasiController {
 				x.put("idBalita",z.getIdBalita());
 				x.put("namaBalita",z.getNamaBalita());
 				x.put("namaOrangTua",z.getIdUser().getNamaUser());
+				x.put("nikBalita",z.getNikBalita());
 				res.add(x);
 				count++;
 

@@ -36,5 +36,5 @@ public class Imunisasi {
 	private Timestamp tanggalImunisasiBerikutnya;
 	
 	@Column(name="catatanimunisasi")
-	private String catatan;
+	private String catatanImunisasi;
 }

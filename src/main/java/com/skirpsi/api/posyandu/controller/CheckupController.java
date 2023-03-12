@@ -70,7 +70,6 @@ public class CheckupController {
 			data.setTanggalCheckup(checkup.getTanggalCheckup());
 			data.setTanggalCheckupBerikutnya(checkup.getTanggalCheckupBerikutnya());
 			data.setTinggiBadan(checkup.getTinggiBadan());
-			System.out.println();
 			CheckUp newCheckup = checkupSer.insert(data);
 			
 			if(newCheckup==null) {
@@ -104,6 +103,7 @@ public class CheckupController {
 	@PutMapping("/{id}")
 	public ResponseEntity<Map<String, Object>> updateCheckup(@RequestBody CreateCheckupEntity checkup,@PathVariable("id") Integer id){
 		CheckUp _checkup = checkupSer.getById(id);
+		Balita balita = balitaServ.getBalitaByNIK(checkup.getNikBalita());
 		
 		if(_checkup==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -116,6 +116,7 @@ public class CheckupController {
 			_checkup.setTanggalCheckupBerikutnya(checkup.getTanggalCheckupBerikutnya());
 			_checkup.setTinggiBadan(checkup.getTinggiBadan());
 			_checkup.setCatatan(checkup.getCatatan());
+			_checkup.setIdBalita(balita);
 			
 			checkupSer.insert(_checkup);
 			
