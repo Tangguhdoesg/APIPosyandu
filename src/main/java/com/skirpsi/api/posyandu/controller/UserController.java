@@ -94,7 +94,7 @@ public class UserController {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}else {
 			User userReq = new User(x.getNoTeleponUser(),
-					 encoder.encode(defPass));
+					 encoder.encode(defPass),x.getIdUser());
 
 			Set<Role> roles = new HashSet<>();
 			if(x.getTipeUser()==0) {
@@ -116,16 +116,16 @@ public class UserController {
 		}
 	}
 	@PostMapping("/login")
-	public ResponseEntity<Map<String, Object>> login(@Valid @RequestBody LoginRequest loginRequest){
-		System.out.println(loginRequest.getnotelepon());
-		System.out.println(loginRequest.getPassword());
+	public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest){
+//		System.out.println(loginRequest.getnotelepon());
+//		System.out.println(loginRequest.getPassword());
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getnotelepon(), loginRequest.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();	
-		System.out.println("Login : " + userDetails.getId().intValue());
-		UserPosyandu retUser = userServ.getOneById(userDetails.getId().intValue());
+//		System.out.println("Login : " + userDetails.getIdUser());
+		UserPosyandu retUser = userServ.getOneById(userDetails.getIdUser());
 		ObjectMapper oMapper = new ObjectMapper();
 		
 		@SuppressWarnings("unchecked")
