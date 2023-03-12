@@ -115,7 +115,7 @@ public class UserController {
 			return new ResponseEntity<>(x,HttpStatus.OK);
 		}
 	}
-	@PostMapping("/signin")
+	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody LoginRequest logReq){
 		System.out.println(logReq.getNotelepon());
 		System.out.println(logReq.getPassword());
