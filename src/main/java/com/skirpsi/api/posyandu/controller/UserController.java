@@ -115,16 +115,16 @@ public class UserController {
 			return new ResponseEntity<>(x,HttpStatus.OK);
 		}
 	}
-	@PostMapping("/login")
-	public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest){
-//		System.out.println(loginRequest.getnotelepon());
-//		System.out.println(loginRequest.getPassword());
+	@PostMapping("/signin")
+	public ResponseEntity<?> login(@RequestBody LoginRequest logReq){
+		System.out.println(logReq.getNotelepon());
+		System.out.println(logReq.getPassword());
 		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(loginRequest.getnotelepon(), loginRequest.getPassword()));
+				new UsernamePasswordAuthenticationToken(logReq.getNotelepon(), logReq.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();	
-//		System.out.println("Login : " + userDetails.getIdUser());
+		System.out.println("Login : " + userDetails.getIdUser());
 		UserPosyandu retUser = userServ.getOneById(userDetails.getIdUser());
 		ObjectMapper oMapper = new ObjectMapper();
 		
