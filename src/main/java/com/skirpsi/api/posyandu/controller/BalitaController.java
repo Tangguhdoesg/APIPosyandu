@@ -176,6 +176,7 @@ public class BalitaController {
 			_balita.setNamaBalita(balita.getNamaBalita());
 			_balita.setTempatLahirBalita(balita.getTempatLahirBalita());
 			_balita.setTinggiSaatLahirBalita(balita.getTinggiSaatLahirBalita());
+			_balita.setTanggalLahirBalita(balita.getTanggalLahirBalita());
 			_balita.setIdUser(newOrtu);
 			
 			balitaSer.Insert(_balita);
