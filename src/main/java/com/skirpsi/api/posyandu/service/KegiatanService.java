@@ -79,5 +79,11 @@ public class KegiatanService {
 		return x;
 	}
 	
+	public List<KegiatanInterface> getKegiatanByUserId(Integer id){
+		List<KegiatanInterface> x = kegiatanRepo.findAllByUserId(id);
+		
+		return x;
+	}
+	
 
 }

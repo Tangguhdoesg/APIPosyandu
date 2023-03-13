@@ -10,5 +10,6 @@ public interface KegiatanInterface {
 	String getLokasiKegiatan();
 	byte[] getPosterKegiatan();
 	String getNamaPosterKegiatan();
+	Integer getIdUser();
 
 }

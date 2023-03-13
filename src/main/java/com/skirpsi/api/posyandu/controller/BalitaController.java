@@ -77,8 +77,6 @@ public class BalitaController {
 		
 		List<BalitaInterface> data = balitaSer.getByIdWithIdUser(id);
 		
-		
-		
 		if(data==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}else {
