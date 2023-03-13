@@ -136,7 +136,7 @@ public class KegiatanController {
 	public ResponseEntity<List<Map<String, Object>>> findAllWithoutUser(){
 		List<KegiatanInterface> data = kegiatanSer.findALlWithoutUser();
 		
-		if(data.size()==0) {
+		if(data==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);	
 		}
 		
