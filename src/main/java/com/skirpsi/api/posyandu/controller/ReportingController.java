@@ -1,14 +1,20 @@
 package com.skirpsi.api.posyandu.controller;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Properties;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -26,10 +32,22 @@ public class ReportingController {
 	@Autowired private JavaMailSender javaMailSender;
 	@Autowired ReportService reportServ;
 	@GetMapping("/excel")
-	public void generateExcel() {  
+	public ResponseEntity<byte[]> generateExcel() {  
 		String dateFrom = "2023-02-01";
 		String dateTo = "2023-02-28";
-		reportServ.createCheckupReport(dateFrom, dateTo);
+		File file = reportServ.createCheckupReport(dateFrom, dateTo);
+		if(file==null) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+	    try {
+			return ResponseEntity.ok()
+			        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
+			        .body(Files.readAllBytes(file.toPath()));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		
 	}
 	
 	

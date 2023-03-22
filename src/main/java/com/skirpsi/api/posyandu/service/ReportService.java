@@ -1,5 +1,6 @@
 package com.skirpsi.api.posyandu.service;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
 
@@ -18,7 +19,8 @@ public class ReportService {
 	
 	@Autowired CheckupRepository checkupRepo;
 
-	public void createCheckupReport(String dateFrom, String dateTo) {
+	public File createCheckupReport(String dateFrom, String dateTo) {
+		String lokasiFile = "D:/random/excelTest.xlsx";
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		XSSFSheet sheet = workbook.createSheet("Test new Sheet");
 		
@@ -42,23 +44,12 @@ public class ReportService {
 		headerCell.setCellValue("alamatdomisili");
 		headerCell = titleRow.createCell(7);
 		headerCell.setCellValue("namaorangtua");
-//		headerCell = titleRow.createCell(8);
-//		headerCell.setCellValue("status");
 		headerCell = titleRow.createCell(8);
 		headerCell.setCellValue("tanggaltimbang");
 		headerCell = titleRow.createCell(9);
 		headerCell.setCellValue("berat");
 		headerCell = titleRow.createCell(10);
 		headerCell.setCellValue("tinggi");
-//		headerCell = titleRow.createCell(12);
-//		headerCell.setCellValue("caraukur");
-//		headerCell = titleRow.createCell(13);
-//		headerCell.setCellValue("vitamin");
-//		headerCell = titleRow.createCell(14);
-//		headerCell.setCellValue("taburia");
-//		headerCell = titleRow.createCell(15);
-//		headerCell.setCellValue("lila");
-//		headerCell = titleRow.createCell(16);
 		
 		Integer count=1;
 		
@@ -77,10 +68,10 @@ public class ReportService {
 			dataRowCell.setCellValue(x.getNamaBalita());
 			
 			dataRowCell = dataRow.createCell(4);
-			dataRowCell.setCellValue(x.getBeratSaatLahir());
+			dataRowCell.setCellValue(x.getBeratSaatLahirBalita());
 			
 			dataRowCell = dataRow.createCell(5);
-			dataRowCell.setCellValue(x.getTinggiSaatLahir());
+			dataRowCell.setCellValue(x.getTinggiSaatLahirBalita());
 			
 			dataRowCell = dataRow.createCell(6);
 			dataRowCell.setCellValue(x.getAlamatUser());
@@ -105,12 +96,17 @@ public class ReportService {
 		}
 		
 		try {
-			FileOutputStream out = new FileOutputStream("D:/random/excelTest.xlsx");
+			FileOutputStream out = new FileOutputStream(lokasiFile);
             workbook.write(out);
             workbook.close();
+            
+            File fileExcel = new File(lokasiFile);
+            
+            return fileExcel;
+            		
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
+			return null;
 		}
 		
 	}

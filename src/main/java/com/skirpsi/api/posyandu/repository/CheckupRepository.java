@@ -23,7 +23,7 @@ public interface CheckupRepository extends JpaRepository<CheckUp, Integer>{
 	@Query(value="select idcheckup, idbalita , tinggibadan ,beratbadan ,lingkarkepala ,lingkarlengan , tanggalcheckup ,tanggalcheckupberikutnya ,catatancheckup from checkup c  where tanggalcheckupberikutnya > current_date + interval '1 day' ",nativeQuery = true)
 	List<CheckupInterface> getDataforReminder();
 	
-	@Query(value="select b.idbalita as idBalita , namabalita as namabalita, nikbalita as nikbalita, beratsaatlahir as beratsaatlahir, tinggisaatlahir as tinggisaatlahir, u.alamatuser as alamatuser , u.namauser as namauser, c.tanggalcheckup as tanggalcheckup, c.beratbadan as beratbadan, c.tinggibadan as tinggibadan  from balita b "
+	@Query(value="select b.idbalita as idBalita , namabalita as namabalita, nikbalita as nikbalita, beratsaatlahirbalita as beratsaatlahirbalita, tinggisaatlahirbalita as tinggisaatlahirbalita, u.alamatuser as alamatuser , u.namauser as namauser, c.tanggalcheckup as tanggalcheckup, c.beratbadan as beratbadan, c.tinggibadan as tinggibadan  from balita b "
 			+ "join userposyandu u on u.iduser =b.idorangtua "
 			+ "join checkup c on c.idcheckup = b.idbalita "
 			+ "where c.tanggalcheckup >= TO_TIMESTAMP(?1,'YYYY-MM-DD') and c.tanggalcheckup <= TO_TIMESTAMP(?2,'YYYY-MM-DD') ",nativeQuery = true)

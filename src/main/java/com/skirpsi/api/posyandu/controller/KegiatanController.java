@@ -1,11 +1,17 @@
 
 package com.skirpsi.api.posyandu.controller;
 
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.annotation.MultipartConfig;
 
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +21,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -50,49 +57,99 @@ public class KegiatanController {
 	@Autowired BalitaService balitaServ;
 	
 	@PostMapping()
-	public ResponseEntity<Map<String, Object>> createKegiatan(@RequestBody CreateKegiatan kegiatan,@RequestParam("file") MultipartFile file){
+	public ResponseEntity<Map<String, Object>> createKegiatan(@ModelAttribute CreateKegiatan kegiatan,@RequestParam(value = "file",required = false) MultipartFile file){
+		
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+  		Date date = new Date();
+		try {
+			date = formatter.parse(kegiatan.getTanggalKegiatan());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+  		Timestamp timeStampDate = new Timestamp(date.getTime());
+
 		UserPosyandu user = userServ.getByNIKUser(kegiatan.getNikPenanggungjawab());
-		
-		System.out.println(kegiatan.getNamaKegiatan());
-		System.out.println(kegiatan.getNikPenanggungjawab());
-		System.out.println(file.getOriginalFilename());
-		
 		if(user==null) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
 		Kegiatan newKegiatan = new Kegiatan();
+		newKegiatan.setLokasiKegiatan(kegiatan.getLokasiKegiatan());
+		newKegiatan.setNamaKegiatan(kegiatan.getNamaKegiatan());
+		newKegiatan.setPenanggungJawabKegiatan(user);
+		newKegiatan.setTanggalKegiatan(timeStampDate);
+		if(file!=null) {
+			newKegiatan.setNamaPosterKegiatan(file.getOriginalFilename());
+			try {
+				newKegiatan.setPosterKegiatan(file.getBytes());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
-//		Kegiatan  x = kegiatanSer.insert(newKegiatan);
-		Kegiatan  x = newKegiatan;
+		Kegiatan  x = kegiatanSer.insert(newKegiatan);
 		
-//		if(x==null) {
-//			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//		}
+		if(x==null) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		ObjectMapper oMapper = new ObjectMapper();
     	@SuppressWarnings("unchecked")
 		Map<String, Object> result = oMapper.convertValue(x, Map.class);
+		String pattern = "yyyy-MM-dd";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+		Date d = new Date(Long.parseLong(result.get("tanggalKegiatan").toString()));
+		String datex = simpleDateFormat.format(d);
+		result.put("nikPetugas", user.getNikUser());
+		result.put("namaPetugas", user.getNamaUser());
+		result.remove("tanggalKegiatan");
+		result.remove("penanggungJawabKegiatan");
+		result.put("tanggalKegiatan", datex);
 		return new ResponseEntity<>(result,HttpStatus.OK);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Map<String, Object>> updateKegiatan(@RequestBody Kegiatan kegiatan,@PathVariable("id") Integer id){
+	public ResponseEntity<Map<String, Object>> updateKegiatan(@ModelAttribute CreateKegiatan kegiatan,@PathVariable("id") Integer id,
+			@RequestParam(value = "file",required = false) MultipartFile file){
 		Kegiatan keg = kegiatanSer.getById(id);
-
+		UserPosyandu user = userServ.getByNIKUser(kegiatan.getNikPenanggungjawab());
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+  		Date date = new Date();
+		try {
+			date = formatter.parse(kegiatan.getTanggalKegiatan());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+  		Timestamp timeStampDate = new Timestamp(date.getTime());
 		if(keg==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}else {
-			keg.setTanggalKegiatan(kegiatan.getTanggalKegiatan());
+			keg.setTanggalKegiatan(timeStampDate);
 			keg.setLokasiKegiatan(kegiatan.getLokasiKegiatan());
 			keg.setNamaKegiatan(kegiatan.getNamaKegiatan());
-			keg.setNamaPosterKegiatan(kegiatan.getNamaPosterKegiatan());
-			keg.setPosterKegiatan(kegiatan.getPosterKegiatan());
-			
+			if(file!=null) {
+				try {
+					keg.setPosterKegiatan(file.getBytes());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				keg.setNamaPosterKegiatan(file.getOriginalFilename());
+			}
 			kegiatanSer.insert(keg);
 			
 			ObjectMapper oMapper = new ObjectMapper();
 	    	@SuppressWarnings("unchecked")
 			Map<String, Object> result = oMapper.convertValue(keg, Map.class);
-	    	result.remove("penanggungJawabKegiatan");
+	    	String pattern = "yyyy-MM-dd";
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+			Date d = new Date(Long.parseLong(result.get("tanggalKegiatan").toString()));
+			String datex = simpleDateFormat.format(d);
+			result.put("nikPetugas", user.getNikUser());
+			result.put("namaPetugas", user.getNamaUser());
+			result.remove("tanggalKegiatan");
+			result.remove("penanggungJawabKegiatan");
+			result.put("tanggalKegiatan", datex);
 			return new ResponseEntity<>(result,HttpStatus.OK);
 		}
 	}

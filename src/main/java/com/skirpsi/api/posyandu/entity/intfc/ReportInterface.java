@@ -7,8 +7,8 @@ public interface ReportInterface {
 	Integer getIdBalita();
 	String getNamaBalita();
 	String getNikbalita();
-	Float getBeratSaatLahir();
-	Float getTinggiSaatLahir();
+	Float getBeratSaatLahirBalita();
+	Float getTinggiSaatLahirBalita();
 	String getAlamatUser();
 	String getNamaUser();
 	Date getTanggalCheckup();
