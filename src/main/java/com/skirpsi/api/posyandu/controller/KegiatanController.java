@@ -57,18 +57,10 @@ public class KegiatanController {
 	@Autowired BalitaService balitaServ;
 	
 	@PostMapping()
-	public ResponseEntity<Map<String, Object>> createKegiatan(@ModelAttribute CreateKegiatan kegiatan,@RequestParam(value = "file",required = false) MultipartFile file){
-		
-		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-  		Date date = new Date();
-		try {
-			date = formatter.parse(kegiatan.getTanggalKegiatan());
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-  		Timestamp timeStampDate = new Timestamp(date.getTime());
-
+	public ResponseEntity<Map<String, Object>> createKegiatan(@RequestBody CreateKegiatan kegiatan,@RequestParam(value = "file",required = false) MultipartFile file){
+		System.out.println(kegiatan.getLokasiKegiatan());
+		System.out.println(kegiatan.getNamaKegiatan());
+		System.out.println(kegiatan.getNikPenanggungjawab());
 		UserPosyandu user = userServ.getByNIKUser(kegiatan.getNikPenanggungjawab());
 		if(user==null) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -77,7 +69,7 @@ public class KegiatanController {
 		newKegiatan.setLokasiKegiatan(kegiatan.getLokasiKegiatan());
 		newKegiatan.setNamaKegiatan(kegiatan.getNamaKegiatan());
 		newKegiatan.setPenanggungJawabKegiatan(user);
-		newKegiatan.setTanggalKegiatan(timeStampDate);
+		newKegiatan.setTanggalKegiatan(kegiatan.getTanggalKegiatan());
 		if(file!=null) {
 			newKegiatan.setNamaPosterKegiatan(file.getOriginalFilename());
 			try {
@@ -109,22 +101,15 @@ public class KegiatanController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Map<String, Object>> updateKegiatan(@ModelAttribute CreateKegiatan kegiatan,@PathVariable("id") Integer id,
+	public ResponseEntity<Map<String, Object>> updateKegiatan(@RequestBody CreateKegiatan kegiatan,@PathVariable("id") Integer id,
 			@RequestParam(value = "file",required = false) MultipartFile file){
 		Kegiatan keg = kegiatanSer.getById(id);
 		UserPosyandu user = userServ.getByNIKUser(kegiatan.getNikPenanggungjawab());
-		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-  		Date date = new Date();
-		try {
-			date = formatter.parse(kegiatan.getTanggalKegiatan());
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-  		Timestamp timeStampDate = new Timestamp(date.getTime());
+
 		if(keg==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}else {
-			keg.setTanggalKegiatan(timeStampDate);
+			keg.setTanggalKegiatan(kegiatan.getTanggalKegiatan());
 			keg.setLokasiKegiatan(kegiatan.getLokasiKegiatan());
 			keg.setNamaKegiatan(kegiatan.getNamaKegiatan());
 			if(file!=null) {

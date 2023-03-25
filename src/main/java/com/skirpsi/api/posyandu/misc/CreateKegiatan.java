@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class CreateKegiatan {
 	private String namaKegiatan;
-	private String tanggalKegiatan;
+	private Timestamp tanggalKegiatan;
 	private String lokasiKegiatan;
 	private String nikPenanggungjawab;
 }
