@@ -107,7 +107,7 @@ public class KegiatanController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Map<String, Object>> updateKegiatan(@RequestBody CreateKegiatan kegiatan,@PathVariable("id") Integer id,
+	public ResponseEntity<Map<String, Object>> updateKegiatan(@ModelAttribute CreateKegiatan kegiatan,@PathVariable("id") Integer id,
 			@RequestParam(value = "file",required = false) MultipartFile file){
 		Kegiatan keg = kegiatanSer.getById(id);
 		UserPosyandu user = userServ.getByNIKUser(kegiatan.getNikPetugas());
