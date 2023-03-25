@@ -61,6 +61,7 @@ public class KegiatanController {
 		System.out.println(kegiatan.getLokasiKegiatan());
 		System.out.println(kegiatan.getNamaKegiatan());
 		System.out.println(kegiatan.getNikPenanggungjawab());
+		System.out.println("FILE : " + file.getOriginalFilename());
 		UserPosyandu user = userServ.getByNIKUser(kegiatan.getNikPenanggungjawab());
 		if(user==null) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -75,7 +76,6 @@ public class KegiatanController {
 			try {
 				newKegiatan.setPosterKegiatan(file.getBytes());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
