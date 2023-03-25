@@ -10,5 +10,5 @@ public class CreateKegiatan {
 	private String namaKegiatan;
 	private Timestamp tanggalKegiatan;
 	private String lokasiKegiatan;
-	private String nikPenanggungjawab;
+	private String nikPetugas;
 }

@@ -57,19 +57,25 @@ public class KegiatanController {
 	@Autowired BalitaService balitaServ;
 	
 	@PostMapping()
-	public ResponseEntity<Map<String, Object>> createKegiatan(@RequestBody CreateKegiatan kegiatan,@RequestParam(value = "file",required = false) MultipartFile file){
+	public ResponseEntity<Map<String, Object>> createKegiatan(@RequestBody CreateKegiatan kegiatan,@RequestParam(value = "posterKegiatan",required = false) MultipartFile file){
 		System.out.println(kegiatan.getLokasiKegiatan());
 		System.out.println(kegiatan.getNamaKegiatan());
-		System.out.println(kegiatan.getNikPenanggungjawab());
-		System.out.println("FILE : " + file.getOriginalFilename());
-		UserPosyandu user = userServ.getByNIKUser(kegiatan.getNikPenanggungjawab());
+		System.out.println(kegiatan.getNikPetugas());
+		try {
+			System.out.println("FILE : " + file.getOriginalFilename());
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			System.out.println("ada error terkait file");
+			e1.printStackTrace();
+		}
+		UserPosyandu user = userServ.getByNIKUser(kegiatan.getNikPetugas());
 		if(user==null) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
 		Kegiatan newKegiatan = new Kegiatan();
 		newKegiatan.setLokasiKegiatan(kegiatan.getLokasiKegiatan());
 		newKegiatan.setNamaKegiatan(kegiatan.getNamaKegiatan());
-		newKegiatan.setPenanggungJawabKegiatan(user);
+		newKegiatan.setPetugas(user);
 		newKegiatan.setTanggalKegiatan(kegiatan.getTanggalKegiatan());
 		if(file!=null) {
 			newKegiatan.setNamaPosterKegiatan(file.getOriginalFilename());
@@ -104,7 +110,7 @@ public class KegiatanController {
 	public ResponseEntity<Map<String, Object>> updateKegiatan(@RequestBody CreateKegiatan kegiatan,@PathVariable("id") Integer id,
 			@RequestParam(value = "file",required = false) MultipartFile file){
 		Kegiatan keg = kegiatanSer.getById(id);
-		UserPosyandu user = userServ.getByNIKUser(kegiatan.getNikPenanggungjawab());
+		UserPosyandu user = userServ.getByNIKUser(kegiatan.getNikPetugas());
 
 		if(keg==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -157,7 +163,7 @@ public class KegiatanController {
 		if(data==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		UserPosyandu ortu = data.getPenanggungJawabKegiatan();
+		UserPosyandu ortu = data.getPetugas();
 		ObjectMapper oMapper = new ObjectMapper();
 		@SuppressWarnings("unchecked")
 		Map<String, Object> result = oMapper.convertValue(data, Map.class);

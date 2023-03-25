@@ -34,7 +34,7 @@ public class Kegiatan {
 	
 	@OneToOne
 	@JoinColumn(name = "iduser")
-	private UserPosyandu penanggungJawabKegiatan;
+	private UserPosyandu petugas;
 	
 	@Column(name="posterkegiatan")
 	private byte[] posterKegiatan;
