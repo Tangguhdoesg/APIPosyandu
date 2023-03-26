@@ -85,13 +85,8 @@ public class CheckupService {
 		return data;
 	}
 	
-	public List<CheckupInterface> getGraphByIdBalita(Integer id){
-		List<CheckupInterface> data = checkupRepo.getDataforGraphByIdBalita(id);
-		
-		return data;
-	}
-	public List<CheckupInterface> getGraphByIdOrangTua(Integer id){
-		List<CheckupInterface> data = checkupRepo.getDataforGraphByIdOrangTua(id);
+	public List<CheckUp> getGraphByIdOrangTua(Integer id){
+		List<CheckUp> data = checkupRepo.getDataforGraphByIdOrangTua(id);
 		
 		return data;
 	}

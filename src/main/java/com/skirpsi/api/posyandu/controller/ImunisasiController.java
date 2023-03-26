@@ -165,9 +165,9 @@ public class ImunisasiController {
 			return new ResponseEntity<>(res,HttpStatus.OK);
 		}
 	}
-//	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<Map<String, Object>> getImunisasiByBalitaId(@PathVariable("id") Integer id){		
+	public ResponseEntity<Map<String, Object>> getImunisasiById(@PathVariable("id") Integer id){		
 		Imunisasi data = imunisasiSer.getById(id);
 		
 		if(data==null) {

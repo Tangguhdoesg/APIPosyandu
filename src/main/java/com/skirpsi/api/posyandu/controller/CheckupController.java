@@ -160,7 +160,6 @@ public class CheckupController {
 	  
 	  @GetMapping("/balita/{id}")
 	  public ResponseEntity<List<Map<String, Object>>> getByIdBalita(@PathVariable("id") Integer id){
-//		  List<CheckupInterface> data = checkupSer.getByIdBalita(id);
 		  List<CheckUp> data = checkupSer.getByIdBalita(id);
 		  if(data==null) {
 			  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -290,17 +289,45 @@ public class CheckupController {
 	  }
 	  
 	  @GetMapping("/user/{id}")
-	  public List<CheckupInterface> getDataforGraphbyIdOrangTua(@PathVariable("id") Integer id) {
-		  List<CheckupInterface> res = checkupSer.getGraphByIdOrangTua(id);
+	  public ResponseEntity<List<Map<String, Object>>> getDataforGraphbyIdOrangTua(@PathVariable("id") Integer id) {
+		  List<CheckUp> data = checkupSer.getGraphByIdOrangTua(id);
 		  
-		  return res;
-	  }
-	  
-	  @GetMapping("/graph/balita/{id}")
-	  public List<CheckupInterface> getDataforGraphbyIdBalita(@PathVariable("id") Integer id) {
-		  List<CheckupInterface> res = checkupSer.getGraphByIdBalita(id);
+		  if(data==null) {
+			  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		  }
+		  ObjectMapper oMapper = new ObjectMapper();
+			@SuppressWarnings("unchecked")
+			List<Map<String, Object>> result = oMapper.convertValue(data, List.class);
+			List<Map<String, Object>> res = new ArrayList<>();
+			Integer count = 0;
+			for (Map<String, Object> x : result) {
+				CheckUp dataCheckup = data.get(count);
+				Balita z = dataCheckup.getIdBalita();
+				String pattern = "yyyy-MM-dd";
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+				Date d1 = new Date(Long.parseLong(x.get("tanggalCheckup").toString()));
+				Date d2 = new Date(Long.parseLong(x.get("tanggalCheckupBerikutnya").toString()));
+				String date1 = simpleDateFormat.format(d1);
+				String date2 = simpleDateFormat.format(d2);
+				Date lahirBalita = z.getTanggalLahirBalita();
+				Date tanggalCheckup = dataCheckup.getTanggalCheckup();
+				x.remove("idBalita");
+				x.remove("tanggalCheckup");
+				x.remove("tanggalCheckupBerikutnya");
+				x.put("tanggalCheckup", date1);
+				x.put("tanggalCheckupBerikutnya", date2);
+				x.put("idBalita",z.getIdBalita());
+				x.put("umurBalita",getMonthsDifference(lahirBalita, tanggalCheckup));
+				x.put("namaBalita",z.getNamaBalita());
+				x.put("namaOrangTua",z.getIdUser().getNamaUser());
+				x.put("nikBalita",z.getNikBalita());
+				
+				res.add(x);
+				count++;
+				
+			}
 		  
-		  return res;
+			return new ResponseEntity<>(res,HttpStatus.OK);
 	  }
 	  
 	  public static final long getMonthsDifference(Date date1, Date date2) {
