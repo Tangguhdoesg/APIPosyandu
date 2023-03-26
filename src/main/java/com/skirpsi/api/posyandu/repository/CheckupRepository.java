@@ -35,4 +35,6 @@ public interface CheckupRepository extends JpaRepository<CheckUp, Integer>{
 			+ "where b.idorangtua  = ?1", nativeQuery = true)
 	List<CheckUp> getDataforGraphByIdOrangTua(Integer id);
 	
+
+	
 }

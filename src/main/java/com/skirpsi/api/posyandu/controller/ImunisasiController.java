@@ -165,6 +165,43 @@ public class ImunisasiController {
 			return new ResponseEntity<>(res,HttpStatus.OK);
 		}
 	}
+	
+	@GetMapping("/ortu/{id}")
+	public ResponseEntity<List<Map<String, Object>>> getImunisasiByIdOrangTua(@PathVariable("id") Integer id){
+		List<Imunisasi> data = imunisasiSer.getByIdOrtu(id);
+		if(data==null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}else {
+			ObjectMapper oMapper = new ObjectMapper();
+			@SuppressWarnings("unchecked")
+			List<Map<String, Object>> result = oMapper.convertValue(data, List.class);
+			List<Map<String, Object>> res = new ArrayList<>();
+			Integer count = 0;
+			for (Map<String, Object> x : result) {
+				Imunisasi y = data.get(count);
+				Balita z = y.getIdBalita();
+				String pattern = "yyyy-MM-dd";
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+				Date d1 = new Date(Long.parseLong(x.get("tanggalImunisasi").toString()));
+				Date d2 = new Date(Long.parseLong(x.get("tanggalImunisasiBerikutnya").toString()));
+				String date1 = simpleDateFormat.format(d1);
+				String date2 = simpleDateFormat.format(d2);
+				x.remove("tanggalImunisasi");
+				x.remove("tanggalImunisasiBerikutnya");
+				x.put("tanggalImunisasi", date1);
+				x.put("tanggalImunisasiBerikutnya", date2);
+				x.put("idBalita",z.getIdBalita());
+				x.put("namaBalita",z.getNamaBalita());
+				x.put("namaOrangTua",z.getIdUser().getNamaUser());
+				x.put("nikBalita",z.getNikBalita());
+				res.add(x);
+				count++;
+
+			}
+			return new ResponseEntity<>(res,HttpStatus.OK);
+		}
+	}
+	
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Map<String, Object>> getImunisasiById(@PathVariable("id") Integer id){		
