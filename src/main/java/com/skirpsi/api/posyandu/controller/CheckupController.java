@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import org.apache.commons.collections4.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -271,6 +273,104 @@ public class CheckupController {
 				result.put("nikBalita",x.getNikBalita());
 				return new ResponseEntity<>(result,HttpStatus.OK);
 		  }
+		  
+	  }
+	  @GetMapping("/graph/balita/{id}")
+	  public ResponseEntity<?> getDataForGraph(@PathVariable("id") Integer id) { 
+		  
+		  List<CheckUp> data = checkupSer.getGraphByIdOrangTua(id);
+		  List<Map<String, Object>> res = new ArrayList<>();
+		  if(data==null) {
+			  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		  }
+		  Integer idBalita = data.get(0).getIdBalita().getIdBalita();
+		  List<Float> dataBerat = new ArrayList<>();
+		  List<Float> dataTinggi = new ArrayList<>();
+		  List<Long> dataUmur = new ArrayList<>();
+		  CheckUp lastData = new CheckUp();
+		  for (CheckUp x : data) {
+
+			  if(x.getIdBalita().getIdBalita()!=idBalita) {
+				  Map<String, Object> result = new HashedMap<String, Object>();
+				 
+				  result.put("idBalita",lastData.getIdBalita().getIdBalita());
+				  result.put("namaBalita",lastData.getIdBalita().getNamaBalita());
+				  result.put("namaOrangTua",lastData.getIdBalita().getIdUser().getNamaUser());
+				  result.put("nikBalita",lastData.getIdBalita().getNikBalita());
+				  result.put("tinggiBalita", dataTinggi);
+				  result.put("beratBalita", dataBerat);
+				  result.put("umurBalita", dataUmur);
+				  
+				  res.add(result);
+				  
+				 dataTinggi = new ArrayList<>();
+				 dataUmur = new ArrayList<>();
+				 dataBerat = new ArrayList<>();	 
+
+			  }
+			  Date lahirBalita = x.getIdBalita().getTanggalLahirBalita();
+			  Date tanggalCheckup = x.getTanggalCheckup();
+			  idBalita=x.getIdBalita().getIdBalita();
+			  dataBerat.add(x.getBeratBadan());
+			  dataTinggi.add(x.getTinggiBadan());
+			  dataUmur.add(getMonthsDifference(lahirBalita, tanggalCheckup));
+			  lastData = x;
+		  }
+		  if(lastData.getIdBalita().getIdBalita()!=idBalita) {
+			  Date lahirBalita = lastData.getIdBalita().getTanggalLahirBalita();
+			  Date tanggalCheckup = lastData.getTanggalCheckup();
+			  idBalita=lastData.getIdBalita().getIdBalita();
+			  dataBerat.add(lastData.getBeratBadan());
+			  dataTinggi.add(lastData.getTinggiBadan());
+			  dataUmur.add(getMonthsDifference(lahirBalita, tanggalCheckup));
+			  ObjectMapper oMapper = new ObjectMapper();
+			  @SuppressWarnings("unchecked")
+			  Map<String, Object> result = oMapper.convertValue(lastData, Map.class);
+			  result.remove("idBalita");
+			  result.remove("tanggalCheckup");
+			  result.remove("tanggalCheckupBerikutnya");
+			  result.remove("tinggiBadan");
+			  result.remove("beratBadan");
+			  result.remove("lingkarKepala");
+			  result.remove("lingkarLengan");
+			  result.remove("catatan");
+			  result.remove("idCheckup");
+			  
+			  result.put("idBalita",lastData.getIdBalita().getIdBalita());
+			  result.put("namaBalita",lastData.getIdBalita().getNamaBalita());
+			  result.put("namaOrangTua",lastData.getIdBalita().getIdUser().getNamaUser());
+			  result.put("nikBalita",lastData.getIdBalita().getNikBalita());
+			  result.put("tinggiBalita", dataTinggi);
+			  result.put("beratBalita", dataBerat);
+			  result.put("umurBalita", dataUmur);
+			  res.add(result);
+		  }else {
+
+			  ObjectMapper oMapper = new ObjectMapper();
+			  @SuppressWarnings("unchecked")
+			  Map<String, Object> result = oMapper.convertValue(lastData, Map.class);
+			  result.remove("idBalita");
+			  result.remove("tanggalCheckup");
+			  result.remove("tanggalCheckupBerikutnya");
+			  result.remove("tinggiBadan");
+			  result.remove("beratBadan");
+			  result.remove("lingkarKepala");
+			  result.remove("lingkarLengan");
+			  result.remove("catatan");
+			  result.remove("idCheckup");
+			  
+			  result.put("idBalita",lastData.getIdBalita().getIdBalita());
+			  result.put("namaBalita",lastData.getIdBalita().getNamaBalita());
+			  result.put("namaOrangTua",lastData.getIdBalita().getIdUser().getNamaUser());
+			  result.put("nikBalita",lastData.getIdBalita().getNikBalita());
+			  result.put("tinggiBalita", dataTinggi);
+			  result.put("beratBalita", dataBerat);
+			  result.put("umurBalita", dataUmur);
+			  res.add(result);
+		  }
+
+		  return new ResponseEntity<>(res,HttpStatus.OK);
+		  
 		  
 	  }
 	  

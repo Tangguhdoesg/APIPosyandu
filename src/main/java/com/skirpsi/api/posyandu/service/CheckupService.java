@@ -90,4 +90,10 @@ public class CheckupService {
 		
 		return data;
 	}
+	
+	public List<CheckUp> getDataForGraphByIdOrtu(Integer id){
+		List<CheckUp> data = checkupRepo.getDataforGraphByIdOrangTua(id);
+		
+		return data;
+	}
 }

@@ -32,8 +32,11 @@ public interface CheckupRepository extends JpaRepository<CheckUp, Integer>{
 	@Query(value = "select * from checkup c "
 			+ "join balita b on b.idbalita = c.idbalita "
 			+ "join userposyandu u ON u.iduser = b.idorangtua "
-			+ "where b.idorangtua  = ?1", nativeQuery = true)
+			+ "where b.idorangtua  = ?1 "
+			+ "order by b.idbalita,tanggalcheckup", nativeQuery = true)
 	List<CheckUp> getDataforGraphByIdOrangTua(Integer id);
+	
+	
 	
 
 	
