@@ -8,6 +8,7 @@ import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -287,6 +288,8 @@ public class CheckupController {
 		  List<Float> dataBerat = new ArrayList<>();
 		  List<Float> dataTinggi = new ArrayList<>();
 		  List<Long> dataUmur = new ArrayList<>();
+		  List<Float> dataLingkarKepala = new ArrayList<>();
+		  List<Float> dataLingkarLengan = new ArrayList<>();
 		  CheckUp lastData = new CheckUp();
 		  for (CheckUp x : data) {
 
@@ -300,12 +303,15 @@ public class CheckupController {
 				  result.put("tinggiBalita", dataTinggi);
 				  result.put("beratBalita", dataBerat);
 				  result.put("umurBalita", dataUmur);
-				  
+				  result.put("lingkarKepala", dataLingkarKepala);
+				  result.put("lingkarLengan", dataLingkarLengan);
 				  res.add(result);
 				  
 				 dataTinggi = new ArrayList<>();
 				 dataUmur = new ArrayList<>();
-				 dataBerat = new ArrayList<>();	 
+				 dataBerat = new ArrayList<>();
+				 dataLingkarKepala = new ArrayList<>();
+				 dataLingkarLengan = new ArrayList<>();
 
 			  }
 			  Date lahirBalita = x.getIdBalita().getTanggalLahirBalita();
@@ -313,6 +319,8 @@ public class CheckupController {
 			  idBalita=x.getIdBalita().getIdBalita();
 			  dataBerat.add(x.getBeratBadan());
 			  dataTinggi.add(x.getTinggiBadan());
+			  dataLingkarLengan.add(x.getLingkarLengan());
+			  dataLingkarKepala.add(x.getLingkarKepala());
 			  dataUmur.add(getMonthsDifference(lahirBalita, tanggalCheckup));
 			  lastData = x;
 		  }
@@ -323,18 +331,9 @@ public class CheckupController {
 			  dataBerat.add(lastData.getBeratBadan());
 			  dataTinggi.add(lastData.getTinggiBadan());
 			  dataUmur.add(getMonthsDifference(lahirBalita, tanggalCheckup));
-			  ObjectMapper oMapper = new ObjectMapper();
-			  @SuppressWarnings("unchecked")
-			  Map<String, Object> result = oMapper.convertValue(lastData, Map.class);
-			  result.remove("idBalita");
-			  result.remove("tanggalCheckup");
-			  result.remove("tanggalCheckupBerikutnya");
-			  result.remove("tinggiBadan");
-			  result.remove("beratBadan");
-			  result.remove("lingkarKepala");
-			  result.remove("lingkarLengan");
-			  result.remove("catatan");
-			  result.remove("idCheckup");
+			  dataLingkarLengan.add(lastData.getLingkarLengan());
+			  dataLingkarKepala.add(lastData.getLingkarKepala());
+			  Map<String, Object> result = new HashedMap<>();
 			  
 			  result.put("idBalita",lastData.getIdBalita().getIdBalita());
 			  result.put("namaBalita",lastData.getIdBalita().getNamaBalita());
@@ -343,22 +342,12 @@ public class CheckupController {
 			  result.put("tinggiBalita", dataTinggi);
 			  result.put("beratBalita", dataBerat);
 			  result.put("umurBalita", dataUmur);
+			  result.put("lingkarKepala", dataLingkarKepala);
+			  result.put("lingkarLengan", dataLingkarLengan);
+			  
 			  res.add(result);
 		  }else {
-
-			  ObjectMapper oMapper = new ObjectMapper();
-			  @SuppressWarnings("unchecked")
-			  Map<String, Object> result = oMapper.convertValue(lastData, Map.class);
-			  result.remove("idBalita");
-			  result.remove("tanggalCheckup");
-			  result.remove("tanggalCheckupBerikutnya");
-			  result.remove("tinggiBadan");
-			  result.remove("beratBadan");
-			  result.remove("lingkarKepala");
-			  result.remove("lingkarLengan");
-			  result.remove("catatan");
-			  result.remove("idCheckup");
-			  
+			  Map<String, Object> result = new HashMap<>();
 			  result.put("idBalita",lastData.getIdBalita().getIdBalita());
 			  result.put("namaBalita",lastData.getIdBalita().getNamaBalita());
 			  result.put("namaOrangTua",lastData.getIdBalita().getIdUser().getNamaUser());
@@ -366,6 +355,8 @@ public class CheckupController {
 			  result.put("tinggiBalita", dataTinggi);
 			  result.put("beratBalita", dataBerat);
 			  result.put("umurBalita", dataUmur);
+			  result.put("lingkarKepala", dataLingkarKepala);
+			  result.put("lingkarLengan", dataLingkarLengan);
 			  res.add(result);
 		  }
 
