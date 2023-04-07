@@ -14,4 +14,7 @@ public interface ReportInterface {
 	Date getTanggalCheckup();
 	Float getBeratBadan();
 	Float getTinggiBadan();
+	String getNamaImunisasi();
+	Date getTanggalImunisasi();
+	
 }

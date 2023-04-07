@@ -19,9 +19,11 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.skirpsi.api.posyandu.misc.CreateReport;
 import com.skirpsi.api.posyandu.service.ReportService;
 
 @RestController
@@ -31,11 +33,31 @@ public class ReportingController {
 	
 	@Autowired private JavaMailSender javaMailSender;
 	@Autowired ReportService reportServ;
-	@GetMapping("/excel")
-	public ResponseEntity<byte[]> generateExcel() {  
-		String dateFrom = "2023-02-01";
-		String dateTo = "2023-02-28";
-		File file = reportServ.createCheckupReport(dateFrom, dateTo);
+	
+	@GetMapping("/excelCheckup")
+//	public ResponseEntity<byte[]> generateExcelCheckup(@RequestBody CreateReport report) {
+	public ResponseEntity<byte[]> generateExcelCheckup() {  
+//		File file = reportServ.createCheckupReportCheckup(report.getTanggalAwal(), report.getTanggalAkhir());
+		File file = reportServ.createCheckupReportCheckup("2023-01-01", "2023-04-10");
+		if(file==null) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+	    try {
+			return ResponseEntity.ok()
+			        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
+			        .body(Files.readAllBytes(file.toPath()));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		
+	}
+	
+	@GetMapping("/excelImunisasi")
+//	public ResponseEntity<byte[]> generateExcelImunisasi(@RequestBody CreateReport report) {  
+//		File file = reportServ.createCheckupReportImunisasi(report.getTanggalAwal(), report.getTanggalAkhir());
+	public ResponseEntity<byte[]> generateExcelImunisasi() {  
+		File file = reportServ.createCheckupReportImunisasi("2023-01-01", "2023-04-10");
 		if(file==null) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
