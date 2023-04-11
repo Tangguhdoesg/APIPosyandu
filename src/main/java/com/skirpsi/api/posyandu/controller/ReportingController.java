@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.skirpsi.api.posyandu.misc.CreateReport;
 import com.skirpsi.api.posyandu.service.ReportService;
+import com.skirpsi.api.posyandu.service.WfaSfaDataService;
 
 @RestController
 @RequestMapping("report")
@@ -34,11 +35,13 @@ public class ReportingController {
 	@Autowired private JavaMailSender javaMailSender;
 	@Autowired ReportService reportServ;
 	
+	@Autowired WfaSfaDataService wfaSfaSer;
+	
 	@GetMapping("/excelCheckup")
-//	public ResponseEntity<byte[]> generateExcelCheckup(@RequestBody CreateReport report) {
-	public ResponseEntity<byte[]> generateExcelCheckup() {  
-//		File file = reportServ.createCheckupReportCheckup(report.getTanggalAwal(), report.getTanggalAkhir());
-		File file = reportServ.createCheckupReportCheckup("2023-01-01", "2023-04-10");
+	public ResponseEntity<byte[]> generateExcelCheckup(@RequestBody CreateReport report) {
+//	public ResponseEntity<byte[]> generateExcelCheckup() {  
+		File file = reportServ.createCheckupReportCheckup(report.getTanggalAwal(), report.getTanggalAkhir());
+//		File file = reportServ.createCheckupReportCheckup("2023-01-01", "2023-04-10");
 		if(file==null) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
@@ -54,10 +57,8 @@ public class ReportingController {
 	}
 	
 	@GetMapping("/excelImunisasi")
-//	public ResponseEntity<byte[]> generateExcelImunisasi(@RequestBody CreateReport report) {  
-//		File file = reportServ.createCheckupReportImunisasi(report.getTanggalAwal(), report.getTanggalAkhir());
-	public ResponseEntity<byte[]> generateExcelImunisasi() {  
-		File file = reportServ.createCheckupReportImunisasi("2023-01-01", "2023-04-10");
+	public ResponseEntity<byte[]> generateExcelImunisasi(@RequestBody CreateReport report) {  
+		File file = reportServ.createCheckupReportImunisasi(report.getTanggalAwal(),report.getTanggalAkhir());
 		if(file==null) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
@@ -74,23 +75,31 @@ public class ReportingController {
 	
 	
 	@GetMapping("/send")
-	public void sendMail() {
-		
+	public void sendMail(@RequestBody CreateReport report) {
+		File file = reportServ.createCheckupReportImunisasi(report.getTanggalAwal(),report.getTanggalAkhir());
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 		MimeMessageHelper mimeMessageHelper;
+		
+		System.out.println(report.getTanggalAkhir());
+		System.out.println(report.getTanggalAwal());
+		System.out.println(report.getEmail());
 		
 		try {
 			mimeMessageHelper= new MimeMessageHelper(mimeMessage, true);
 			mimeMessageHelper.setFrom(sender);
-			mimeMessageHelper.setTo("tangguhdoesgaming@gmail.com");
+			mimeMessageHelper.setTo(report.getEmail());
 			mimeMessageHelper.setText("Dear DINKES HERE ARE YOUR DATA");
 			mimeMessageHelper.setSubject("DATA BALITA");
-			FileSystemResource file = new FileSystemResource(new File("D:/random/excelTest.xlsx"));
-			mimeMessageHelper.addAttachment(file.getFilename(), file);
+			mimeMessageHelper.addAttachment(file.getName(), file);
 
 			javaMailSender.send(mimeMessage);
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@GetMapping("/test")
+	public void testData() {
+		wfaSfaSer.test();
 	}
 }

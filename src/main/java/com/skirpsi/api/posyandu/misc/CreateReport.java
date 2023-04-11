@@ -6,4 +6,5 @@ import lombok.Data;
 public class CreateReport {
 	private String tanggalAwal;
 	private String tanggalAkhir;
+	private String email;
 }
