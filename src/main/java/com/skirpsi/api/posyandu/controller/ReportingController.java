@@ -39,9 +39,7 @@ public class ReportingController {
 	
 	@GetMapping("/excelCheckup")
 	public ResponseEntity<byte[]> generateExcelCheckup(@RequestBody CreateReport report) {
-//	public ResponseEntity<byte[]> generateExcelCheckup() {  
 		File file = reportServ.createCheckupReportCheckup(report.getTanggalAwal(), report.getTanggalAkhir());
-//		File file = reportServ.createCheckupReportCheckup("2023-01-01", "2023-04-10");
 		if(file==null) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
@@ -75,7 +73,7 @@ public class ReportingController {
 	
 	
 	@GetMapping("/send")
-	public void sendMail(@RequestBody CreateReport report) {
+	public ResponseEntity<String> sendMail(@RequestBody CreateReport report) {
 		File file = reportServ.createCheckupReportImunisasi(report.getTanggalAwal(),report.getTanggalAkhir());
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 		MimeMessageHelper mimeMessageHelper;
@@ -93,13 +91,12 @@ public class ReportingController {
 			mimeMessageHelper.addAttachment(file.getName(), file);
 
 			javaMailSender.send(mimeMessage);
+			
+			return new ResponseEntity<String>(HttpStatus.OK);
 		} catch (MessagingException e) {
 			e.printStackTrace();
+			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
-	@GetMapping("/test")
-	public void testData() {
-		wfaSfaSer.test();
-	}
 }

@@ -39,10 +39,15 @@ import com.skirpsi.api.posyandu.entity.intfc.BalitaInterface;
 import com.skirpsi.api.posyandu.entity.intfc.CheckupInterface;
 import com.skirpsi.api.posyandu.entity.intfc.UserInterface;
 import com.skirpsi.api.posyandu.misc.CreateCheckupEntity;
+import com.skirpsi.api.posyandu.misc.SfaBoys0to5;
+import com.skirpsi.api.posyandu.misc.SfaGirl0to5;
+import com.skirpsi.api.posyandu.misc.WfaBoy0to5;
+import com.skirpsi.api.posyandu.misc.WfaGirl0to5;
 import com.skirpsi.api.posyandu.service.BalitaService;
 import com.skirpsi.api.posyandu.service.CheckupService;
 import com.skirpsi.api.posyandu.service.ReportService;
 import com.skirpsi.api.posyandu.service.UserPosyanduService;
+import com.skirpsi.api.posyandu.service.WfaSfaDataService;
 import com.skirpsi.api.posyandu.service.WhatsappService;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
@@ -57,6 +62,8 @@ public class CheckupController {
 	@Autowired UserPosyanduService userServ;
 	
 	@Autowired BalitaService balitaServ;
+	
+	@Autowired WfaSfaDataService whoService;
 	
 	@PostMapping()
 	public ResponseEntity<Map<String, Object>> createCheckup(@RequestBody CreateCheckupEntity checkup){
@@ -291,6 +298,9 @@ public class CheckupController {
 		  List<Float> dataLingkarKepala = new ArrayList<>();
 		  List<Float> dataLingkarLengan = new ArrayList<>();
 		  CheckUp lastData = new CheckUp();
+		  Float weightTotal = 0f;
+		  Float heightTotal = 0f;
+		  
 		  for (CheckUp x : data) {
 
 			  if(x.getIdBalita().getIdBalita()!=idBalita) {
@@ -305,6 +315,20 @@ public class CheckupController {
 				  result.put("umurBalita", dataUmur);
 				  result.put("lingkarKepala", dataLingkarKepala);
 				  result.put("lingkarLengan", dataLingkarLengan);
+				  if (weightTotal/data.size()<=1.25 && weightTotal/data.size()>=0.75) {
+					  result.put("KesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi Sehat. Tetap jaga pola makan dan perkembangan balita anda");
+				  }else if(weightTotal/data.size()<0.75) {
+					  result.put("KesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi Kurang Sehat. Perbaiki pola makan dan jaga perkembangan balita anda");
+				  }else if (weightTotal/data.size()>1.25) {
+					  result.put("KesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi terlalu berat. Tetap jaga pola makan dan perkembangan balita anda");
+				  }
+				  if (heightTotal/data.size()<=1.25 && heightTotal/data.size()>=0.75) {
+					  result.put("KesehatanBasedOnLenght", "Berdasarkan panjang balita, Balita anda terindikasi Sehat. Tetap jaga pola makan dan perkembangan balita anda");
+				  }else if(heightTotal/data.size()<0.75) {
+					  result.put("KesehatanBasedOnLenght", "Berdasarkan panjang balita, Balita anda terindikasi Kurang Sehat. Perbaiki pola makan dan jaga perkembangan balita anda");
+				  }else if (heightTotal/data.size()>1.25) {
+					  result.put("KesehatanBasedOnLenght", "Berdasarkan panjang balita, Balita anda terindikasi terlalu berat. Tetap jaga pola makan dan perkembangan balita anda");
+				  }
 				  res.add(result);
 				  
 				 dataTinggi = new ArrayList<>();
@@ -312,6 +336,8 @@ public class CheckupController {
 				 dataBerat = new ArrayList<>();
 				 dataLingkarKepala = new ArrayList<>();
 				 dataLingkarLengan = new ArrayList<>();
+				 weightTotal = 0f;
+				 heightTotal = 0f;
 
 			  }
 			  Date lahirBalita = x.getIdBalita().getTanggalLahirBalita();
@@ -321,7 +347,56 @@ public class CheckupController {
 			  dataTinggi.add(x.getTinggiBadan());
 			  dataLingkarLengan.add(x.getLingkarLengan());
 			  dataLingkarKepala.add(x.getLingkarKepala());
+			  Long umur = getMonthsDifference(lahirBalita, tanggalCheckup);
 			  dataUmur.add(getMonthsDifference(lahirBalita, tanggalCheckup));
+			  
+			  String jenisKelamin = x.getIdBalita().getJenisKelaminBalita();
+			  if(jenisKelamin.contains("laki")) {
+				  List<WfaBoy0to5> weight = whoService.weightForAgesBoys();
+				  List<SfaBoys0to5> lenght = whoService.sizeForAgesBoys();
+				  WfaBoy0to5 currentWeightMedian = weight.get(umur.intValue());
+				  SfaBoys0to5 currentLenghtMedian = lenght.get(umur.intValue());
+				  Float berat = x.getBeratBadan();
+				  Float tinggi = x.getTinggiBadan();
+				  if(berat <= currentWeightMedian.getPost1sd() && berat>= currentWeightMedian.getNeg1sd()) {
+					  weightTotal+=1;
+				  }else if(berat<currentWeightMedian.getNeg1sd()) {
+					  weightTotal+=0;
+				  }else if(berat>currentWeightMedian.getPost1sd()) {
+					  weightTotal+=2;
+				  }
+				  
+				  if(tinggi <= currentLenghtMedian.getPost1sd() && tinggi>= currentLenghtMedian.getNeg1sd()) {
+					  heightTotal+=1;
+				  }else if(tinggi<currentLenghtMedian.getNeg1sd()) {
+					  heightTotal+=0;
+				  }else if(tinggi>currentLenghtMedian.getPost1sd()) {
+					  heightTotal+=2;
+				  }
+				  
+			  }else {
+				  List<WfaGirl0to5> weight = whoService.weightForAgesGirls();
+				  List<SfaGirl0to5> lenght = whoService.sizeForAgesGirls();
+				  WfaGirl0to5 currentWeightMedian = weight.get(umur.intValue());
+				  SfaGirl0to5 currentLenghtMedian = lenght.get(umur.intValue());
+				  Float berat = x.getBeratBadan();
+				  Float tinggi = x.getTinggiBadan();
+				  if(berat <= currentWeightMedian.getPost1sd() && berat>= currentWeightMedian.getNeg1sd()) {
+					  weightTotal+=1;
+				  }else if(berat<currentWeightMedian.getNeg1sd()) {
+					  weightTotal+=0;
+				  }else if(berat>currentWeightMedian.getPost1sd()) {
+					  weightTotal+=2;
+				  }
+				  
+				  if(tinggi <= currentLenghtMedian.getPost1sd() && tinggi>= currentLenghtMedian.getNeg1sd()) {
+					  heightTotal+=1;
+				  }else if(tinggi<currentLenghtMedian.getNeg1sd()) {
+					  heightTotal+=0;
+				  }else if(tinggi>currentLenghtMedian.getPost1sd()) {
+					  heightTotal+=2;
+				  }
+			  }
 			  lastData = x;
 		  }
 		  if(lastData.getIdBalita().getIdBalita()!=idBalita) {
@@ -344,6 +419,20 @@ public class CheckupController {
 			  result.put("umurBalita", dataUmur);
 			  result.put("lingkarKepala", dataLingkarKepala);
 			  result.put("lingkarLengan", dataLingkarLengan);
+			  if (weightTotal/data.size()<=1.25 && weightTotal/data.size()>=0.75) {
+				  result.put("KesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi Sehat. Tetap jaga pola makan dan perkembangan balita anda");
+			  }else if(weightTotal/data.size()<0.75) {
+				  result.put("KesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi Kurang Sehat. Perbaiki pola makan dan jaga perkembangan balita anda");
+			  }else if (weightTotal/data.size()>1.25) {
+				  result.put("KesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi terlalu berat. Tetap jaga pola makan dan perkembangan balita anda");
+			  }
+			  if (heightTotal/data.size()<=1.25 && heightTotal/data.size()>=0.75) {
+				  result.put("KesehatanBasedOnLenght", "Berdasarkan panjang balita, Balita anda terindikasi Sehat. Tetap jaga pola makan dan perkembangan balita anda");
+			  }else if(heightTotal/data.size()<0.75) {
+				  result.put("KesehatanBasedOnLenght", "Berdasarkan panjang balita, Balita anda terindikasi Kurang Sehat. Perbaiki pola makan dan jaga perkembangan balita anda");
+			  }else if (heightTotal/data.size()>1.25) {
+				  result.put("KesehatanBasedOnLenght", "Berdasarkan panjang balita, Balita anda terindikasi terlalu berat. Tetap jaga pola makan dan perkembangan balita anda");
+			  }
 			  
 			  res.add(result);
 		  }else {
@@ -357,6 +446,20 @@ public class CheckupController {
 			  result.put("umurBalita", dataUmur);
 			  result.put("lingkarKepala", dataLingkarKepala);
 			  result.put("lingkarLengan", dataLingkarLengan);
+			  if (weightTotal/data.size()<=1.25 && weightTotal/data.size()>=0.75) {
+				  result.put("KesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi Sehat. Tetap jaga pola makan dan perkembangan balita anda");
+			  }else if(weightTotal/data.size()<0.75) {
+				  result.put("KesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi Kurang Sehat. Perbaiki pola makan dan jaga perkembangan balita anda");
+			  }else if (weightTotal/data.size()>1.25) {
+				  result.put("KesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi terlalu berat. Tetap jaga pola makan dan perkembangan balita anda");
+			  }
+			  if (heightTotal/data.size()<=1.25 && heightTotal/data.size()>=0.75) {
+				  result.put("KesehatanBasedOnLenght", "Berdasarkan panjang balita, Balita anda terindikasi Sehat. Tetap jaga pola makan dan perkembangan balita anda");
+			  }else if(heightTotal/data.size()<0.75) {
+				  result.put("KesehatanBasedOnLenght", "Berdasarkan panjang balita, Balita anda terindikasi Kurang Sehat. Perbaiki pola makan dan jaga perkembangan balita anda");
+			  }else if (heightTotal/data.size()>1.25) {
+				  result.put("KesehatanBasedOnLenght", "Berdasarkan panjang balita, Balita anda terindikasi terlalu berat. Tetap jaga pola makan dan perkembangan balita anda");
+			  }
 			  res.add(result);
 		  }
 

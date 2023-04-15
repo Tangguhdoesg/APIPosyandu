@@ -82,13 +82,12 @@ public class UserController {
 		newUser.setAlamatUser(user.getAlamatUser());
 		newUser.setNamaUser(user.getNamaUser());
 		newUser.setNoTeleponUser(user.getNoTeleponUser());
-		newUser.setPasswordUser(encoder.encode(defPass));
 		newUser.setTipeUser(user.getTipeUser());
 		newUser.setNikUser(user.getNikUser());
 		newUser.setTanggalLahirUser(user.getTanggalLahirUser());
 		
 		UserPosyandu x = userServ.insert(newUser);
-//		whatsServ.sendPassword(x);
+		whatsServ.sendPassword(x);
 		if(x==null) {
 			userServ.delete(newUser.getIdUser());
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -97,11 +96,11 @@ public class UserController {
 					 encoder.encode(defPass),x.getIdUser());
 
 			Set<Role> roles = new HashSet<>();
-			if(x.getTipeUser()==0) {
+			if(user.getTipeUser()==0) {
 				Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
 						.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 				roles.add(adminRole);
-			}else if(x.getTipeUser()==1) {
+			}else if(user.getTipeUser()==1) {
 				Role modRole = roleRepository.findByName(ERole.ROLE_PETUGAS)
 						.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 				roles.add(modRole);
@@ -117,8 +116,6 @@ public class UserController {
 	}
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody LoginRequest logReq){
-		System.out.println(logReq.getNotelepon());
-		System.out.println(logReq.getPassword());
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(logReq.getNotelepon(), logReq.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);

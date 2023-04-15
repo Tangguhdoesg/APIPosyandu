@@ -30,10 +30,8 @@ public class AuthTokenFilter extends OncePerRequestFilter{
 			throws ServletException, IOException {
 		try {
 			String jwt = parseJwt(request);
-//			System.out.println(jwt);
 			if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
 				String username = jwtUtils.getUserNameFromJwtToken(jwt);
-				System.out.println(username+"========================");
 				UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
 						userDetails, null, userDetails.getAuthorities());
@@ -42,8 +40,6 @@ public class AuthTokenFilter extends OncePerRequestFilter{
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 			}
 		} catch (Exception e) {
-//			logger.error("Cannot set user authentication: {}", e);
-//			System.out.println("ERROR HERE : " + e);
 			e.printStackTrace();
 		}
 
@@ -52,7 +48,6 @@ public class AuthTokenFilter extends OncePerRequestFilter{
 
 	private String parseJwt(HttpServletRequest request) {
 		String headerAuth = request.getHeader("Authorization");
-		System.out.println(headerAuth);
 		if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
 			return headerAuth.substring(7, headerAuth.length());
 		}

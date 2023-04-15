@@ -1,5 +1,7 @@
 package com.skirpsi.api.posyandu.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,29 +25,20 @@ public class WfaSfaDataService {
 	
 	@Autowired WfaBoysRepository wfaBoysRepo;
 	
-	public void test() {
-		SfaBoys0to5 data = sfaBoysRepo.findById(2).get();
-		
-		System.out.println(data.getMonths());
-		System.out.println(data.getMedian());
-		System.out.println("===========");
-		
-		SfaGirl0to5 datagirl= sfaGirlRepo.findById(2).get();
-		System.out.println(datagirl.getMedian());
-		System.out.println(datagirl.getPost2sd());
-		System.out.println("=========");
-		
-		WfaGirl0to5 dataWfaGirl = wfaGirlRepo.findById(2).get();
-		System.out.println(dataWfaGirl.getMedian());
-		System.out.println(dataWfaGirl.getPost3sd());
-		System.out.println("=========");
-		
-		WfaBoy0to5 dataWfaBoys = wfaBoysRepo.findById(2).get();
-		System.out.println(dataWfaBoys.getMedian());
-		System.out.println(dataWfaBoys.getPost2sd());
-		System.out.println("========");
-		
-		
+	public List<SfaBoys0to5> sizeForAgesBoys(){
+		return sfaBoysRepo.findAll();
+	}
+	
+	public List<SfaGirl0to5> sizeForAgesGirls(){
+		return sfaGirlRepo.findAll();
+	}
+	
+	public List<WfaBoy0to5> weightForAgesBoys(){
+		return wfaBoysRepo.findAll();
+	}
+	
+	public List<WfaGirl0to5> weightForAgesGirls(){
+		return wfaGirlRepo.findAll();
 	}
 
 }

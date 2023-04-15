@@ -41,10 +41,7 @@ public class UserPosyandu {
 	
 	@Column(name="tanggallahir")
 	private Date tanggalLahirUser;
-	
-	@Column(name="passworduser")
-	private String passwordUser;
-	
+
 	@Column(name="noteleponuser")
 	private String  noTeleponUser;
 	
