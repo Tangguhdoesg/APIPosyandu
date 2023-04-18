@@ -287,10 +287,10 @@ public class CheckupController {
 	  public ResponseEntity<?> getDataForGraph(@PathVariable("id") Integer id) { 
 		  
 		  List<CheckUp> data = checkupSer.getGraphByIdOrangTua(id);
-		  List<Map<String, Object>> res = new ArrayList<>();
-		  if(data==null) {
+		  if(data.size()==0 || data==null) {
 			  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		  }
+		  List<Map<String, Object>> res = new ArrayList<>();
 		  Integer idBalita = data.get(0).getIdBalita().getIdBalita();
 		  List<Float> dataBerat = new ArrayList<>();
 		  List<Float> dataTinggi = new ArrayList<>();
