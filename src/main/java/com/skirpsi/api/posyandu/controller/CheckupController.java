@@ -337,29 +337,53 @@ public class CheckupController {
 				  if(lastData.getIdBalita().getJenisKelaminBalita().contains("Laki")|| lastData.getIdBalita().getJenisKelaminBalita().contains("laki")) {
 					  List<Float> mapDataMedianWeight = new ArrayList<>();
 					  List<Float> mapDataMedianLenght = new ArrayList<>();
+					  List<Float> mapDataNegSp1Weight = new ArrayList<>();
+					  List<Float> mapDataPosSp1Weight = new ArrayList<>();
+					  List<Float> mapDataNegSp1Lenght = new ArrayList<>();
+					  List<Float> mapDataPosSp1Lenght = new ArrayList<>();
 					  List<Integer> umurMedian = new ArrayList<>();
 					  for (Integer a=0;a<13;a++) {
 						  mapDataMedianWeight.add(weightBoys.get(a).getMedian());
 						  mapDataMedianLenght.add(lenghtBoys.get(a).getMedian());
+						  mapDataNegSp1Weight.add(weightBoys.get(a).getNeg1sd());
+						  mapDataPosSp1Weight.add(weightBoys.get(a).getPost1sd());
+						  mapDataNegSp1Lenght.add(lenghtBoys.get(a).getNeg1sd());
+						  mapDataPosSp1Lenght.add(lenghtBoys.get(a).getPost1sd());
 						  umurMedian.add(a);
 					  }
 					  
 					  result.put("medianWeight", mapDataMedianWeight);
 					  result.put("medianLength", mapDataMedianLenght);
+					  result.put("batasBawahBerat", mapDataNegSp1Weight);
+					  result.put("batasAtasBerat", mapDataPosSp1Weight);
+					  result.put("batasBawahPanjang", mapDataNegSp1Lenght);
+					  result.put("batasAtasPanjang", mapDataPosSp1Lenght);
 					  result.put("umurMedian",umurMedian);
 				  }else {
 					  List<Float> mapDataMedianWeight = new ArrayList<>();
 					  List<Float> mapDataMedianLenght = new ArrayList<>();
 					  List<Integer> umurMedian = new ArrayList<>();
+					  List<Float> mapDataNegSp1Weight = new ArrayList<>();
+					  List<Float> mapDataPosSp1Weight = new ArrayList<>();
+					  List<Float> mapDataNegSp1Lenght = new ArrayList<>();
+					  List<Float> mapDataPosSp1Lenght = new ArrayList<>();
 					  for (Integer a=0;a<13;a++) {
 						  umurMedian.add(a);
 						  mapDataMedianWeight.add(weightGirls.get(a).getMedian());
 						  mapDataMedianLenght.add(lenghtGirls.get(a).getMedian());
+						  mapDataNegSp1Weight.add(weightGirls.get(a).getNeg1sd());
+						  mapDataPosSp1Weight.add(weightGirls.get(a).getPost1sd());
+						  mapDataNegSp1Lenght.add(lenghtGirls.get(a).getNeg1sd());
+						  mapDataPosSp1Lenght.add(lenghtGirls.get(a).getPost1sd());
 					  }
 					  
 					  result.put("medianWeight", mapDataMedianWeight);
 					  result.put("medianLength", mapDataMedianLenght);
-					  
+					  result.put("batasBawahBerat", mapDataNegSp1Weight);
+					  result.put("batasAtasBerat", mapDataPosSp1Weight);
+					  result.put("batasBawahPanjang", mapDataNegSp1Lenght);
+					  result.put("batasAtasPanjang", mapDataPosSp1Lenght);
+					  result.put("umurMedian",umurMedian);
 				  }
 				  res.add(result);
 				  
@@ -471,29 +495,53 @@ public class CheckupController {
 			  if(lastData.getIdBalita().getJenisKelaminBalita().contains("Laki")|| lastData.getIdBalita().getJenisKelaminBalita().contains("laki")) {
 				  List<Float> mapDataMedianWeight = new ArrayList<>();
 				  List<Float> mapDataMedianLenght = new ArrayList<>();
+				  List<Float> mapDataNegSp1Weight = new ArrayList<>();
+				  List<Float> mapDataPosSp1Weight = new ArrayList<>();
+				  List<Float> mapDataNegSp1Lenght = new ArrayList<>();
+				  List<Float> mapDataPosSp1Lenght = new ArrayList<>();
 				  List<Integer> umurMedian = new ArrayList<>();
 				  for (Integer a=0;a<13;a++) {
 					  mapDataMedianWeight.add(weightBoys.get(a).getMedian());
 					  mapDataMedianLenght.add(lenghtBoys.get(a).getMedian());
+					  mapDataNegSp1Weight.add(weightBoys.get(a).getNeg1sd());
+					  mapDataPosSp1Weight.add(weightBoys.get(a).getPost1sd());
+					  mapDataNegSp1Lenght.add(lenghtBoys.get(a).getNeg1sd());
+					  mapDataPosSp1Lenght.add(lenghtBoys.get(a).getPost1sd());
 					  umurMedian.add(a);
 				  }
 				  
 				  result.put("medianWeight", mapDataMedianWeight);
 				  result.put("medianLength", mapDataMedianLenght);
+				  result.put("batasBawahBerat", mapDataNegSp1Weight);
+				  result.put("batasAtasBerat", mapDataPosSp1Weight);
+				  result.put("batasBawahPanjang", mapDataNegSp1Lenght);
+				  result.put("batasAtasPanjang", mapDataPosSp1Lenght);
 				  result.put("umurMedian",umurMedian);
 			  }else {
 				  List<Float> mapDataMedianWeight = new ArrayList<>();
 				  List<Float> mapDataMedianLenght = new ArrayList<>();
 				  List<Integer> umurMedian = new ArrayList<>();
+				  List<Float> mapDataNegSp1Weight = new ArrayList<>();
+				  List<Float> mapDataPosSp1Weight = new ArrayList<>();
+				  List<Float> mapDataNegSp1Lenght = new ArrayList<>();
+				  List<Float> mapDataPosSp1Lenght = new ArrayList<>();
 				  for (Integer a=0;a<13;a++) {
 					  umurMedian.add(a);
 					  mapDataMedianWeight.add(weightGirls.get(a).getMedian());
 					  mapDataMedianLenght.add(lenghtGirls.get(a).getMedian());
+					  mapDataNegSp1Weight.add(weightGirls.get(a).getNeg1sd());
+					  mapDataPosSp1Weight.add(weightGirls.get(a).getPost1sd());
+					  mapDataNegSp1Lenght.add(lenghtGirls.get(a).getNeg1sd());
+					  mapDataPosSp1Lenght.add(lenghtGirls.get(a).getPost1sd());
 				  }
 				  
 				  result.put("medianWeight", mapDataMedianWeight);
 				  result.put("medianLength", mapDataMedianLenght);
-				  
+				  result.put("batasBawahBerat", mapDataNegSp1Weight);
+				  result.put("batasAtasBerat", mapDataPosSp1Weight);
+				  result.put("batasBawahPanjang", mapDataNegSp1Lenght);
+				  result.put("batasAtasPanjang", mapDataPosSp1Lenght);
+				  result.put("umurMedian",umurMedian);
 			  }
 			  res.add(result);
 		  }else {
@@ -505,8 +553,6 @@ public class CheckupController {
 			  result.put("tinggiBalita", dataTinggi);
 			  result.put("beratBalita", dataBerat);
 			  result.put("umurBalita", dataUmur);
-			  result.put("lingkarKepala", dataLingkarKepala);
-			  result.put("lingkarLengan", dataLingkarLengan);
 			  if (weightTotal/data.size()<=1.25 && weightTotal/data.size()>=0.75) {
 				  result.put("KesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi Sehat. Tetap jaga pola makan dan perkembangan balita anda");
 			  }else if(weightTotal/data.size()<0.75) {
@@ -524,29 +570,53 @@ public class CheckupController {
 			  if(lastData.getIdBalita().getJenisKelaminBalita().contains("Laki")|| lastData.getIdBalita().getJenisKelaminBalita().contains("laki")) {
 				  List<Float> mapDataMedianWeight = new ArrayList<>();
 				  List<Float> mapDataMedianLenght = new ArrayList<>();
+				  List<Float> mapDataNegSp1Weight = new ArrayList<>();
+				  List<Float> mapDataPosSp1Weight = new ArrayList<>();
+				  List<Float> mapDataNegSp1Lenght = new ArrayList<>();
+				  List<Float> mapDataPosSp1Lenght = new ArrayList<>();
 				  List<Integer> umurMedian = new ArrayList<>();
 				  for (Integer a=0;a<13;a++) {
 					  mapDataMedianWeight.add(weightBoys.get(a).getMedian());
 					  mapDataMedianLenght.add(lenghtBoys.get(a).getMedian());
+					  mapDataNegSp1Weight.add(weightBoys.get(a).getNeg1sd());
+					  mapDataPosSp1Weight.add(weightBoys.get(a).getPost1sd());
+					  mapDataNegSp1Lenght.add(lenghtBoys.get(a).getNeg1sd());
+					  mapDataPosSp1Lenght.add(lenghtBoys.get(a).getPost1sd());
 					  umurMedian.add(a);
 				  }
 				  
 				  result.put("medianWeight", mapDataMedianWeight);
 				  result.put("medianLength", mapDataMedianLenght);
+				  result.put("batasBawahBerat", mapDataNegSp1Weight);
+				  result.put("batasAtasBerat", mapDataPosSp1Weight);
+				  result.put("batasBawahPanjang", mapDataNegSp1Lenght);
+				  result.put("batasAtasPanjang", mapDataPosSp1Lenght);
 				  result.put("umurMedian",umurMedian);
 			  }else {
 				  List<Float> mapDataMedianWeight = new ArrayList<>();
 				  List<Float> mapDataMedianLenght = new ArrayList<>();
 				  List<Integer> umurMedian = new ArrayList<>();
+				  List<Float> mapDataNegSp1Weight = new ArrayList<>();
+				  List<Float> mapDataPosSp1Weight = new ArrayList<>();
+				  List<Float> mapDataNegSp1Lenght = new ArrayList<>();
+				  List<Float> mapDataPosSp1Lenght = new ArrayList<>();
 				  for (Integer a=0;a<13;a++) {
 					  umurMedian.add(a);
 					  mapDataMedianWeight.add(weightGirls.get(a).getMedian());
 					  mapDataMedianLenght.add(lenghtGirls.get(a).getMedian());
+					  mapDataNegSp1Weight.add(weightGirls.get(a).getNeg1sd());
+					  mapDataPosSp1Weight.add(weightGirls.get(a).getPost1sd());
+					  mapDataNegSp1Lenght.add(lenghtGirls.get(a).getNeg1sd());
+					  mapDataPosSp1Lenght.add(lenghtGirls.get(a).getPost1sd());
 				  }
 				  
 				  result.put("medianWeight", mapDataMedianWeight);
 				  result.put("medianLength", mapDataMedianLenght);
-				  
+				  result.put("batasBawahBerat", mapDataNegSp1Weight);
+				  result.put("batasAtasBerat", mapDataPosSp1Weight);
+				  result.put("batasBawahPanjang", mapDataNegSp1Lenght);
+				  result.put("batasAtasPanjang", mapDataPosSp1Lenght);
+				  result.put("umurMedian",umurMedian);
 			  }
 			  res.add(result);
 		  }
