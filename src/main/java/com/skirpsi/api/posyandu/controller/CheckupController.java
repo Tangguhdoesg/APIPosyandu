@@ -345,10 +345,10 @@ public class CheckupController {
 					  for (Integer a=0;a<13;a++) {
 						  mapDataMedianWeight.add(weightBoys.get(a).getMedian());
 						  mapDataMedianLenght.add(lenghtBoys.get(a).getMedian());
-						  mapDataNegSp1Weight.add(weightBoys.get(a).getNeg1sd());
-						  mapDataPosSp1Weight.add(weightBoys.get(a).getPost1sd());
-						  mapDataNegSp1Lenght.add(lenghtBoys.get(a).getNeg1sd());
-						  mapDataPosSp1Lenght.add(lenghtBoys.get(a).getPost1sd());
+						  mapDataNegSp1Weight.add(weightBoys.get(a).getNeg2sd());
+						  mapDataPosSp1Weight.add(weightBoys.get(a).getPost2sd());
+						  mapDataNegSp1Lenght.add(lenghtBoys.get(a).getNeg2sd());
+						  mapDataPosSp1Lenght.add(lenghtBoys.get(a).getPost2sd());
 						  umurMedian.add(a);
 					  }
 					  
@@ -371,10 +371,10 @@ public class CheckupController {
 						  umurMedian.add(a);
 						  mapDataMedianWeight.add(weightGirls.get(a).getMedian());
 						  mapDataMedianLenght.add(lenghtGirls.get(a).getMedian());
-						  mapDataNegSp1Weight.add(weightGirls.get(a).getNeg1sd());
-						  mapDataPosSp1Weight.add(weightGirls.get(a).getPost1sd());
-						  mapDataNegSp1Lenght.add(lenghtGirls.get(a).getNeg1sd());
-						  mapDataPosSp1Lenght.add(lenghtGirls.get(a).getPost1sd());
+						  mapDataNegSp1Weight.add(weightGirls.get(a).getNeg2sd());
+						  mapDataPosSp1Weight.add(weightGirls.get(a).getPost2sd());
+						  mapDataNegSp1Lenght.add(lenghtGirls.get(a).getNeg2sd());
+						  mapDataPosSp1Lenght.add(lenghtGirls.get(a).getPost2sd());
 					  }
 					  
 					  result.put("medianWeight", mapDataMedianWeight);
@@ -503,10 +503,10 @@ public class CheckupController {
 				  for (Integer a=0;a<13;a++) {
 					  mapDataMedianWeight.add(weightBoys.get(a).getMedian());
 					  mapDataMedianLenght.add(lenghtBoys.get(a).getMedian());
-					  mapDataNegSp1Weight.add(weightBoys.get(a).getNeg1sd());
-					  mapDataPosSp1Weight.add(weightBoys.get(a).getPost1sd());
-					  mapDataNegSp1Lenght.add(lenghtBoys.get(a).getNeg1sd());
-					  mapDataPosSp1Lenght.add(lenghtBoys.get(a).getPost1sd());
+					  mapDataNegSp1Weight.add(weightBoys.get(a).getNeg2sd());
+					  mapDataPosSp1Weight.add(weightBoys.get(a).getPost2sd());
+					  mapDataNegSp1Lenght.add(lenghtBoys.get(a).getNeg2sd());
+					  mapDataPosSp1Lenght.add(lenghtBoys.get(a).getPost2sd());
 					  umurMedian.add(a);
 				  }
 				  
@@ -529,10 +529,10 @@ public class CheckupController {
 					  umurMedian.add(a);
 					  mapDataMedianWeight.add(weightGirls.get(a).getMedian());
 					  mapDataMedianLenght.add(lenghtGirls.get(a).getMedian());
-					  mapDataNegSp1Weight.add(weightGirls.get(a).getNeg1sd());
-					  mapDataPosSp1Weight.add(weightGirls.get(a).getPost1sd());
-					  mapDataNegSp1Lenght.add(lenghtGirls.get(a).getNeg1sd());
-					  mapDataPosSp1Lenght.add(lenghtGirls.get(a).getPost1sd());
+					  mapDataNegSp1Weight.add(weightGirls.get(a).getNeg2sd());
+					  mapDataPosSp1Weight.add(weightGirls.get(a).getPost2sd());
+					  mapDataNegSp1Lenght.add(lenghtGirls.get(a).getNeg2sd());
+					  mapDataPosSp1Lenght.add(lenghtGirls.get(a).getPost2sd());
 				  }
 				  
 				  result.put("medianWeight", mapDataMedianWeight);
@@ -578,10 +578,10 @@ public class CheckupController {
 				  for (Integer a=0;a<13;a++) {
 					  mapDataMedianWeight.add(weightBoys.get(a).getMedian());
 					  mapDataMedianLenght.add(lenghtBoys.get(a).getMedian());
-					  mapDataNegSp1Weight.add(weightBoys.get(a).getNeg1sd());
-					  mapDataPosSp1Weight.add(weightBoys.get(a).getPost1sd());
-					  mapDataNegSp1Lenght.add(lenghtBoys.get(a).getNeg1sd());
-					  mapDataPosSp1Lenght.add(lenghtBoys.get(a).getPost1sd());
+					  mapDataNegSp1Weight.add(weightBoys.get(a).getNeg2sd());
+					  mapDataPosSp1Weight.add(weightBoys.get(a).getPost2sd());
+					  mapDataNegSp1Lenght.add(lenghtBoys.get(a).getNeg2sd());
+					  mapDataPosSp1Lenght.add(lenghtBoys.get(a).getPost2sd());
 					  umurMedian.add(a);
 				  }
 				  
@@ -604,10 +604,10 @@ public class CheckupController {
 					  umurMedian.add(a);
 					  mapDataMedianWeight.add(weightGirls.get(a).getMedian());
 					  mapDataMedianLenght.add(lenghtGirls.get(a).getMedian());
-					  mapDataNegSp1Weight.add(weightGirls.get(a).getNeg1sd());
-					  mapDataPosSp1Weight.add(weightGirls.get(a).getPost1sd());
-					  mapDataNegSp1Lenght.add(lenghtGirls.get(a).getNeg1sd());
-					  mapDataPosSp1Lenght.add(lenghtGirls.get(a).getPost1sd());
+					  mapDataNegSp1Weight.add(weightGirls.get(a).getNeg2sd());
+					  mapDataPosSp1Weight.add(weightGirls.get(a).getPost2sd());
+					  mapDataNegSp1Lenght.add(lenghtGirls.get(a).getNeg2sd());
+					  mapDataPosSp1Lenght.add(lenghtGirls.get(a).getPost2sd());
 				  }
 				  
 				  result.put("medianWeight", mapDataMedianWeight);
