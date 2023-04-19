@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.map.HashedMap;
+import org.apache.commons.compress.harmony.pack200.NewAttribute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -297,7 +298,11 @@ public class CheckupController {
 		  List<Long> dataUmur = new ArrayList<>();
 		  List<Float> dataLingkarKepala = new ArrayList<>();
 		  List<Float> dataLingkarLengan = new ArrayList<>();
-		  CheckUp lastData = new CheckUp();
+		  List<WfaBoy0to5> weightBoys = new ArrayList<>();
+		  List<WfaGirl0to5> weightGirls = new ArrayList<>();
+		  List<SfaBoys0to5> lenghtBoys = new ArrayList<>();
+		  List<SfaGirl0to5> lenghtGirls= new ArrayList<>();
+ 		  CheckUp lastData = new CheckUp();
 		  Float weightTotal = 0f;
 		  Float heightTotal = 0f;
 		  
@@ -305,7 +310,6 @@ public class CheckupController {
 
 			  if(x.getIdBalita().getIdBalita()!=idBalita) {
 				  Map<String, Object> result = new HashedMap<String, Object>();
-				 
 				  result.put("idBalita",lastData.getIdBalita().getIdBalita());
 				  result.put("namaBalita",lastData.getIdBalita().getNamaBalita());
 				  result.put("namaOrangTua",lastData.getIdBalita().getIdUser().getNamaUser());
@@ -329,6 +333,28 @@ public class CheckupController {
 				  }else if (heightTotal/data.size()>1.25) {
 					  result.put("KesehatanBasedOnLenght", "Berdasarkan panjang balita, Balita anda terindikasi terlalu berat. Tetap jaga pola makan dan perkembangan balita anda");
 				  }
+				  
+				  if(lastData.getIdBalita().getJenisKelaminBalita().contains("Laki")||lastData.getIdBalita().getJenisKelaminBalita().contains("laki")) {
+					  Map<Integer, Float> mapDataMedianWeight = new HashMap<Integer, Float>();
+					  Map<Integer, Float> mapDataMedianLenght = new HashMap<Integer, Float>();
+					  for (Integer a=0;a<12;a++) {
+						  mapDataMedianWeight.put(a, weightBoys.get(a).getMedian());
+						  mapDataMedianLenght.put(a, lenghtBoys.get(a).getMedian());
+					  }
+					  
+					  result.put("medianWeight", mapDataMedianWeight);
+					  result.put("medianLenght", mapDataMedianLenght);
+				  }else {
+					  Map<Integer, Float> mapDataMedianWeight = new HashMap<Integer, Float>();
+					  Map<Integer, Float> mapDataMedianLenght = new HashMap<Integer, Float>();
+					  for (Integer a=0;a<12;a++) {
+						  mapDataMedianWeight.put(a, weightGirls.get(a).getMedian());
+						  mapDataMedianLenght.put(a, lenghtGirls.get(a).getMedian());
+					  }
+					  
+					  result.put("medianWeight", mapDataMedianWeight);
+					  result.put("medianLenght", mapDataMedianLenght);
+				  }
 				  res.add(result);
 				  
 				 dataTinggi = new ArrayList<>();
@@ -338,7 +364,10 @@ public class CheckupController {
 				 dataLingkarLengan = new ArrayList<>();
 				 weightTotal = 0f;
 				 heightTotal = 0f;
-
+				 weightBoys = new ArrayList<>();
+				 weightGirls = new ArrayList<>();
+				 lenghtBoys = new ArrayList<>();
+				 lenghtGirls= new ArrayList<>();
 			  }
 			  Date lahirBalita = x.getIdBalita().getTanggalLahirBalita();
 			  Date tanggalCheckup = x.getTanggalCheckup();
@@ -351,11 +380,11 @@ public class CheckupController {
 			  dataUmur.add(getMonthsDifference(lahirBalita, tanggalCheckup));
 			  
 			  String jenisKelamin = x.getIdBalita().getJenisKelaminBalita();
-			  if(jenisKelamin.contains("laki")) {
-				  List<WfaBoy0to5> weight = whoService.weightForAgesBoys();
-				  List<SfaBoys0to5> lenght = whoService.sizeForAgesBoys();
-				  WfaBoy0to5 currentWeightMedian = weight.get(umur.intValue());
-				  SfaBoys0to5 currentLenghtMedian = lenght.get(umur.intValue());
+			  if(jenisKelamin.contains("laki")||jenisKelamin.contains("Laki")) {
+				  weightBoys = whoService.weightForAgesBoys();
+				  lenghtBoys = whoService.sizeForAgesBoys();
+				  WfaBoy0to5 currentWeightMedian = weightBoys.get(umur.intValue());
+				  SfaBoys0to5 currentLenghtMedian = lenghtBoys.get(umur.intValue());
 				  Float berat = x.getBeratBadan();
 				  Float tinggi = x.getTinggiBadan();
 				  if(berat <= currentWeightMedian.getPost1sd() && berat>= currentWeightMedian.getNeg1sd()) {
@@ -375,10 +404,10 @@ public class CheckupController {
 				  }
 				  
 			  }else {
-				  List<WfaGirl0to5> weight = whoService.weightForAgesGirls();
-				  List<SfaGirl0to5> lenght = whoService.sizeForAgesGirls();
-				  WfaGirl0to5 currentWeightMedian = weight.get(umur.intValue());
-				  SfaGirl0to5 currentLenghtMedian = lenght.get(umur.intValue());
+				  weightGirls = whoService.weightForAgesGirls();
+				  lenghtGirls = whoService.sizeForAgesGirls();
+				  WfaGirl0to5 currentWeightMedian = weightGirls.get(umur.intValue());
+				  SfaGirl0to5 currentLenghtMedian = lenghtGirls.get(umur.intValue());
 				  Float berat = x.getBeratBadan();
 				  Float tinggi = x.getTinggiBadan();
 				  if(berat <= currentWeightMedian.getPost1sd() && berat>= currentWeightMedian.getNeg1sd()) {
@@ -433,7 +462,27 @@ public class CheckupController {
 			  }else if (heightTotal/data.size()>1.25) {
 				  result.put("KesehatanBasedOnLenght", "Berdasarkan panjang balita, Balita anda terindikasi terlalu berat. Tetap jaga pola makan dan perkembangan balita anda");
 			  }
-			  
+			  if(lastData.getIdBalita().getJenisKelaminBalita().contains("Laki")) {
+				  Map<Integer, Float> mapDataMedianWeight = new HashMap<Integer, Float>();
+				  Map<Integer, Float> mapDataMedianLenght = new HashMap<Integer, Float>();
+				  for (Integer a=0;a<12;a++) {
+					  mapDataMedianWeight.put(a, weightBoys.get(a).getMedian());
+					  mapDataMedianLenght.put(a, lenghtBoys.get(a).getMedian());
+				  }
+				  
+				  result.put("medianWeight", mapDataMedianWeight);
+				  result.put("medianLenght", mapDataMedianLenght);
+			  }else {
+				  Map<Integer, Float> mapDataMedianWeight = new HashMap<Integer, Float>();
+				  Map<Integer, Float> mapDataMedianLenght = new HashMap<Integer, Float>();
+				  for (Integer a=0;a<12;a++) {
+					  mapDataMedianWeight.put(a, weightGirls.get(a).getMedian());
+					  mapDataMedianLenght.put(a, lenghtGirls.get(a).getMedian());
+				  }
+				  
+				  result.put("medianWeight", mapDataMedianWeight);
+				  result.put("medianLenght", mapDataMedianLenght);
+			  }
 			  res.add(result);
 		  }else {
 			  Map<String, Object> result = new HashMap<>();
@@ -459,6 +508,27 @@ public class CheckupController {
 				  result.put("KesehatanBasedOnLenght", "Berdasarkan panjang balita, Balita anda terindikasi Kurang Sehat. Perbaiki pola makan dan jaga perkembangan balita anda");
 			  }else if (heightTotal/data.size()>1.25) {
 				  result.put("KesehatanBasedOnLenght", "Berdasarkan panjang balita, Balita anda terindikasi terlalu berat. Tetap jaga pola makan dan perkembangan balita anda");
+			  }
+			  if(lastData.getIdBalita().getJenisKelaminBalita().contains("Laki")) {
+				  Map<Integer, Float> mapDataMedianWeight = new HashMap<Integer, Float>();
+				  Map<Integer, Float> mapDataMedianLenght = new HashMap<Integer, Float>();
+				  for (Integer a=0;a<12;a++) {
+					  mapDataMedianWeight.put(a, weightBoys.get(a).getMedian());
+					  mapDataMedianLenght.put(a, lenghtBoys.get(a).getMedian());
+				  }
+				  
+				  result.put("medianWeight", mapDataMedianWeight);
+				  result.put("medianLenght", mapDataMedianLenght);
+			  }else {
+				  Map<Integer, Float> mapDataMedianWeight = new HashMap<Integer, Float>();
+				  Map<Integer, Float> mapDataMedianLenght = new HashMap<Integer, Float>();
+				  for (Integer a=0;a<12;a++) {
+					  mapDataMedianWeight.put(a, weightGirls.get(a).getMedian());
+					  mapDataMedianLenght.put(a, lenghtGirls.get(a).getMedian());
+				  }
+				  
+				  result.put("medianWeight", mapDataMedianWeight);
+				  result.put("medianLenght", mapDataMedianLenght);
 			  }
 			  res.add(result);
 		  }
