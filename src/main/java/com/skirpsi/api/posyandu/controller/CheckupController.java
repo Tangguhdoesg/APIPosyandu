@@ -342,14 +342,14 @@ public class CheckupController {
 					  List<Float> mapDataNegSp1Lenght = new ArrayList<>();
 					  List<Float> mapDataPosSp1Lenght = new ArrayList<>();
 					  List<Integer> umurMedian = new ArrayList<>();
-					  for (Integer a=0;a<13;a++) {
-						  mapDataMedianWeight.add(weightBoys.get(a).getMedian());
-						  mapDataMedianLenght.add(lenghtBoys.get(a).getMedian());
-						  mapDataNegSp1Weight.add(weightBoys.get(a).getNeg2sd());
-						  mapDataPosSp1Weight.add(weightBoys.get(a).getPost2sd());
-						  mapDataNegSp1Lenght.add(lenghtBoys.get(a).getNeg2sd());
-						  mapDataPosSp1Lenght.add(lenghtBoys.get(a).getPost2sd());
-						  umurMedian.add(a);
+					  for (Long a=dataUmur.get(0);a<dataUmur.get(0)+13;a++) {
+						  mapDataMedianWeight.add(weightBoys.get(a.intValue()).getMedian());
+						  mapDataMedianLenght.add(lenghtBoys.get(a.intValue()).getMedian());
+						  mapDataNegSp1Weight.add(weightBoys.get(a.intValue()).getNeg2sd());
+						  mapDataPosSp1Weight.add(weightBoys.get(a.intValue()).getPost2sd());
+						  mapDataNegSp1Lenght.add(lenghtBoys.get(a.intValue()).getNeg2sd());
+						  mapDataPosSp1Lenght.add(lenghtBoys.get(a.intValue()).getPost2sd());
+						  umurMedian.add(a.intValue());
 					  }
 					  
 					  result.put("medianWeight", mapDataMedianWeight);
@@ -367,14 +367,14 @@ public class CheckupController {
 					  List<Float> mapDataPosSp1Weight = new ArrayList<>();
 					  List<Float> mapDataNegSp1Lenght = new ArrayList<>();
 					  List<Float> mapDataPosSp1Lenght = new ArrayList<>();
-					  for (Integer a=0;a<13;a++) {
-						  umurMedian.add(a);
-						  mapDataMedianWeight.add(weightGirls.get(a).getMedian());
-						  mapDataMedianLenght.add(lenghtGirls.get(a).getMedian());
-						  mapDataNegSp1Weight.add(weightGirls.get(a).getNeg2sd());
-						  mapDataPosSp1Weight.add(weightGirls.get(a).getPost2sd());
-						  mapDataNegSp1Lenght.add(lenghtGirls.get(a).getNeg2sd());
-						  mapDataPosSp1Lenght.add(lenghtGirls.get(a).getPost2sd());
+					  for (Long a=dataUmur.get(0);a<dataUmur.get(0)+13;a++) {
+						  umurMedian.add(a.intValue());
+						  mapDataMedianWeight.add(weightGirls.get(a.intValue()).getMedian());
+						  mapDataMedianLenght.add(lenghtGirls.get(a.intValue()).getMedian());
+						  mapDataNegSp1Weight.add(weightGirls.get(a.intValue()).getNeg2sd());
+						  mapDataPosSp1Weight.add(weightGirls.get(a.intValue()).getPost2sd());
+						  mapDataNegSp1Lenght.add(lenghtGirls.get(a.intValue()).getNeg2sd());
+						  mapDataPosSp1Lenght.add(lenghtGirls.get(a.intValue()).getPost2sd());
 					  }
 					  
 					  result.put("medianWeight", mapDataMedianWeight);
@@ -500,14 +500,14 @@ public class CheckupController {
 				  List<Float> mapDataNegSp1Lenght = new ArrayList<>();
 				  List<Float> mapDataPosSp1Lenght = new ArrayList<>();
 				  List<Integer> umurMedian = new ArrayList<>();
-				  for (Integer a=0;a<13;a++) {
-					  mapDataMedianWeight.add(weightBoys.get(a).getMedian());
-					  mapDataMedianLenght.add(lenghtBoys.get(a).getMedian());
-					  mapDataNegSp1Weight.add(weightBoys.get(a).getNeg2sd());
-					  mapDataPosSp1Weight.add(weightBoys.get(a).getPost2sd());
-					  mapDataNegSp1Lenght.add(lenghtBoys.get(a).getNeg2sd());
-					  mapDataPosSp1Lenght.add(lenghtBoys.get(a).getPost2sd());
-					  umurMedian.add(a);
+				  for (Long a=dataUmur.get(0);a<dataUmur.get(0)+13;a++) {
+					  mapDataMedianWeight.add(weightBoys.get(a.intValue()).getMedian());
+					  mapDataMedianLenght.add(lenghtBoys.get(a.intValue()).getMedian());
+					  mapDataNegSp1Weight.add(weightBoys.get(a.intValue()).getNeg2sd());
+					  mapDataPosSp1Weight.add(weightBoys.get(a.intValue()).getPost2sd());
+					  mapDataNegSp1Lenght.add(lenghtBoys.get(a.intValue()).getNeg2sd());
+					  mapDataPosSp1Lenght.add(lenghtBoys.get(a.intValue()).getPost2sd());
+					  umurMedian.add(a.intValue());
 				  }
 				  
 				  result.put("medianWeight", mapDataMedianWeight);
@@ -525,14 +525,14 @@ public class CheckupController {
 				  List<Float> mapDataPosSp1Weight = new ArrayList<>();
 				  List<Float> mapDataNegSp1Lenght = new ArrayList<>();
 				  List<Float> mapDataPosSp1Lenght = new ArrayList<>();
-				  for (Integer a=0;a<13;a++) {
-					  umurMedian.add(a);
-					  mapDataMedianWeight.add(weightGirls.get(a).getMedian());
-					  mapDataMedianLenght.add(lenghtGirls.get(a).getMedian());
-					  mapDataNegSp1Weight.add(weightGirls.get(a).getNeg2sd());
-					  mapDataPosSp1Weight.add(weightGirls.get(a).getPost2sd());
-					  mapDataNegSp1Lenght.add(lenghtGirls.get(a).getNeg2sd());
-					  mapDataPosSp1Lenght.add(lenghtGirls.get(a).getPost2sd());
+				  for (Long a=dataUmur.get(0);a<dataUmur.get(0)+13;a++) {
+					  umurMedian.add(a.intValue());
+					  mapDataMedianWeight.add(weightGirls.get(a.intValue()).getMedian());
+					  mapDataMedianLenght.add(lenghtGirls.get(a.intValue()).getMedian());
+					  mapDataNegSp1Weight.add(weightGirls.get(a.intValue()).getNeg2sd());
+					  mapDataPosSp1Weight.add(weightGirls.get(a.intValue()).getPost2sd());
+					  mapDataNegSp1Lenght.add(lenghtGirls.get(a.intValue()).getNeg2sd());
+					  mapDataPosSp1Lenght.add(lenghtGirls.get(a.intValue()).getPost2sd());
 				  }
 				  
 				  result.put("medianWeight", mapDataMedianWeight);
@@ -575,14 +575,14 @@ public class CheckupController {
 				  List<Float> mapDataNegSp1Lenght = new ArrayList<>();
 				  List<Float> mapDataPosSp1Lenght = new ArrayList<>();
 				  List<Integer> umurMedian = new ArrayList<>();
-				  for (Integer a=0;a<13;a++) {
-					  mapDataMedianWeight.add(weightBoys.get(a).getMedian());
-					  mapDataMedianLenght.add(lenghtBoys.get(a).getMedian());
-					  mapDataNegSp1Weight.add(weightBoys.get(a).getNeg2sd());
-					  mapDataPosSp1Weight.add(weightBoys.get(a).getPost2sd());
-					  mapDataNegSp1Lenght.add(lenghtBoys.get(a).getNeg2sd());
-					  mapDataPosSp1Lenght.add(lenghtBoys.get(a).getPost2sd());
-					  umurMedian.add(a);
+				  for (Long a=dataUmur.get(0);a<dataUmur.get(0)+13;a++) {
+					  mapDataMedianWeight.add(weightBoys.get(a.intValue()).getMedian());
+					  mapDataMedianLenght.add(lenghtBoys.get(a.intValue()).getMedian());
+					  mapDataNegSp1Weight.add(weightBoys.get(a.intValue()).getNeg2sd());
+					  mapDataPosSp1Weight.add(weightBoys.get(a.intValue()).getPost2sd());
+					  mapDataNegSp1Lenght.add(lenghtBoys.get(a.intValue()).getNeg2sd());
+					  mapDataPosSp1Lenght.add(lenghtBoys.get(a.intValue()).getPost2sd());
+					  umurMedian.add(a.intValue());
 				  }
 				  
 				  result.put("medianWeight", mapDataMedianWeight);
@@ -600,14 +600,14 @@ public class CheckupController {
 				  List<Float> mapDataPosSp1Weight = new ArrayList<>();
 				  List<Float> mapDataNegSp1Lenght = new ArrayList<>();
 				  List<Float> mapDataPosSp1Lenght = new ArrayList<>();
-				  for (Integer a=0;a<13;a++) {
-					  umurMedian.add(a);
-					  mapDataMedianWeight.add(weightGirls.get(a).getMedian());
-					  mapDataMedianLenght.add(lenghtGirls.get(a).getMedian());
-					  mapDataNegSp1Weight.add(weightGirls.get(a).getNeg2sd());
-					  mapDataPosSp1Weight.add(weightGirls.get(a).getPost2sd());
-					  mapDataNegSp1Lenght.add(lenghtGirls.get(a).getNeg2sd());
-					  mapDataPosSp1Lenght.add(lenghtGirls.get(a).getPost2sd());
+				  for (Long a=dataUmur.get(0);a<dataUmur.get(0)+13;a++) {
+					  umurMedian.add(a.intValue());
+					  mapDataMedianWeight.add(weightGirls.get(a.intValue()).getMedian());
+					  mapDataMedianLenght.add(lenghtGirls.get(a.intValue()).getMedian());
+					  mapDataNegSp1Weight.add(weightGirls.get(a.intValue()).getNeg2sd());
+					  mapDataPosSp1Weight.add(weightGirls.get(a.intValue()).getPost2sd());
+					  mapDataNegSp1Lenght.add(lenghtGirls.get(a.intValue()).getNeg2sd());
+					  mapDataPosSp1Lenght.add(lenghtGirls.get(a.intValue()).getPost2sd());
 				  }
 				  
 				  result.put("medianWeight", mapDataMedianWeight);
