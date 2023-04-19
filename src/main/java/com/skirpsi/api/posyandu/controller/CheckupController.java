@@ -327,11 +327,11 @@ public class CheckupController {
 					  result.put("KesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi terlalu berat. Tetap jaga pola makan dan perkembangan balita anda");
 				  }
 				  if (heightTotal/data.size()<=1.25 && heightTotal/data.size()>=0.75) {
-					  result.put("KesehatanBasedOnLenght", "Berdasarkan panjang balita, Balita anda terindikasi Sehat. Tetap jaga pola makan dan perkembangan balita anda");
+					  result.put("KesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi Sehat. Tetap jaga pola makan dan perkembangan balita anda");
 				  }else if(heightTotal/data.size()<0.75) {
-					  result.put("KesehatanBasedOnLenght", "Berdasarkan panjang balita, Balita anda terindikasi Kurang Sehat. Perbaiki pola makan dan jaga perkembangan balita anda");
+					  result.put("KesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi Kurang Sehat. Perbaiki pola makan dan jaga perkembangan balita anda");
 				  }else if (heightTotal/data.size()>1.25) {
-					  result.put("KesehatanBasedOnLenght", "Berdasarkan panjang balita, Balita anda terindikasi terlalu berat. Tetap jaga pola makan dan perkembangan balita anda");
+					  result.put("KesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi terlalu berat. Tetap jaga pola makan dan perkembangan balita anda");
 				  }
 				  
 				  if(lastData.getIdBalita().getJenisKelaminBalita().contains("Laki")||lastData.getIdBalita().getJenisKelaminBalita().contains("laki")) {
@@ -343,7 +343,7 @@ public class CheckupController {
 					  }
 					  
 					  result.put("medianWeight", mapDataMedianWeight);
-					  result.put("medianLenght", mapDataMedianLenght);
+					  result.put("medianLength", mapDataMedianLenght);
 				  }else {
 					  Map<Integer, Float> mapDataMedianWeight = new HashMap<Integer, Float>();
 					  Map<Integer, Float> mapDataMedianLenght = new HashMap<Integer, Float>();
@@ -353,7 +353,7 @@ public class CheckupController {
 					  }
 					  
 					  result.put("medianWeight", mapDataMedianWeight);
-					  result.put("medianLenght", mapDataMedianLenght);
+					  result.put("medianLength", mapDataMedianLenght);
 				  }
 				  res.add(result);
 				  
@@ -456,11 +456,11 @@ public class CheckupController {
 				  result.put("KesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi terlalu berat. Tetap jaga pola makan dan perkembangan balita anda");
 			  }
 			  if (heightTotal/data.size()<=1.25 && heightTotal/data.size()>=0.75) {
-				  result.put("KesehatanBasedOnLenght", "Berdasarkan panjang balita, Balita anda terindikasi Sehat. Tetap jaga pola makan dan perkembangan balita anda");
+				  result.put("KesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi Sehat. Tetap jaga pola makan dan perkembangan balita anda");
 			  }else if(heightTotal/data.size()<0.75) {
-				  result.put("KesehatanBasedOnLenght", "Berdasarkan panjang balita, Balita anda terindikasi Kurang Sehat. Perbaiki pola makan dan jaga perkembangan balita anda");
+				  result.put("KesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi Kurang Sehat. Perbaiki pola makan dan jaga perkembangan balita anda");
 			  }else if (heightTotal/data.size()>1.25) {
-				  result.put("KesehatanBasedOnLenght", "Berdasarkan panjang balita, Balita anda terindikasi terlalu berat. Tetap jaga pola makan dan perkembangan balita anda");
+				  result.put("KesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi terlalu berat. Tetap jaga pola makan dan perkembangan balita anda");
 			  }
 			  if(lastData.getIdBalita().getJenisKelaminBalita().contains("Laki")) {
 				  Map<Integer, Float> mapDataMedianWeight = new HashMap<Integer, Float>();
@@ -471,7 +471,7 @@ public class CheckupController {
 				  }
 				  
 				  result.put("medianWeight", mapDataMedianWeight);
-				  result.put("medianLenght", mapDataMedianLenght);
+				  result.put("medianLength", mapDataMedianLenght);
 			  }else {
 				  Map<Integer, Float> mapDataMedianWeight = new HashMap<Integer, Float>();
 				  Map<Integer, Float> mapDataMedianLenght = new HashMap<Integer, Float>();
@@ -481,7 +481,7 @@ public class CheckupController {
 				  }
 				  
 				  result.put("medianWeight", mapDataMedianWeight);
-				  result.put("medianLenght", mapDataMedianLenght);
+				  result.put("medianLength", mapDataMedianLenght);
 			  }
 			  res.add(result);
 		  }else {
@@ -503,11 +503,11 @@ public class CheckupController {
 				  result.put("KesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi terlalu berat. Tetap jaga pola makan dan perkembangan balita anda");
 			  }
 			  if (heightTotal/data.size()<=1.25 && heightTotal/data.size()>=0.75) {
-				  result.put("KesehatanBasedOnLenght", "Berdasarkan panjang balita, Balita anda terindikasi Sehat. Tetap jaga pola makan dan perkembangan balita anda");
+				  result.put("KesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi Sehat. Tetap jaga pola makan dan perkembangan balita anda");
 			  }else if(heightTotal/data.size()<0.75) {
-				  result.put("KesehatanBasedOnLenght", "Berdasarkan panjang balita, Balita anda terindikasi Kurang Sehat. Perbaiki pola makan dan jaga perkembangan balita anda");
+				  result.put("KesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi Kurang Sehat. Perbaiki pola makan dan jaga perkembangan balita anda");
 			  }else if (heightTotal/data.size()>1.25) {
-				  result.put("KesehatanBasedOnLenght", "Berdasarkan panjang balita, Balita anda terindikasi terlalu berat. Tetap jaga pola makan dan perkembangan balita anda");
+				  result.put("KesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi terlalu berat. Tetap jaga pola makan dan perkembangan balita anda");
 			  }
 			  if(lastData.getIdBalita().getJenisKelaminBalita().contains("Laki")) {
 				  Map<Integer, Float> mapDataMedianWeight = new HashMap<Integer, Float>();
@@ -518,7 +518,7 @@ public class CheckupController {
 				  }
 				  
 				  result.put("medianWeight", mapDataMedianWeight);
-				  result.put("medianLenght", mapDataMedianLenght);
+				  result.put("medianLength", mapDataMedianLenght);
 			  }else {
 				  Map<Integer, Float> mapDataMedianWeight = new HashMap<Integer, Float>();
 				  Map<Integer, Float> mapDataMedianLenght = new HashMap<Integer, Float>();
@@ -528,7 +528,7 @@ public class CheckupController {
 				  }
 				  
 				  result.put("medianWeight", mapDataMedianWeight);
-				  result.put("medianLenght", mapDataMedianLenght);
+				  result.put("medianLength", mapDataMedianLenght);
 			  }
 			  res.add(result);
 		  }
