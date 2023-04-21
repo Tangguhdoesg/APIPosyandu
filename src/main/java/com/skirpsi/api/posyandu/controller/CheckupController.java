@@ -417,19 +417,19 @@ public class CheckupController {
 				  SfaBoys0to5 currentLenghtMedian = lenghtBoys.get(umur.intValue());
 				  Float berat = x.getBeratBadan();
 				  Float tinggi = x.getTinggiBadan();
-				  if(berat <= currentWeightMedian.getPost1sd() && berat>= currentWeightMedian.getNeg1sd()) {
+				  if(berat <= currentWeightMedian.getPost2sd() && berat>= currentWeightMedian.getNeg2sd()) {
 					  weightTotal+=1;
-				  }else if(berat<currentWeightMedian.getNeg1sd()) {
+				  }else if(berat<currentWeightMedian.getNeg2sd()) {
 					  weightTotal+=0;
-				  }else if(berat>currentWeightMedian.getPost1sd()) {
+				  }else if(berat>currentWeightMedian.getPost2sd()) {
 					  weightTotal+=2;
 				  }
 				  
-				  if(tinggi <= currentLenghtMedian.getPost1sd() && tinggi>= currentLenghtMedian.getNeg1sd()) {
+				  if(tinggi <= currentLenghtMedian.getPost2sd() && tinggi>= currentLenghtMedian.getNeg2sd()) {
 					  heightTotal+=1;
-				  }else if(tinggi<currentLenghtMedian.getNeg1sd()) {
+				  }else if(tinggi<currentLenghtMedian.getNeg2sd()) {
 					  heightTotal+=0;
-				  }else if(tinggi>currentLenghtMedian.getPost1sd()) {
+				  }else if(tinggi>currentLenghtMedian.getPost2sd()) {
 					  heightTotal+=2;
 				  }
 				  
@@ -440,19 +440,19 @@ public class CheckupController {
 				  SfaGirl0to5 currentLenghtMedian = lenghtGirls.get(umur.intValue());
 				  Float berat = x.getBeratBadan();
 				  Float tinggi = x.getTinggiBadan();
-				  if(berat <= currentWeightMedian.getPost1sd() && berat>= currentWeightMedian.getNeg1sd()) {
+				  if(berat <= currentWeightMedian.getPost2sd() && berat>= currentWeightMedian.getNeg2sd()) {
 					  weightTotal+=1;
-				  }else if(berat<currentWeightMedian.getNeg1sd()) {
+				  }else if(berat<currentWeightMedian.getNeg2sd()) {
 					  weightTotal+=0;
-				  }else if(berat>currentWeightMedian.getPost1sd()) {
+				  }else if(berat>currentWeightMedian.getPost2sd()) {
 					  weightTotal+=2;
 				  }
 				  
-				  if(tinggi <= currentLenghtMedian.getPost1sd() && tinggi>= currentLenghtMedian.getNeg1sd()) {
+				  if(tinggi <= currentLenghtMedian.getPost2sd() && tinggi>= currentLenghtMedian.getNeg2sd()) {
 					  heightTotal+=1;
-				  }else if(tinggi<currentLenghtMedian.getNeg1sd()) {
+				  }else if(tinggi<currentLenghtMedian.getNeg2sd()) {
 					  heightTotal+=0;
-				  }else if(tinggi>currentLenghtMedian.getPost1sd()) {
+				  }else if(tinggi>currentLenghtMedian.getPost2sd()) {
 					  heightTotal+=2;
 				  }
 			  }
