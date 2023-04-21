@@ -20,6 +20,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,7 +40,7 @@ public class ReportingController {
 	
 	@Autowired WfaSfaDataService wfaSfaSer;
 	
-	@GetMapping("/excelCheckup")
+	@PostMapping("/excelCheckup")
 	public ResponseEntity<byte[]> generateExcelCheckup(@RequestBody CreateReport report) {
 		File file = reportServ.createCheckupReportCheckup(report.getTanggalAwal(), report.getTanggalAkhir());
 		if(file==null) {
@@ -56,7 +57,7 @@ public class ReportingController {
 		
 	}
 	
-	@GetMapping("/excelImunisasi")
+	@PostMapping("/excelImunisasi")
 	public ResponseEntity<byte[]> generateExcelImunisasi(@RequestBody CreateReport report) {  
 		File file = reportServ.createCheckupReportImunisasi(report.getTanggalAwal(),report.getTanggalAkhir());
 		if(file==null) {
@@ -74,7 +75,7 @@ public class ReportingController {
 	}
 	
 	
-	@GetMapping("/send")
+	@PostMapping("/send")
 	public ResponseEntity<String> sendMail(@RequestBody CreateReport report) {
 		File file = reportServ.createCheckupReportImunisasi(report.getTanggalAwal(),report.getTanggalAkhir());
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
