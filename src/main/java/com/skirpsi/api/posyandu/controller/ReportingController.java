@@ -3,6 +3,7 @@ package com.skirpsi.api.posyandu.controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Properties;
 
 import javax.mail.MessagingException;
@@ -12,6 +13,8 @@ import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,8 +43,8 @@ public class ReportingController {
 	
 	@Autowired WfaSfaDataService wfaSfaSer;
 	
-	@PostMapping("/excelCheckup")
-	public ResponseEntity<byte[]> generateExcelCheckup(@RequestBody CreateReport report) {
+	@PostMapping("/excelCheckupOld")
+	public ResponseEntity<byte[]> generateExcelCheckupOld(@RequestBody CreateReport report) {
 		File file = reportServ.createCheckupReportCheckup(report.getTanggalAwal(), report.getTanggalAkhir());
 		if(file==null) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -57,16 +60,41 @@ public class ReportingController {
 		
 	}
 	
+	@PostMapping("/excelCheckup")
+	public ResponseEntity<Resource> generateExcelCheckup(@RequestBody CreateReport report) {
+		File file = reportServ.createCheckupReportCheckup(report.getTanggalAwal(), report.getTanggalAkhir());
+		if(file==null) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+	    try {
+	        Resource fileResource = new UrlResource(file.toURI());
+	        Path path = fileResource.getFile()
+	                        .toPath();
+	    	return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(path))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileResource.getFilename() + "\"")
+                    .body(fileResource);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		
+	}
+	
 	@PostMapping("/excelImunisasi")
-	public ResponseEntity<byte[]> generateExcelImunisasi(@RequestBody CreateReport report) {  
+	public ResponseEntity<Resource> generateExcelImunisasi(@RequestBody CreateReport report) {  
 		File file = reportServ.createCheckupReportImunisasi(report.getTanggalAwal(),report.getTanggalAkhir());
 		if(file==null) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 	    try {
-			return ResponseEntity.ok()
-			        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
-			        .body(Files.readAllBytes(file.toPath()));
+	        Resource fileResource = new UrlResource(file.toURI());
+	        Path path = fileResource.getFile()
+	                        .toPath();
+	    	return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(path))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileResource.getFilename() + "\"")
+                    .body(fileResource);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
