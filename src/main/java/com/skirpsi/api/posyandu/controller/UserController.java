@@ -146,6 +146,8 @@ public class UserController {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<Map<String, Object>> updateUser(@RequestBody UserPosyandu user,@PathVariable("id") Integer id){
+		String pattern = "yyyy-MM-dd";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 		UserPosyandu _user = userServ.getOneById(id);
 		if(_user==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -158,12 +160,19 @@ public class UserController {
 	    	_user.setTanggalLahirUser(user.getTanggalLahirUser());
 	    	
 	    	userServ.insert(_user);
+	    	
+	    	User authUser = userRepository.findByIduser(id).get();
+	    	String defPass = simpleDateFormat.format(_user.getTanggalLahirUser());
+	    	authUser.setUsername(_user.getNoTeleponUser());
+	    	authUser.setPassword(encoder.encode(defPass));
+	    	userRepository.save(authUser);
+	    	
 	    	ObjectMapper oMapper = new ObjectMapper();
 	    	@SuppressWarnings("unchecked")
 			Map<String, Object> result = oMapper.convertValue(_user, Map.class);
 	    	result.remove("passwordUser");
-	    	String pattern = "dd-MM-yyyy";
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+	    	pattern = "dd-MM-yyyy";
+			simpleDateFormat = new SimpleDateFormat(pattern);
 			Date d = new Date(Long.parseLong(result.get("tanggalLahirUser").toString()));
 			String date = simpleDateFormat.format(d);
 			result.remove("tanggalLahirUser");

@@ -109,10 +109,6 @@ public class ReportingController {
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 		MimeMessageHelper mimeMessageHelper;
 		
-		System.out.println(report.getTanggalAkhir());
-		System.out.println(report.getTanggalAwal());
-		System.out.println(report.getEmail());
-		
 		try {
 			mimeMessageHelper= new MimeMessageHelper(mimeMessage, true);
 			mimeMessageHelper.setFrom(sender);

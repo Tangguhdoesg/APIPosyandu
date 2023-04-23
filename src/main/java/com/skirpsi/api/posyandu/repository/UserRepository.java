@@ -10,6 +10,8 @@ import com.skirpsi.api.posyandu.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
 	Optional<User> findByUsername(String username);
+	
+	Optional<User> findByIduser(Integer id);
 
 	Boolean existsByUsername(String username);
 }
