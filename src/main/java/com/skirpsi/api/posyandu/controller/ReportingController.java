@@ -72,29 +72,22 @@ public class ReportingController {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 
-	        Path path = Paths.get(file.getAbsolutePath());
-			try {
-				ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(file.toPath()));
-				HttpHeaders head= new HttpHeaders();
-				List<String> customHeader = new ArrayList<>();
-				customHeader.add("INI-PUNYA-RAFLI");
-				customHeader.add("Content-Disposition");
-//				customHeader.add("")
-		        head.add(HttpHeaders.CONTENT_TYPE, Files.probeContentType(path));
-		        head.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getName());
-		        head.add("INI-PUNYA-RAFLI", "HALO");
-		        head.setAccessControlExposeHeaders(customHeader);
-//		        head.setaccesscontrol
-		        System.out.println(file.getName());
-		        System.out.println(head);
-		    	return ResponseEntity.ok().headers(head).body(resource);
-			} catch (IOException e) {
-				e.printStackTrace();
-				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-			}
+        Path path = Paths.get(file.getAbsolutePath());
+		try {
+			ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(file.toPath()));
+			HttpHeaders head= new HttpHeaders();
+			List<String> customHeader = new ArrayList<>();
+			customHeader.add("INI-PUNYA-RAFLI");
+			customHeader.add("Content-Disposition");
+	        head.add(HttpHeaders.CONTENT_TYPE, Files.probeContentType(path));
+	        head.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getName());
+	        head.setAccessControlExposeHeaders(customHeader);
+	    	return ResponseEntity.ok().headers(head).body(resource);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 
-	        
-		
 	}
 	
 	@PostMapping("/excelImunisasi")
@@ -103,17 +96,19 @@ public class ReportingController {
 		if(file==null) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-	    try {
-	        Resource fileResource = new UrlResource(file.toURI());
-	        Path path = fileResource.getFile()
-	                        .toPath();
-	    	return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(path))
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileResource.getFilename() + "\"")
-                    .body(fileResource);
+		Path path = Paths.get(file.getAbsolutePath());
+		try {
+			ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(file.toPath()));
+			HttpHeaders head= new HttpHeaders();
+			List<String> customHeader = new ArrayList<>();
+			customHeader.add("Content-Disposition");
+	        head.add(HttpHeaders.CONTENT_TYPE, Files.probeContentType(path));
+	        head.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getName());
+	        head.setAccessControlExposeHeaders(customHeader);
+	    	return ResponseEntity.ok().headers(head).body(resource);
 		} catch (IOException e) {
 			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
 	}
