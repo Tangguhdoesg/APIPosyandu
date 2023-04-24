@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.MessagingException;
@@ -12,11 +15,13 @@ import javax.mail.internet.MimeMessage;
 import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -66,18 +71,29 @@ public class ReportingController {
 		if(file==null) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-	    try {
-	        Resource fileResource = new UrlResource(file.toURI());
-	        Path path = fileResource.getFile()
-	                        .toPath();
-	    	return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(path))
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileResource.getFilename() + "\"")
-                    .body(fileResource);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		}
+
+	        Path path = Paths.get(file.getAbsolutePath());
+			try {
+				ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(file.toPath()));
+				HttpHeaders head= new HttpHeaders();
+				List<String> customHeader = new ArrayList<>();
+				customHeader.add("INI-PUNYA-RAFLI");
+				customHeader.add("Content-Disposition");
+//				customHeader.add("")
+		        head.add(HttpHeaders.CONTENT_TYPE, Files.probeContentType(path));
+		        head.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getName());
+		        head.add("INI-PUNYA-RAFLI", "HALO");
+		        head.setAccessControlExposeHeaders(customHeader);
+//		        head.setaccesscontrol
+		        System.out.println(file.getName());
+		        System.out.println(head);
+		    	return ResponseEntity.ok().headers(head).body(resource);
+			} catch (IOException e) {
+				e.printStackTrace();
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
+
+	        
 		
 	}
 	

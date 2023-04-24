@@ -69,6 +69,8 @@ public class WebSecurityConfig {
 
 	    http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	    
+	    http.cors();
+	    
 	    return http.build();
 	  }
 	
