@@ -22,7 +22,7 @@ public class ReportService {
 	@Autowired ImunisasiRepository imuRepo;
 
 	public File createCheckupReportCheckup(String dateFrom, String dateTo) {
-		String lokasiFile = "D:/random/excelTestCheckup.xlsx";
+		String lokasiFile = "./temp/excelTestCheckup.xlsx";
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		XSSFSheet sheet = workbook.createSheet("Test new Sheet");
 		
@@ -114,7 +114,7 @@ public class ReportService {
 	}
 	
 	public File createCheckupReportImunisasi(String dateFrom, String dateTo) {
-		String lokasiFile = "D:/random/excelTestImunisasi.xlsx";
+		String lokasiFile = "./temp/excelTestImunisasi.xlsx";
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		XSSFSheet sheet = workbook.createSheet("Test new Sheet");
 		
