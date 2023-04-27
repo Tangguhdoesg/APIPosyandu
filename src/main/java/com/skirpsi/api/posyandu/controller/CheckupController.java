@@ -161,7 +161,6 @@ public class CheckupController {
 				String date2 = simpleDateFormat.format(d2);
 				result.remove("tanggalCheckupBerikutnya");
 				result.put("tanggalCheckupBerikutnya", date2);
-				System.out.println(date2);
 			}else {
 				result.remove("tanggalCheckupBerikutnya");
 			}				

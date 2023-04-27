@@ -70,18 +70,25 @@ public class ImunisasiController {
 		String pattern = "yyyy-MM-dd";
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 		Date d1 = new Date(Long.parseLong(result.get("tanggalImunisasi").toString()));
-		Date d2 = new Date(Long.parseLong(result.get("tanggalImunisasiBerikutnya").toString()));
+//		Date d2 = new Date(Long.parseLong(result.get("tanggalImunisasiBerikutnya").toString()));
 		String date1 = simpleDateFormat.format(d1);
-		String date2 = simpleDateFormat.format(d2);
+//		String date2 = simpleDateFormat.format(d2);
 		result.remove("tanggalImunisasi");
 		result.remove("tanggalImunisasiBerikutnya");
 		result.put("tanggalImunisasi", date1);
-		result.put("tanggalImunisasiBerikutnya", date2);
+//		result.put("tanggalImunisasiBerikutnya", date2);
 		result.put("idBalita",balita.getIdBalita());
 		result.put("namaBalita",balita.getNamaBalita());
 		result.put("namaOrangTua",balita.getIdUser().getNamaUser());
 		result.put("nikBalita",balita.getNikBalita());
-		
+		if(result.get("tanggalImunisasiBerikutnya")!=null){
+			Date d2 = new Date(Long.parseLong(result.get("tanggalImunisasiBerikutnya").toString()));
+			String date2 = simpleDateFormat.format(d2);
+			result.remove("tanggalImunisasiBerikutnya");
+			result.put("tanggalImunisasiBerikutnya", date2);
+		}else {
+			result.remove("tanggalCheckupBerikutnya");
+		}
 		return new ResponseEntity<>(result,HttpStatus.OK);
 	}
 	
@@ -104,17 +111,25 @@ public class ImunisasiController {
 		String pattern = "yyyy-MM-dd";
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 		Date d1 = new Date(Long.parseLong(result.get("tanggalImunisasi").toString()));
-		Date d2 = new Date(Long.parseLong(result.get("tanggalImunisasiBerikutnya").toString()));
+//		Date d2 = new Date(Long.parseLong(result.get("tanggalImunisasiBerikutnya").toString()));
 		String date1 = simpleDateFormat.format(d1);
-		String date2 = simpleDateFormat.format(d2);
+//		String date2 = simpleDateFormat.format(d2);
 		result.remove("tanggalImunisasi");
 		result.remove("tanggalImunisasiBerikutnya");
 		result.put("tanggalImunisasi", date1);
-		result.put("tanggalImunisasiBerikutnya", date2);
+//		result.put("tanggalImunisasiBerikutnya", date2);
 		result.put("idBalita",balita.getIdBalita());
 		result.put("namaBalita",balita.getNamaBalita());
 		result.put("namaOrangTua",balita.getIdUser().getNamaUser());
 		result.put("nikBalita",balita.getNikBalita());
+		if(result.get("tanggalImunisasiBerikutnya")!=null){
+			Date d2 = new Date(Long.parseLong(result.get("tanggalImunisasiBerikutnya").toString()));
+			String date2 = simpleDateFormat.format(d2);
+			result.remove("tanggalImunisasiBerikutnya");
+			result.put("tanggalImunisasiBerikutnya", date2);
+		}else {
+			result.remove("tanggalCheckupBerikutnya");
+		}
 		
 		return new ResponseEntity<>(result,HttpStatus.OK);
 	}
@@ -147,17 +162,25 @@ public class ImunisasiController {
 				String pattern = "yyyy-MM-dd";
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 				Date d1 = new Date(Long.parseLong(x.get("tanggalImunisasi").toString()));
-				Date d2 = new Date(Long.parseLong(x.get("tanggalImunisasiBerikutnya").toString()));
+//				Date d2 = new Date(Long.parseLong(x.get("tanggalImunisasiBerikutnya").toString()));
 				String date1 = simpleDateFormat.format(d1);
-				String date2 = simpleDateFormat.format(d2);
+//				String date2 = simpleDateFormat.format(d2);
 				x.remove("tanggalImunisasi");
 				x.remove("tanggalImunisasiBerikutnya");
 				x.put("tanggalImunisasi", date1);
-				x.put("tanggalImunisasiBerikutnya", date2);
+//				x.put("tanggalImunisasiBerikutnya", date2);
 				x.put("idBalita",z.getIdBalita());
 				x.put("namaBalita",z.getNamaBalita());
 				x.put("namaOrangTua",z.getIdUser().getNamaUser());
 				x.put("nikBalita",z.getNikBalita());
+				if(x.get("tanggalImunisasiBerikutnya")!=null){
+					Date d2 = new Date(Long.parseLong(x.get("tanggalImunisasiBerikutnya").toString()));
+					String date2 = simpleDateFormat.format(d2);
+					x.remove("tanggalImunisasiBerikutnya");
+					x.put("tanggalImunisasiBerikutnya", date2);
+				}else {
+					x.remove("tanggalImunisasiBerikutnya");
+				}
 				res.add(x);
 				count++;
 
@@ -183,17 +206,25 @@ public class ImunisasiController {
 				String pattern = "yyyy-MM-dd";
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 				Date d1 = new Date(Long.parseLong(x.get("tanggalImunisasi").toString()));
-				Date d2 = new Date(Long.parseLong(x.get("tanggalImunisasiBerikutnya").toString()));
+//				Date d2 = new Date(Long.parseLong(x.get("tanggalImunisasiBerikutnya").toString()));
 				String date1 = simpleDateFormat.format(d1);
-				String date2 = simpleDateFormat.format(d2);
+//				String date2 = simpleDateFormat.format(d2);
 				x.remove("tanggalImunisasi");
 				x.remove("tanggalImunisasiBerikutnya");
 				x.put("tanggalImunisasi", date1);
-				x.put("tanggalImunisasiBerikutnya", date2);
+//				x.put("tanggalImunisasiBerikutnya", date2);
 				x.put("idBalita",z.getIdBalita());
 				x.put("namaBalita",z.getNamaBalita());
 				x.put("namaOrangTua",z.getIdUser().getNamaUser());
 				x.put("nikBalita",z.getNikBalita());
+				if(x.get("tanggalImunisasiBerikutnya")!=null){
+					Date d2 = new Date(Long.parseLong(x.get("tanggalImunisasiBerikutnya").toString()));
+					String date2 = simpleDateFormat.format(d2);
+					x.remove("tanggalImunisasiBerikutnya");
+					x.put("tanggalImunisasiBerikutnya", date2);
+				}else {
+					x.remove("tanggalImunisasiBerikutnya");
+				}
 				res.add(x);
 				count++;
 
@@ -217,17 +248,25 @@ public class ImunisasiController {
 			String pattern = "yyyy-MM-dd";
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 			Date d1 = new Date(Long.parseLong(result.get("tanggalImunisasi").toString()));
-			Date d2 = new Date(Long.parseLong(result.get("tanggalImunisasiBerikutnya").toString()));
+//			Date d2 = new Date(Long.parseLong(result.get("tanggalImunisasiBerikutnya").toString()));
 			String date1 = simpleDateFormat.format(d1);
-			String date2 = simpleDateFormat.format(d2);
+//			String date2 = simpleDateFormat.format(d2);
 			result.remove("tanggalImunisasi");
 			result.remove("tanggalImunisasiBerikutnya");
 			result.put("tanggalImunisasi", date1);
-			result.put("tanggalImunisasiBerikutnya", date2);
+//			result.put("tanggalImunisasiBerikutnya", date2);
 			result.put("idBalita",x.getIdBalita());
 			result.put("namaBalita",x.getNamaBalita());
 			result.put("namaOrangTua",x.getIdUser().getNamaUser());
 			result.put("nikBalita",x.getNikBalita());
+			if(result.get("tanggalImunisasiBerikutnya")!=null){
+				Date d2 = new Date(Long.parseLong(result.get("tanggalImunisasiBerikutnya").toString()));
+				String date2 = simpleDateFormat.format(d2);
+				result.remove("tanggalImunisasiBerikutnya");
+				result.put("tanggalImunisasiBerikutnya", date2);
+			}else {
+				result.remove("tanggalCheckupBerikutnya");
+			}
 			return new ResponseEntity<>(result,HttpStatus.OK);
 		}
 	}
@@ -249,17 +288,21 @@ public class ImunisasiController {
 				String pattern = "yyyy-MM-dd";
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 				Date d1 = new Date(Long.parseLong(x.get("tanggalImunisasi").toString()));
-				Date d2 = new Date(Long.parseLong(x.get("tanggalImunisasiBerikutnya").toString()));
 				String date1 = simpleDateFormat.format(d1);
-				String date2 = simpleDateFormat.format(d2);
 				x.remove("tanggalImunisasi");
-				x.remove("tanggalImunisasiBerikutnya");
 				x.put("tanggalImunisasi", date1);
-				x.put("tanggalImunisasiBerikutnya", date2);
 				x.put("idBalita",z.getIdBalita());
 				x.put("namaBalita",z.getNamaBalita());
 				x.put("namaOrangTua",z.getIdUser().getNamaUser());
 				x.put("nikBalita",z.getNikBalita());
+				if(x.get("tanggalImunisasiBerikutnya")!=null){
+					Date d2 = new Date(Long.parseLong(x.get("tanggalImunisasiBerikutnya").toString()));
+					String date2 = simpleDateFormat.format(d2);
+					x.remove("tanggalImunisasiBerikutnya");
+					x.put("tanggalImunisasiBerikutnya", date2);
+				}else {
+					x.remove("tanggalImunisasiBerikutnya");
+				}
 				res.add(x);
 				count++;
 
