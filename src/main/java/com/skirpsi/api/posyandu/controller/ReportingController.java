@@ -81,6 +81,7 @@ public class ReportingController {
 			customHeader.add("Content-Disposition");
 	        head.add(HttpHeaders.CONTENT_TYPE, Files.probeContentType(path));
 	        head.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getName());
+	        head.add("filename",file.getName());
 	        head.setAccessControlExposeHeaders(customHeader);
 	    	return ResponseEntity.ok().headers(head).body(resource);
 		} catch (IOException e) {
@@ -104,6 +105,7 @@ public class ReportingController {
 			customHeader.add("Content-Disposition");
 	        head.add(HttpHeaders.CONTENT_TYPE, Files.probeContentType(path));
 	        head.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getName());
+	        head.add("filename",file.getName());
 	        head.setAccessControlExposeHeaders(customHeader);
 	    	return ResponseEntity.ok().headers(head).body(resource);
 		} catch (IOException e) {
