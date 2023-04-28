@@ -127,9 +127,13 @@ public class BalitaController {
 	public ResponseEntity<Map<String, Object>> createBalita(@RequestBody CreateBalitaEntity balita){
 		
 		UserPosyandu user = userSer.getByNIKUser(balita.getNikOrangTua());
+		Balita balitaCheck = balitaSer.getBalitaByNIK(balita.getNikBalita());
 		if(user==null) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		}else {
+		}else if (balitaCheck!=null) {
+			return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+		}
+		else {
 			Balita newBalita = new Balita();
 			newBalita.setBeratSaatLahirBalita(balita.getBeratSaatLahirBalita());
 			newBalita.setTinggiSaatLahirBalita(balita.getTinggiSaatLahirBalita());

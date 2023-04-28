@@ -76,6 +76,11 @@ public class UserController {
 			return new ResponseEntity<>(null, HttpStatus.CONFLICT); 
 		}
 		
+		if(userServ.getByNIKUser(user.getNikUser())!=null) {
+			System.out.println("something");
+			return new ResponseEntity<>(null,HttpStatus.CONFLICT);
+		}
+		
 		String defPass = simpleDateFormat.format(user.getTanggalLahirUser());
 		
 		UserPosyandu newUser = new UserPosyandu();
@@ -87,11 +92,11 @@ public class UserController {
 		newUser.setTanggalLahirUser(user.getTanggalLahirUser());
 		
 		UserPosyandu x = userServ.insert(newUser);
-//		whatsServ.sendPassword(x);
 		if(x==null) {
 			userServ.delete(newUser.getIdUser());
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}else {
+//			whatsServ.sendPassword(x);
 			User userReq = new User(x.getNoTeleponUser(),
 					 encoder.encode(defPass),x.getIdUser());
 
