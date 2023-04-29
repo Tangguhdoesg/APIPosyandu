@@ -155,7 +155,13 @@ public class UserController {
 		UserPosyandu _user = userServ.getOneById(id);
 		if(_user==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}else {
+		}
+		if(_user.getNoTeleponUser()!=user.getNoTeleponUser()) {
+				if(userServ.checkIfExistByPhone(user.getNoTeleponUser())) {
+					return new ResponseEntity<>(null, HttpStatus.CONFLICT); 
+				}
+		}
+//		else {
 			_user.setAlamatUser(user.getAlamatUser());
 	    	_user.setNamaUser(user.getNamaUser());
 	    	_user.setNoTeleponUser(user.getNoTeleponUser());
@@ -182,7 +188,8 @@ public class UserController {
 			result.remove("tanggalLahirUser");
 			result.put("tanggalLahirUser", date);
 	    	return new ResponseEntity<>(result,HttpStatus.OK);
-		}
+//		}
+//		return null;
 	}
 	
 	@DeleteMapping("/{id}")
