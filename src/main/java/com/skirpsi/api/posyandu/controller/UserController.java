@@ -77,7 +77,6 @@ public class UserController {
 		}
 		
 		if(userServ.getByNIKUser(user.getNikUser())!=null) {
-			System.out.println("something");
 			return new ResponseEntity<>(null,HttpStatus.CONFLICT);
 		}
 		

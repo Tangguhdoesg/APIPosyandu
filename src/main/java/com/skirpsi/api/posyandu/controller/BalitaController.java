@@ -172,7 +172,10 @@ public class BalitaController {
 		UserPosyandu newOrtu = userSer.getByNIKUser(balita.getNikOrangTua());
 		if(_balita==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}else {
+		}else if(newOrtu==null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		else {
 			_balita.setBeratSaatLahirBalita(balita.getBeratSaatLahirBalita());
 			_balita.setJenisKelaminBalita(balita.getJenisKelaminBalita());
 			_balita.setNamaBalita(balita.getNamaBalita());

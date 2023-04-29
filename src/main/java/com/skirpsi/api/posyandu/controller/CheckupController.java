@@ -125,6 +125,7 @@ public class CheckupController {
 		if(_checkup==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+//		if()
 		else {
 			_checkup.setBeratBadan(checkup.getBeratBadan());
 			_checkup.setLingkarKepala(checkup.getLingkarKepala());
