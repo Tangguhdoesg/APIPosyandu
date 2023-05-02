@@ -140,7 +140,8 @@ public class ReportingController {
 	}
 	
 	@GetMapping("/sehat")
-	public Integer getTotalSehat() {
+	public List<Integer> getTotalSehat() {
+		List<Integer> ret = new ArrayList<>();
 		Integer countSehat = 0;
 		Integer countTidakSehat=0;
 		LocalDate now = LocalDate.now();
@@ -182,7 +183,9 @@ public class ReportingController {
 //			System.out.println(x.getBeratBadan());
 //			System.out.println(x.getTinggiBadan());
 		}
-		return countTidakSehat;
+		ret.add(countSehat);
+		ret.add(countTidakSehat);		
+		return ret;
 	}
 	
 	  public static final long getMonthsDifference(Date date1, Date date2) {
