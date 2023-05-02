@@ -170,7 +170,7 @@ public class CheckupController {
 	}
 	
 	  @DeleteMapping("/{id}")
-	  public ResponseEntity<CheckUp> deleteTutorial(@PathVariable("id") Integer id) {
+	  public ResponseEntity<CheckUp> deleteCheckup(@PathVariable("id") Integer id) {
 		  CheckUp x = checkupSer.delete(id);
 		  
 		  if(x==null) {
@@ -687,16 +687,16 @@ public class CheckupController {
 				String pattern = "yyyy-MM-dd";
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 				Date d1 = new Date(Long.parseLong(x.get("tanggalCheckup").toString()));
-				Date d2 = new Date(Long.parseLong(x.get("tanggalCheckupBerikutnya").toString()));
+//				Date d2 = new Date(Long.parseLong(x.get("tanggalCheckupBerikutnya").toString()));
 				String date1 = simpleDateFormat.format(d1);
-				String date2 = simpleDateFormat.format(d2);
+//				String date2 = simpleDateFormat.format(d2);
 				Date lahirBalita = z.getTanggalLahirBalita();
 				Date tanggalCheckup = dataCheckup.getTanggalCheckup();
 				x.remove("idBalita");
 				x.remove("tanggalCheckup");
 				x.remove("tanggalCheckupBerikutnya");
 				x.put("tanggalCheckup", date1);
-				x.put("tanggalCheckupBerikutnya", date2);
+//				x.put("tanggalCheckupBerikutnya", date2);
 				x.put("idBalita",z.getIdBalita());
 				x.put("umurBalita",getMonthsDifference(lahirBalita, tanggalCheckup));
 				x.put("namaBalita",z.getNamaBalita());

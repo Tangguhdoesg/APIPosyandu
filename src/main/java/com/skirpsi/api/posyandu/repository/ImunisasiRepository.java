@@ -37,4 +37,7 @@ public interface ImunisasiRepository extends JpaRepository<Imunisasi, Integer>{
 			+ "where i.tanggalimunisasi >= TO_TIMESTAMP(?1,'YYYY-MM-DD') and i.tanggalimunisasi <= TO_TIMESTAMP(?2,'YYYY-MM-DD')", nativeQuery = true)
 	List<ReportInterface> getDataForReporting(String from, String to);
 	
+	@Query(value = "select count(*) from imunisasi i where tanggalimunisasi <= current_date  and tanggalimunisasi> current_date - interval '30' day ", nativeQuery = true)
+	Integer getLast30DaysData();
+	
 }

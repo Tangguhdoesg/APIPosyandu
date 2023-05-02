@@ -11,6 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.skirpsi.api.posyandu.entity.CheckUp;
 import com.skirpsi.api.posyandu.entity.intfc.ReportInterface;
 import com.skirpsi.api.posyandu.repository.CheckupRepository;
 import com.skirpsi.api.posyandu.repository.ImunisasiRepository;
@@ -20,6 +21,12 @@ public class ReportService {
 	
 	@Autowired CheckupRepository checkupRepo;
 	@Autowired ImunisasiRepository imuRepo;
+	
+	public List<CheckUp> getDataForSehat(String dateFrom, String dateTo){
+		
+		return checkupRepo.getDataForCountSehat(dateFrom,dateTo);
+		
+	}
 
 	public File createCheckupReportCheckup(String dateFrom, String dateTo) {
 		String lokasiFile = "./temp/excelTestCheckup.xlsx";
@@ -198,5 +205,13 @@ public class ReportService {
 			return null;
 		}
 		
+	}
+	
+	public Integer getCheckupLast30DaysData() {
+		return checkupRepo.getLast30DaysData();
+	}
+	
+	public Integer getImunisasiLast30DaysData(){
+		return imuRepo.getLast30DaysData();
 	}
 }

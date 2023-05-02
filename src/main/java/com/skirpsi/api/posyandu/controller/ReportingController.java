@@ -5,7 +5,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -33,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.skirpsi.api.posyandu.entity.CheckUp;
 import com.skirpsi.api.posyandu.misc.CreateReport;
 import com.skirpsi.api.posyandu.service.ReportService;
 import com.skirpsi.api.posyandu.service.WfaSfaDataService;
@@ -45,25 +51,8 @@ public class ReportingController {
 	
 	@Autowired private JavaMailSender javaMailSender;
 	@Autowired ReportService reportServ;
-	
+	@Autowired WfaSfaDataService whoService;
 	@Autowired WfaSfaDataService wfaSfaSer;
-	
-	@PostMapping("/excelCheckupOld")
-	public ResponseEntity<byte[]> generateExcelCheckupOld(@RequestBody CreateReport report) {
-		File file = reportServ.createCheckupReportCheckup(report.getTanggalAwal(), report.getTanggalAkhir());
-		if(file==null) {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		}
-	    try {
-			return ResponseEntity.ok()
-			        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
-			        .body(Files.readAllBytes(file.toPath()));
-		} catch (IOException e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		}
-		
-	}
 	
 	@PostMapping("/excelCheckup")
 	public ResponseEntity<Resource> generateExcelCheckup(@RequestBody CreateReport report) {
@@ -119,6 +108,7 @@ public class ReportingController {
 	@PostMapping("/send")
 	public ResponseEntity<String> sendMail(@RequestBody CreateReport report) {
 		File file = reportServ.createCheckupReportImunisasi(report.getTanggalAwal(),report.getTanggalAkhir());
+		File fileImunisasi = reportServ.createCheckupReportCheckup(report.getTanggalAwal(), report.getTanggalAkhir());
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 		MimeMessageHelper mimeMessageHelper;
 		
@@ -129,7 +119,7 @@ public class ReportingController {
 			mimeMessageHelper.setText("Dear DINKES HERE ARE YOUR DATA");
 			mimeMessageHelper.setSubject("DATA BALITA");
 			mimeMessageHelper.addAttachment(file.getName(), file);
-
+			mimeMessageHelper.addAttachment(fileImunisasi.getName(), file);
 			javaMailSender.send(mimeMessage);
 			
 			return new ResponseEntity<String>(HttpStatus.OK);
@@ -138,5 +128,68 @@ public class ReportingController {
 			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@GetMapping("/checkup30")
+	public Integer getCheckup30 () {
+		return reportServ.getCheckupLast30DaysData();
+	}
+	
+	@GetMapping("/imunisasi30")
+	public Integer getImunisasi30() {
+		return reportServ.getImunisasiLast30DaysData();
+	}
+	
+	@GetMapping("/sehat")
+	public Integer getTotalSehat() {
+		Integer countSehat = 0;
+		Integer countTidakSehat=0;
+		LocalDate now = LocalDate.now();
+		LocalDate last30 = now.minusDays(30);
+//		System.out.println(now.toString());
+//		System.out.println(last30.toString());
+		List<CheckUp> data = reportServ.getDataForSehat(last30.toString(),now.toString());
+		for (CheckUp x : data ) {
+			Date lahirBalita = x.getIdBalita().getTanggalLahirBalita();
+			Date tanggalCheckup = x.getTanggalCheckup();
+			System.out.println(lahirBalita);
+			System.out.println(tanggalCheckup);
+			System.out.println(x.getIdBalita().getIdBalita());
+			Long umur = getMonthsDifference(lahirBalita, tanggalCheckup);
+			if(x.getIdBalita().getJenisKelaminBalita().contains("Laki")) {
+				Float batasAtas = whoService.sizeForAgesBoys().get(umur.intValue()).getPost2sd();
+				Float batasBawah = whoService.sizeForAgesBoys().get(umur.intValue()).getNeg2sd();
+				if(x.getBeratBadan()>=batasBawah&&x.getBeratBadan()<= batasAtas) {
+//					sehat
+					countSehat++;
+				}else {
+//					tidak sehat
+					countTidakSehat++;
+				}
+			}else {
+				System.out.println(umur.intValue());
+				Float batasAtas = whoService.sizeForAgesGirls().get(umur.intValue()).getPost2sd();
+				Float batasBawah = whoService.sizeForAgesGirls().get(umur.intValue()).getNeg2sd();
+				if(x.getBeratBadan()>=batasBawah&&x.getBeratBadan()<= batasAtas) {
+//					sehat
+					countSehat++;
+				}else {
+//					tidak sehat
+					countTidakSehat++;
+				}
+			}
+			
+//			System.out.println(x.getTanggalCheckup());
+//			System.out.println(x.getBeratBadan());
+//			System.out.println(x.getTinggiBadan());
+		}
+		return countTidakSehat;
+	}
+	
+	  public static final long getMonthsDifference(Date date1, Date date2) {
+		    YearMonth m1 = YearMonth.from(date1.toInstant().atZone(ZoneOffset.UTC));
+		    YearMonth m2 = YearMonth.from(date2.toInstant().atZone(ZoneOffset.UTC));
+
+		    return m1.until(m2, ChronoUnit.MONTHS);
+		}
 	
 }

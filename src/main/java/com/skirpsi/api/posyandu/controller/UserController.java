@@ -193,7 +193,7 @@ public class UserController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<HttpStatus> deleteTutorial(@PathVariable("id") Integer id){
+	public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") Integer id){
 		UserPosyandu x = userServ.delete(id);
 		
 		if(x==null) {

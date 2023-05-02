@@ -79,12 +79,6 @@ public class ImunisasiService {
 		return x;
 	}
 	
-//	public List<ImunisasiInterface> getByIdBalita(Integer id) {
-//		List<ImunisasiInterface> x = imunisasiRepo.findByIdBalitaWithoutBalitaObj(id);
-//		
-//		return x;
-//	}
-	
 	public List<ImunisasiInterface> getForReminderImunisasi(){
 		List<ImunisasiInterface> x = imunisasiRepo.getDataForReminderImunisasi();
 		
