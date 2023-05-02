@@ -129,6 +129,23 @@ public class ReportingController {
 		}
 	}
 	
+	@GetMapping("/summary")
+	public List<Integer> summaryOfReport(){
+		Integer checkup30 = getCheckup30();
+		Integer imunisasi30 = getImunisasi30();
+		List<Integer>sehatTidakSehat = getTotalSehat();
+		Integer sehat = sehatTidakSehat.get(0);
+		Integer tidakSehat = sehatTidakSehat.get(1);
+		
+		List<Integer> ret = new ArrayList<>();
+		
+		ret.add(checkup30);
+		ret.add(imunisasi30);
+		ret.add(sehat);	
+		ret.add(tidakSehat);
+		return ret;
+	}
+	
 	@GetMapping("/checkup30")
 	public Integer getCheckup30 () {
 		return reportServ.getCheckupLast30DaysData();
