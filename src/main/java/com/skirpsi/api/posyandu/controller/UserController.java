@@ -156,7 +156,11 @@ public class UserController {
 		if(_user==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		if(_user.getNoTeleponUser()!=user.getNoTeleponUser()) {
+		System.out.println(_user.getNoTeleponUser().equals(user.getNoTeleponUser()));
+		if(!_user.getNoTeleponUser().equals(user.getNoTeleponUser())) {
+			System.out.println(_user.getNoTeleponUser());
+			System.out.println(user.getNoTeleponUser());
+			System.out.println(userServ.checkIfExistByPhone(user.getNoTeleponUser()));
 				if(userServ.checkIfExistByPhone(user.getNoTeleponUser())) {
 					return new ResponseEntity<>(null, HttpStatus.CONFLICT); 
 				}
@@ -189,7 +193,7 @@ public class UserController {
 			result.put("tanggalLahirUser", date);
 	    	return new ResponseEntity<>(result,HttpStatus.OK);
 //		}
-//		return null;
+//		return new ResponseEntity<>(null, HttpStatus.I_AM_A_TEAPOT); 
 	}
 	
 	@DeleteMapping("/{id}")
