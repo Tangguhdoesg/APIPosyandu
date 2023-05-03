@@ -41,7 +41,6 @@ public class WhatsappService {
 		String pattern = "yyyy-MM-dd";
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 		Twilio.init(usertrilio, token);
-//		String telpUser = "+62"+user.getNoTeleponUser().substring(1,user.getNoTeleponUser().length());
 		String telpUser = "+6287854472001";
 		String passwordUser=simpleDateFormat.format(user.getTanggalLahirUser());
 		String templateMessage = "Selamat Datang di Aplikasi Pelita.\r\n"
