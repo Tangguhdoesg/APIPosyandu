@@ -43,7 +43,7 @@ import com.skirpsi.api.posyandu.misc.CreateReport;
 import com.skirpsi.api.posyandu.service.ReportService;
 import com.skirpsi.api.posyandu.service.WfaSfaDataService;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(origins = "https://aplikasi-posyandu.vercel.app", maxAge = 3600)
 @RestController
 @RequestMapping("report")
 public class ReportingController {

@@ -31,7 +31,7 @@ import com.skirpsi.api.posyandu.misc.CreateBalitaEntity;
 import com.skirpsi.api.posyandu.service.BalitaService;
 import com.skirpsi.api.posyandu.service.UserPosyanduService;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(origins = "https://aplikasi-posyandu.vercel.app", maxAge = 3600)
 @RestController
 @RequestMapping("balita")
 public class BalitaController {
