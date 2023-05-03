@@ -2,6 +2,10 @@ package com.skirpsi.api.posyandu.service;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.time.YearMonth;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -21,19 +25,20 @@ public class ReportService {
 	
 	@Autowired CheckupRepository checkupRepo;
 	@Autowired ImunisasiRepository imuRepo;
+	@Autowired WfaSfaDataService whoService;
 	
 	public List<CheckUp> getDataForSehat(String dateFrom, String dateTo){
 		
 		return checkupRepo.getDataForCountSehat(dateFrom,dateTo);
 		
 	}
-
+	
 	public File createCheckupReportCheckup(String dateFrom, String dateTo) {
 		String lokasiFile = "./temp/excelTestCheckup.xlsx";
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		XSSFSheet sheet = workbook.createSheet("Test new Sheet");
 		
-		List<ReportInterface> data = checkupRepo.getDataForReporting(dateFrom, dateTo);
+		List<CheckUp> data = checkupRepo.getDataForReportingNew(dateFrom, dateTo);
 		
 		Row titleRow = sheet.createRow(0);
 		
@@ -59,43 +64,83 @@ public class ReportService {
 		headerCell.setCellValue("berat");
 		headerCell = titleRow.createCell(10);
 		headerCell.setCellValue("tinggi");
+		headerCell = titleRow.createCell(11);
+		headerCell.setCellValue("usia");
+		headerCell = titleRow.createCell(12);
+		headerCell.setCellValue("catatan");
+		headerCell = titleRow.createCell(13);
+		headerCell.setCellValue("indikasi");
 		
 		Integer count=1;
 		
-		for(ReportInterface x : data) {
+		for(CheckUp x : data) {
 			Row dataRow = sheet.createRow(count);
 			Cell dataRowCell = dataRow.createCell(0);
-			dataRowCell.setCellValue("POSYANDU X");
+			dataRowCell.setCellValue("POSYANDU Anggrek");
 			
 			dataRowCell = dataRow.createCell(1);
-			dataRowCell.setCellValue(x.getIdBalita());
+			dataRowCell.setCellValue(x.getIdBalita().getIdBalita());
 			
 			dataRowCell = dataRow.createCell(3);
-			dataRowCell.setCellValue(x.getNikbalita());
+			dataRowCell.setCellValue(x.getIdBalita().getNikBalita());
 			
 			dataRowCell = dataRow.createCell(2);
-			dataRowCell.setCellValue(x.getNamaBalita());
+			dataRowCell.setCellValue(x.getIdBalita().getNamaBalita());
+			
+			Date lahirBalita = x.getIdBalita().getTanggalLahirBalita();
+			Date tanggalCheckup = x.getTanggalCheckup();
+			Long umur = getMonthsDifference(lahirBalita, tanggalCheckup);
 			
 			dataRowCell = dataRow.createCell(4);
-			dataRowCell.setCellValue(x.getBeratSaatLahirBalita());
+			dataRowCell.setCellValue(umur);
 			
 			dataRowCell = dataRow.createCell(5);
-			dataRowCell.setCellValue(x.getTinggiSaatLahirBalita());
+			dataRowCell.setCellValue(x.getIdBalita().getBeratSaatLahirBalita());
 			
 			dataRowCell = dataRow.createCell(6);
-			dataRowCell.setCellValue(x.getAlamatUser());
+			dataRowCell.setCellValue(x.getIdBalita().getTinggiSaatLahirBalita());
 			
 			dataRowCell = dataRow.createCell(7);
-			dataRowCell.setCellValue(x.getNamaUser());
+			dataRowCell.setCellValue(x.getIdBalita().getIdUser().getAlamatUser());
 			
 			dataRowCell = dataRow.createCell(8);
+			dataRowCell.setCellValue(x.getIdBalita().getIdUser().getNamaUser());
+			
+			dataRowCell = dataRow.createCell(9);
 			dataRowCell.setCellValue(x.getTanggalCheckup().toString().substring(0,10));
 
-			dataRowCell = dataRow.createCell(9);
+			dataRowCell = dataRow.createCell(10);
 			dataRowCell.setCellValue(x.getBeratBadan());
 			
-			dataRowCell = dataRow.createCell(10);
+			dataRowCell = dataRow.createCell(11);
 			dataRowCell.setCellValue(x.getTinggiBadan());
+			
+			dataRowCell = dataRow.createCell(12);
+			dataRowCell.setCellValue(x.getCatatan());
+			
+			String indikasi = "";
+			
+			if(x.getIdBalita().getJenisKelaminBalita().contains("Laki")) {
+				Float batasAtas = whoService.weightForAgesBoys().get(umur.intValue()).getPost2sd();
+				Float batasBawah = whoService.weightForAgesBoys().get(umur.intValue()).getNeg2sd();
+				if(x.getBeratBadan()>=batasBawah&&x.getBeratBadan()<= batasAtas) {
+					indikasi = "sehat";
+				}else {
+					indikasi = "tidak sehat";
+				}
+			}else {
+				System.out.println(umur.intValue());
+				Float batasAtas = whoService.weightForAgesGirls().get(umur.intValue()).getPost2sd();
+				Float batasBawah = whoService.weightForAgesGirls().get(umur.intValue()).getNeg2sd();
+				if(x.getBeratBadan()>=batasBawah&&x.getBeratBadan()<= batasAtas) {
+					indikasi = "sehat";
+				}else {
+					indikasi = "tidak sehat";
+				}
+			}
+			
+			dataRowCell = dataRow.createCell(13);
+			dataRowCell.setCellValue(indikasi);
 			
 			count++;
 		}
@@ -214,4 +259,11 @@ public class ReportService {
 	public Integer getImunisasiLast30DaysData(){
 		return imuRepo.getLast30DaysData();
 	}
+	
+	  public static final long getMonthsDifference(Date date1, Date date2) {
+		    YearMonth m1 = YearMonth.from(date1.toInstant().atZone(ZoneOffset.UTC));
+		    YearMonth m2 = YearMonth.from(date2.toInstant().atZone(ZoneOffset.UTC));
+
+		    return m1.until(m2, ChronoUnit.MONTHS);
+		}
 }

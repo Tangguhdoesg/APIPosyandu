@@ -29,6 +29,10 @@ public interface CheckupRepository extends JpaRepository<CheckUp, Integer>{
 			+ "where c.tanggalcheckup >= TO_TIMESTAMP(?1,'YYYY-MM-DD') and c.tanggalcheckup <= TO_TIMESTAMP(?2,'YYYY-MM-DD') ",nativeQuery = true)
 	List<ReportInterface> getDataForReporting(String from, String to);
 	
+	@Query(value="select *  from checkup c "
+			+ "where c.tanggalcheckup >= TO_TIMESTAMP(?1,'YYYY-MM-DD') and c.tanggalcheckup <= TO_TIMESTAMP(?2,'YYYY-MM-DD') order by c.tanggalcheckup",nativeQuery = true)
+	List<CheckUp> getDataForReportingNew(String from, String to);
+	
 	@Query(value="select * from checkup c "
 			+ "where c.tanggalcheckup >= TO_TIMESTAMP(?1,'YYYY-MM-DD') and c.tanggalcheckup <= TO_TIMESTAMP(?2,'YYYY-MM-DD') ",nativeQuery = true)
 	List<CheckUp> getDataForCountSehat(String from, String to);

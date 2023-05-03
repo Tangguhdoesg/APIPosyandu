@@ -169,9 +169,9 @@ public class ReportingController {
 		for (CheckUp x : data ) {
 			Date lahirBalita = x.getIdBalita().getTanggalLahirBalita();
 			Date tanggalCheckup = x.getTanggalCheckup();
-			System.out.println(lahirBalita);
-			System.out.println(tanggalCheckup);
-			System.out.println(x.getIdBalita().getIdBalita());
+//			System.out.println(lahirBalita);
+//			System.out.println(tanggalCheckup);
+//			System.out.println(x.getIdBalita().getIdBalita());
 			Long umur = getMonthsDifference(lahirBalita, tanggalCheckup);
 			if(x.getIdBalita().getJenisKelaminBalita().contains("Laki")) {
 				Float batasAtas = whoService.sizeForAgesBoys().get(umur.intValue()).getPost2sd();
