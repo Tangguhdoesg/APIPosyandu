@@ -70,13 +70,10 @@ public class ImunisasiController {
 		String pattern = "yyyy-MM-dd";
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 		Date d1 = new Date(Long.parseLong(result.get("tanggalImunisasi").toString()));
-//		Date d2 = new Date(Long.parseLong(result.get("tanggalImunisasiBerikutnya").toString()));
 		String date1 = simpleDateFormat.format(d1);
-//		String date2 = simpleDateFormat.format(d2);
 		result.remove("tanggalImunisasi");
 		result.remove("tanggalImunisasiBerikutnya");
 		result.put("tanggalImunisasi", date1);
-//		result.put("tanggalImunisasiBerikutnya", date2);
 		result.put("idBalita",balita.getIdBalita());
 		result.put("namaBalita",balita.getNamaBalita());
 		result.put("namaOrangTua",balita.getIdUser().getNamaUser());
