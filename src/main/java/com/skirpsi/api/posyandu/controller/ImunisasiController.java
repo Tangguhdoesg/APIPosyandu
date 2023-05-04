@@ -144,7 +144,7 @@ public class ImunisasiController {
 	
 	@GetMapping("/balita/{id}")
 	public ResponseEntity<List<Map<String, Object>>> getImunisasiByIdBalita(@PathVariable("id") Integer id){
-		List<Imunisasi> data = imunisasiSer.getByIdBalita(id);
+		List<Imunisasi> data = imunisasiSer.getByIdOrtu(id);
 		if(data==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}else {
