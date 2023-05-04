@@ -242,6 +242,7 @@ public class ReportService {
             workbook.close();
             
             File fileExcel = new File(lokasiFile);
+            fileExcel.createNewFile();
             
             return fileExcel;
             		
