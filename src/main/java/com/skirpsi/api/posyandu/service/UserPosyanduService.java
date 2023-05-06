@@ -77,6 +77,12 @@ public class UserPosyanduService {
 		return ret;
 	}
 	
+	public Boolean checkIfExistByNIK(String nik) {
+		Boolean ret = userRepo.existsByNikUser(nik);
+		
+		return ret;
+	}
+	
 	public List<UserInterface> getAllOrangTua(){
 		List<UserInterface> x = userRepo.getAllOrangTua();
 		

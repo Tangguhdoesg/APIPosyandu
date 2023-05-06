@@ -165,6 +165,12 @@ public class UserController {
 					return new ResponseEntity<>(null, HttpStatus.CONFLICT); 
 				}
 		}
+		if(!_user.getNikUser().equals(user.getNikUser())) {
+				if(userServ.checkIfExistByNIK(user.getNikUser())) {	
+					return new ResponseEntity<>(null, HttpStatus.CONFLICT); 
+				}
+		}
+		
 //		else {
 			_user.setAlamatUser(user.getAlamatUser());
 	    	_user.setNamaUser(user.getNamaUser());

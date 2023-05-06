@@ -23,6 +23,7 @@ public interface UserPosyanduRepository extends JpaRepository<UserPosyandu, Inte
 	List<UserInterface> getAllOrangTua();
 	
 	Boolean existsByNoTeleponUser(String notelp);
+	Boolean existsByNikUser(String nik);
 	
 	Optional<UserPosyandu> findByNoTeleponUser(String noTelp);
 	
