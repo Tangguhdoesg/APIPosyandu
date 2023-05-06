@@ -32,7 +32,7 @@ import com.skirpsi.api.posyandu.service.ImunisasiService;
 import com.skirpsi.api.posyandu.service.UserPosyanduService;
 import com.skirpsi.api.posyandu.service.WhatsappService;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(origins = "https://aplikasi-posyandu.vercel.app", maxAge = 3600)
 @RestController
 @RequestMapping("imunisasi")
 public class ImunisasiController {
