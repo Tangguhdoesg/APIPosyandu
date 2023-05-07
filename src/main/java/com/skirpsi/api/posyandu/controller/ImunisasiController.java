@@ -72,7 +72,7 @@ public class ImunisasiController {
 		Date d1 = new Date(Long.parseLong(result.get("tanggalImunisasi").toString()));
 		String date1 = simpleDateFormat.format(d1);
 		result.remove("tanggalImunisasi");
-		result.remove("tanggalImunisasiBerikutnya");
+//		result.remove("tanggalImunisasiBerikutnya");
 		result.put("tanggalImunisasi", date1);
 		result.put("idBalita",balita.getIdBalita());
 		result.put("namaBalita",balita.getNamaBalita());
@@ -163,7 +163,7 @@ public class ImunisasiController {
 				String date1 = simpleDateFormat.format(d1);
 //				String date2 = simpleDateFormat.format(d2);
 				x.remove("tanggalImunisasi");
-				x.remove("tanggalImunisasiBerikutnya");
+//				x.remove("tanggalImunisasiBerikutnya");
 				x.put("tanggalImunisasi", date1);
 //				x.put("tanggalImunisasiBerikutnya", date2);
 				x.put("idBalita",z.getIdBalita());

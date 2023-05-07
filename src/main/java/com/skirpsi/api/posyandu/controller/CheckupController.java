@@ -97,7 +97,6 @@ public class CheckupController {
 				Date tanggalCheckup = data.getTanggalCheckup();
 				result.remove("idBalita");
 				result.remove("tanggalCheckup");
-				result.remove("tanggalCheckupBerikutnya");
 				result.put("tanggalCheckup", date1);
 				result.put("idBalita",balita.getIdBalita());
 				result.put("umurBalita",getMonthsDifference(lahirBalita, tanggalCheckup));
@@ -125,7 +124,6 @@ public class CheckupController {
 		if(_checkup==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-//		if()
 		else {
 			_checkup.setBeratBadan(checkup.getBeratBadan());
 			_checkup.setLingkarKepala(checkup.getLingkarKepala());
@@ -150,7 +148,6 @@ public class CheckupController {
 			Date tanggalCheckup = _checkup.getTanggalCheckup();
 			result.remove("idBalita");
 			result.remove("tanggalCheckup");
-			result.remove("tanggalCheckupBerikutnya");
 			result.put("tanggalCheckup", date1);
 			result.put("idBalita",z.getIdBalita());
 			result.put("umurBalita",getMonthsDifference(lahirBalita, tanggalCheckup));
@@ -301,6 +298,7 @@ public class CheckupController {
 				result.put("namaOrangTua",x.getIdUser().getNamaUser());
 				result.put("nikBalita",x.getNikBalita());
 				if(result.get("tanggalCheckupBerikutnya")!=null){
+					
 					Date d2 = new Date(Long.parseLong(result.get("tanggalCheckupBerikutnya").toString()));
 					String date2 = simpleDateFormat.format(d2);
 					result.remove("tanggalCheckupBerikutnya");
@@ -687,16 +685,12 @@ public class CheckupController {
 				String pattern = "yyyy-MM-dd";
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 				Date d1 = new Date(Long.parseLong(x.get("tanggalCheckup").toString()));
-//				Date d2 = new Date(Long.parseLong(x.get("tanggalCheckupBerikutnya").toString()));
 				String date1 = simpleDateFormat.format(d1);
-//				String date2 = simpleDateFormat.format(d2);
 				Date lahirBalita = z.getTanggalLahirBalita();
 				Date tanggalCheckup = dataCheckup.getTanggalCheckup();
 				x.remove("idBalita");
 				x.remove("tanggalCheckup");
-				x.remove("tanggalCheckupBerikutnya");
 				x.put("tanggalCheckup", date1);
-//				x.put("tanggalCheckupBerikutnya", date2);
 				x.put("idBalita",z.getIdBalita());
 				x.put("umurBalita",getMonthsDifference(lahirBalita, tanggalCheckup));
 				x.put("namaBalita",z.getNamaBalita());
@@ -708,8 +702,7 @@ public class CheckupController {
 					String date2 = simpleDateFormat.format(d2);
 					x.remove("tanggalCheckupBerikutnya");
 					x.put("tanggalCheckupBerikutnya", date2);
-//					x.out.println(date2);
-				}else {
+				}else {					
 					x.remove("tanggalCheckupBerikutnya");
 				}	
 				
