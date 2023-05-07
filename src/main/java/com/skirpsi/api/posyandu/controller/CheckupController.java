@@ -515,17 +515,17 @@ public class CheckupController {
 			  if ((weightTotal/countdata)<=1.25 && (weightTotal/countdata)>=0.75) {
 				  result.put("kesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi Sehat. Tetap jaga pola makan dan perkembangan balita anda");
 			  }else if((weightTotal/countdata)<0.75) {
-				  result.put("kesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi Kurang Sehat. Perbaiki pola makan dan jaga perkembangan balita anda");
+				  result.put("kesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi Kurang Sehat. Harap hubungi petugas dan perbaiki pola makan dan jaga perkembangan balita anda");
 			  }else if ((weightTotal/countdata)>1.25) {
-				  result.put("kesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi terlalu berat. Tetap jaga pola makan dan perkembangan balita anda");
+				  result.put("kesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi terlalu berat. Harap hubungi petugas dan tetap jaga pola makan dan perkembangan balita anda");
 			  }
 			  
 			  if ((heightTotal/countdata)<=1.25 && (heightTotal/countdata)>=0.75) {
 				  result.put("kesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi Sehat. Tetap jaga pola makan dan perkembangan balita anda");
 			  }else if((heightTotal/countdata)<0.75) {
-				  result.put("kesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi Kurang Sehat. Perbaiki pola makan dan jaga perkembangan balita anda");
+				  result.put("kesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi Kurang Sehat. Harap hubungi petugas dan Perbaiki pola makan dan jaga perkembangan balita anda");
 			  }else if ((heightTotal/countdata)>1.25) {
-				  result.put("kesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi terlalu berat. Tetap jaga pola makan dan perkembangan balita anda");
+				  result.put("kesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi terlalu tinggi. Harap hubungi petugas dan tetap jaga pola makan dan perkembangan balita anda dan");
 			  }
 			  if(lastData.getIdBalita().getJenisKelaminBalita().contains("Laki")|| lastData.getIdBalita().getJenisKelaminBalita().contains("laki")) {
 				  List<Float> mapDataMedianWeight = new ArrayList<>();
