@@ -703,6 +703,16 @@ public class CheckupController {
 				x.put("namaOrangTua",z.getIdUser().getNamaUser());
 				x.put("nikBalita",z.getNikBalita());
 				
+				if(x.get("tanggalCheckupBerikutnya")!=null){
+					Date d2 = new Date(Long.parseLong(x.get("tanggalCheckupBerikutnya").toString()));
+					String date2 = simpleDateFormat.format(d2);
+					x.remove("tanggalCheckupBerikutnya");
+					x.put("tanggalCheckupBerikutnya", date2);
+//					x.out.println(date2);
+				}else {
+					x.remove("tanggalCheckupBerikutnya");
+				}	
+				
 				res.add(x);
 				count++;
 				
