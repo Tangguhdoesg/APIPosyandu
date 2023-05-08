@@ -66,15 +66,12 @@ public class KegiatanController {
 		try {
 			date = formatter.parse(kegiatan.getTanggalKegiatan());
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
   		Timestamp timeStampDate = new Timestamp(date.getTime());
 		try {
 			System.out.println("FILE : " + file.getOriginalFilename());
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			System.out.println("ada error terkait file");
 			e1.printStackTrace();
 		}
 		UserPosyandu user = userServ.getByNIKUser(kegiatan.getNikPetugas());
@@ -125,7 +122,7 @@ public class KegiatanController {
 		try {
 			date = formatter.parse(kegiatan.getTanggalKegiatan());
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
   		Timestamp timeStampDate = new Timestamp(date.getTime());
@@ -139,7 +136,6 @@ public class KegiatanController {
 				try {
 					keg.setPosterKegiatan(file.getBytes());
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				keg.setNamaPosterKegiatan(file.getOriginalFilename());

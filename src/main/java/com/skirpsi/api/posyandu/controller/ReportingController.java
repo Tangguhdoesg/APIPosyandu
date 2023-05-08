@@ -8,15 +8,18 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.commons.collections4.map.HashedMap;
 import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,6 +45,7 @@ import com.skirpsi.api.posyandu.entity.CheckUp;
 import com.skirpsi.api.posyandu.misc.CreateReport;
 import com.skirpsi.api.posyandu.service.ReportService;
 import com.skirpsi.api.posyandu.service.WfaSfaDataService;
+import com.twilio.rest.api.v2010.account.availablephonenumbercountry.Local;
 
 @CrossOrigin(origins = {"http://localhost:4200", "https://aplikasi-posyandu.vercel.app"},maxAge = 3600)
 @RestController
@@ -130,7 +134,7 @@ public class ReportingController {
 	}
 	
 	@GetMapping("/summary")
-	public List<Integer> summaryOfReport(){
+	public Map<String, Object> summaryOfReport(){
 		Integer checkup30 = getCheckup30();
 		Integer imunisasi30 = getImunisasi30();
 		List<Integer>sehatTidakSehat = getTotalSehat();
@@ -143,7 +147,15 @@ public class ReportingController {
 		ret.add(imunisasi30);
 		ret.add(sehat);	
 		ret.add(tidakSehat);
-		return ret;
+		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		LocalDate today = LocalDate.now();
+		LocalDate day30 = LocalDate.now().minusDays(30);
+		
+		Map<String, Object> returnData = new HashedMap<>();
+		returnData.put("ListNumber", ret);
+		returnData.put("start", today.format(formatters));
+		returnData.put("end", day30.format(formatters));
+		return returnData;
 	}
 	
 	@GetMapping("/checkup30")

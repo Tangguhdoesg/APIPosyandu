@@ -67,10 +67,10 @@ public class WhatsappService {
 		String formatted = dateFormat.format(date);
 		String telpUser = "+6287854472001";
 		String templateMessage="Selamat Pagi, "+user.getNamaUser()+"\r\n"
-				+ "Mohon Melakukan Checkup pada Posyandu X dengan membawa balita "+ balita.getNamaBalita()+"\r\n"
+				+ "Mohon Melakukan Checkup pada Posyandu Anggrek dengan membawa balita "+ balita.getNamaBalita()+"\r\n"
 				+ "Pada Tanggal : "+formatted+"\r\n"
 				+ "Pukul : 08.00 WIB\r\n"
-				+ "Mohon membawa seluruh persyaratan checkup.\r\n"
+				+ "Mohon membawa seluruh persyaratan checkup seperti buku KIA.\r\n"
 				+ "Sekian dan Terimakasih.";
 		 Message.creator(
 	                new PhoneNumber("whatsapp:"+telpUser),
@@ -90,10 +90,10 @@ public class WhatsappService {
 		String formatted = dateFormat.format(date);
 		String telpUser = "+6287854472001";
 		String templateMessage="Selamat Pagi, "+user.getNamaUser()+"\r\n"
-				+ "Mohon Melakukan Imunisasi pada Posyandu X dengan membawa balita "+ balita.getNamaBalita()+"\r\n"
+				+ "Mohon Melakukan Imunisasi pada Posyandu Anggrek dengan membawa balita "+ balita.getNamaBalita()+"\r\n"
 				+ "Pada Tanggal : "+formatted+"\r\n"
 				+ "Pukul : 08.00 WIB\r\n"
-				+ "Mohon membawa seluruh persyaratan checkup.\r\n"
+				+ "Mohon membawa seluruh persyaratan checkup seperti Buku KIA.\r\n"
 				+ "Sekian dan Terimakasih.";
 		 Message.creator(
 	                new PhoneNumber("whatsapp:"+telpUser),
@@ -117,7 +117,8 @@ public class WhatsappService {
 				+ "Kegiatan ini akan berlangsung pada : "
 				+ "Tanggal : " + formatted
 				+ "Pukul : 08.00 WIB\r\n"
-				+ "Apabila Bapak / Ibu tertarik dengan kegiatan tersebut maka dapat langsung datang ke " + kegiatan.getLokasiKegiatan()
+				+ "Apabila Bapak / Ibu tertarik dengan kegiatan tersebut maka dapat langsung datang ke \r\n" + kegiatan.getLokasiKegiatan()
+				+ "Untuk informasi lebih"
 				+ "Sekian dan Terimakasih.";
 		Message.creator(
 	               new PhoneNumber("whatsapp:"+telpUser),
