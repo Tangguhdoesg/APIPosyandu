@@ -109,7 +109,7 @@ public class WhatsappService {
 	
 	public void sendReminderKegiatan(UserInterface user,KegiatanInterface kegiatan) {
 		Twilio.init(usertrilio, token);
-
+		System.out.println(kegiatan.getIdUser());
 		UserInterface petugas = userPosServ.getOneByIdWithoutPassword(kegiatan.getIdUser());
 		
 		LocalDate now = LocalDate.now().plusDays(1);

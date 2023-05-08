@@ -262,6 +262,7 @@ public class KegiatanController {
 			  List<UserInterface> allUser = userServ.getAllOrangTua();
 			  for (UserInterface y : allUser) {
 				  whatServ.sendReminderKegiatan(y,x);
+				  break;
 			  }
 		}
 	}

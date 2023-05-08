@@ -19,7 +19,7 @@ public interface KegiatanRepository extends JpaRepository<Kegiatan, Integer>{
 	@Query(value="select idkegiatan , iduser,namakegiatan ,tanggalkegiatan ,lokasikegiatan ,posterkegiatan, namaposterkegiatan  from kegiatan k where iduser = ?1", nativeQuery = true)
 	List<KegiatanInterface> findAllByUserId(Integer id);
 	
-	@Query(value="select idkegiatan , namakegiatan ,tanggalkegiatan ,lokasikegiatan ,posterkegiatan, namaposterkegiatan  from kegiatan k where tanggalkegiatan > current_date + interval '1 day' ", nativeQuery = true)
+	@Query(value="select idkegiatan , namakegiatan ,tanggalkegiatan ,lokasikegiatan ,posterkegiatan, namaposterkegiatan,iduser  from kegiatan k where tanggalkegiatan > current_date + interval '1 day' ", nativeQuery = true)
 	List<KegiatanInterface> getDataforReminderKegiatan();
 	
 	
