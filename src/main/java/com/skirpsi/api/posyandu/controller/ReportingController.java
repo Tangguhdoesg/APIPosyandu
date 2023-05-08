@@ -73,7 +73,7 @@ public class ReportingController {
 			customHeader.add("INI-PUNYA-RAFLI");
 			customHeader.add("Content-Disposition");
 	        head.add(HttpHeaders.CONTENT_TYPE, Files.probeContentType(path));
-	        head.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getName());
+	        head.add(HttpHeaders.CONTENT_DISPOSITION, "" + file.getName());
 	        head.add("filename",file.getName());
 	        head.setAccessControlExposeHeaders(customHeader);
 	    	return ResponseEntity.ok().headers(head).body(resource);
@@ -97,7 +97,7 @@ public class ReportingController {
 			List<String> customHeader = new ArrayList<>();
 			customHeader.add("Content-Disposition");
 	        head.add(HttpHeaders.CONTENT_TYPE, Files.probeContentType(path));
-	        head.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getName());
+	        head.add(HttpHeaders.CONTENT_DISPOSITION, "" + file.getName());
 	        head.add("filename",file.getName());
 	        head.setAccessControlExposeHeaders(customHeader);
 	    	return ResponseEntity.ok().headers(head).body(resource);
@@ -120,8 +120,8 @@ public class ReportingController {
 			mimeMessageHelper= new MimeMessageHelper(mimeMessage, true);
 			mimeMessageHelper.setFrom(sender);
 			mimeMessageHelper.setTo(report.getEmail());
-			mimeMessageHelper.setText("Dear DINKES HERE ARE YOUR DATA");
-			mimeMessageHelper.setSubject("DATA BALITA");
+			mimeMessageHelper.setText("Kepada Sir, Madam\r\n Berikut terlampir data checkup dan imunisasi Posyandu Anggrek periode " + report.getTanggalAwal()+ " hingga " + report.getTanggalAkhir()+".\r\n"+"Sekian dan Terimakasih \r\n\r\n\r\n Posyandu Anggrek");
+			mimeMessageHelper.setSubject("Data Checkup dan Imunisasi Posyandu Anggrek.");
 			mimeMessageHelper.addAttachment(file.getName(), file);
 			mimeMessageHelper.addAttachment(fileImunisasi.getName(), file);
 			javaMailSender.send(mimeMessage);

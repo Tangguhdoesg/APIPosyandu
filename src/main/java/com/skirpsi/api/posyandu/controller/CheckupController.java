@@ -347,19 +347,19 @@ public class CheckupController {
 				  result.put("lingkarLengan", dataLingkarLengan);
 
 				  if ((weightTotal/countdata)<=1.25 && (weightTotal/countdata)>=0.75) {
-					  result.put("kesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi Sehat. Tetap jaga pola makan dan perkembangan balita anda");
+					  result.put("kesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi Sehat. Balita sehat, memiliki berat badan dan tinggi badan yang sesuai dengan umurnya. Pertahankan kondisi ini. Pastikan bahwa makanannya mengandung gizi yang cukup dan seimbang, terutama protein, karbohidrat, lemak, vitamin, dan mineral. Berikan makanan yang sesuai dengan umur dan perkembangan balita serta pastikan balita mendapat asupan air yang cukup setiap hari. Pastikan balita tidur cukup setiap malam untuk mendukung pertumbuhan dan perkembangannya yang optimal.");
 				  }else if((weightTotal/countdata)<0.75) {
-					  result.put("kesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi Kurang Sehat. Perbaiki pola makan dan jaga perkembangan balita anda");
+					  result.put("kesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi Stunting. Pastikan bahwa anak mengandung nutrisi yang cukup dan seimbang, terutama protein dan kalori. Berikan porsi makanan yang cukup dan jangan lupa untuk memberikan makanan tambahan. Apabila anak tidak dapat makan dengan porsi besar, berikan dalam porsi kecil namun sering.  Konsultasikan lebih lanjut kondisi anak kepada bidan posyandu atau ahli gizi.");
 				  }else if ((weightTotal/countdata)>1.25) {
-					  result.put("kesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi terlalu berat. Tetap jaga pola makan dan perkembangan balita anda");
+					  result.put("kesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi Obesitas. Pastikan bahwa makanan anak mengandung nutrisi yang cukup dan seimbang, terutama serat (Sayur dan buah), protein (Rendah lemak), dan lemak sehat. Kurangi porsi makanan dan hindari memberikan makanan yang tinggi kalori (Seperti makanan instan dan snack) dan lemak jenuh. Dorong balita untuk lebih banyak beraktivitas fisik dan bermain di luar ruangan. Konsultasikan lebih lanjut kondisi anak kepada bidan posyandu atau ahli gizi.");
 				  }
-
-				  if ((heightTotal/countdata) <=1.25 && (heightTotal/countdata)>=0.75) {
-					  result.put("kesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi Sehat. Tetap jaga pola makan dan perkembangan balita anda");
+				  
+				  if ((heightTotal/countdata)<=1.25 && (heightTotal/countdata)>=0.75) {
+					  result.put("kesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi Sehat. Balita sehat, memiliki berat badan dan tinggi badan yang sesuai dengan umurnya. Pertahankan kondisi ini. Pastikan bahwa makanannya mengandung gizi yang cukup dan seimbang, terutama protein, karbohidrat, lemak, vitamin, dan mineral. Berikan makanan yang sesuai dengan umur dan perkembangan balita serta pastikan balita mendapat asupan air yang cukup setiap hari. Pastikan balita tidur cukup setiap malam untuk mendukung pertumbuhan dan perkembangannya yang optimal.");
 				  }else if((heightTotal/countdata)<0.75) {
-					  result.put("kesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi Kurang Sehat. Perbaiki pola makan dan jaga perkembangan balita anda");
+					  result.put("kesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi Stunting. Pastikan bahwa anak mengandung nutrisi yang cukup dan seimbang, terutama protein dan kalori. Berikan porsi makanan yang cukup dan jangan lupa untuk memberikan makanan tambahan. Apabila anak tidak dapat makan dengan porsi besar, berikan dalam porsi kecil namun sering.  Konsultasikan lebih lanjut kondisi anak kepada bidan posyandu atau ahli gizi.");
 				  }else if ((heightTotal/countdata)>1.25) {
-					  result.put("kesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi terlalu berat. Tetap jaga pola makan dan perkembangan balita anda");
+					  result.put("kesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi Obesitas. Pastikan bahwa makanan anak mengandung nutrisi yang cukup dan seimbang, terutama serat (Sayur dan buah), protein (Rendah lemak), dan lemak sehat. Kurangi porsi makanan dan hindari memberikan makanan yang tinggi kalori (Seperti makanan instan dan snack) dan lemak jenuh. Dorong balita untuk lebih banyak beraktivitas fisik dan bermain di luar ruangan. Konsultasikan lebih lanjut kondisi anak kepada bidan posyandu atau ahli gizi.");
 				  }
 				  
 				  if(lastData.getIdBalita().getJenisKelaminBalita().contains("Laki")|| lastData.getIdBalita().getJenisKelaminBalita().contains("laki")) {
@@ -513,19 +513,19 @@ public class CheckupController {
 			  result.put("lingkarLengan", dataLingkarLengan);
 
 			  if ((weightTotal/countdata)<=1.25 && (weightTotal/countdata)>=0.75) {
-				  result.put("kesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi Sehat. Tetap jaga pola makan dan perkembangan balita anda");
+				  result.put("kesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi Sehat. Balita sehat, memiliki berat badan dan tinggi badan yang sesuai dengan umurnya. Pertahankan kondisi ini. Pastikan bahwa makanannya mengandung gizi yang cukup dan seimbang, terutama protein, karbohidrat, lemak, vitamin, dan mineral. Berikan makanan yang sesuai dengan umur dan perkembangan balita serta pastikan balita mendapat asupan air yang cukup setiap hari. Pastikan balita tidur cukup setiap malam untuk mendukung pertumbuhan dan perkembangannya yang optimal.");
 			  }else if((weightTotal/countdata)<0.75) {
-				  result.put("kesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi Kurang Sehat. Harap hubungi petugas dan perbaiki pola makan dan jaga perkembangan balita anda");
+				  result.put("kesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi Stunting. Pastikan bahwa anak mengandung nutrisi yang cukup dan seimbang, terutama protein dan kalori. Berikan porsi makanan yang cukup dan jangan lupa untuk memberikan makanan tambahan. Apabila anak tidak dapat makan dengan porsi besar, berikan dalam porsi kecil namun sering.  Konsultasikan lebih lanjut kondisi anak kepada bidan posyandu atau ahli gizi.");
 			  }else if ((weightTotal/countdata)>1.25) {
-				  result.put("kesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi terlalu berat. Harap hubungi petugas dan tetap jaga pola makan dan perkembangan balita anda");
+				  result.put("kesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi Obesitas. Pastikan bahwa makanan anak mengandung nutrisi yang cukup dan seimbang, terutama serat (Sayur dan buah), protein (Rendah lemak), dan lemak sehat. Kurangi porsi makanan dan hindari memberikan makanan yang tinggi kalori (Seperti makanan instan dan snack) dan lemak jenuh. Dorong balita untuk lebih banyak beraktivitas fisik dan bermain di luar ruangan. Konsultasikan lebih lanjut kondisi anak kepada bidan posyandu atau ahli gizi.");
 			  }
 			  
 			  if ((heightTotal/countdata)<=1.25 && (heightTotal/countdata)>=0.75) {
-				  result.put("kesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi Sehat. Tetap jaga pola makan dan perkembangan balita anda");
+				  result.put("kesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi Sehat. Balita sehat, memiliki berat badan dan tinggi badan yang sesuai dengan umurnya. Pertahankan kondisi ini. Pastikan bahwa makanannya mengandung gizi yang cukup dan seimbang, terutama protein, karbohidrat, lemak, vitamin, dan mineral. Berikan makanan yang sesuai dengan umur dan perkembangan balita serta pastikan balita mendapat asupan air yang cukup setiap hari. Pastikan balita tidur cukup setiap malam untuk mendukung pertumbuhan dan perkembangannya yang optimal.");
 			  }else if((heightTotal/countdata)<0.75) {
-				  result.put("kesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi Kurang Sehat. Harap hubungi petugas dan Perbaiki pola makan dan jaga perkembangan balita anda");
+				  result.put("kesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi Stunting. Pastikan bahwa anak mengandung nutrisi yang cukup dan seimbang, terutama protein dan kalori. Berikan porsi makanan yang cukup dan jangan lupa untuk memberikan makanan tambahan. Apabila anak tidak dapat makan dengan porsi besar, berikan dalam porsi kecil namun sering.  Konsultasikan lebih lanjut kondisi anak kepada bidan posyandu atau ahli gizi.");
 			  }else if ((heightTotal/countdata)>1.25) {
-				  result.put("kesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi terlalu tinggi. Harap hubungi petugas dan tetap jaga pola makan dan perkembangan balita anda dan");
+				  result.put("kesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi Obesitas. Pastikan bahwa makanan anak mengandung nutrisi yang cukup dan seimbang, terutama serat (Sayur dan buah), protein (Rendah lemak), dan lemak sehat. Kurangi porsi makanan dan hindari memberikan makanan yang tinggi kalori (Seperti makanan instan dan snack) dan lemak jenuh. Dorong balita untuk lebih banyak beraktivitas fisik dan bermain di luar ruangan. Konsultasikan lebih lanjut kondisi anak kepada bidan posyandu atau ahli gizi.");
 			  }
 			  if(lastData.getIdBalita().getJenisKelaminBalita().contains("Laki")|| lastData.getIdBalita().getJenisKelaminBalita().contains("laki")) {
 				  List<Float> mapDataMedianWeight = new ArrayList<>();
@@ -590,19 +590,19 @@ public class CheckupController {
 			  result.put("umurBalita", dataUmur);
 
 			  if ((weightTotal/countdata)<=1.25 && (weightTotal/countdata)>=0.75) {
-				  result.put("kesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi Sehat. Tetap jaga pola makan dan perkembangan balita anda");
+				  result.put("kesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi Sehat. Balita sehat, memiliki berat badan dan tinggi badan yang sesuai dengan umurnya. Pertahankan kondisi ini. Pastikan bahwa makanannya mengandung gizi yang cukup dan seimbang, terutama protein, karbohidrat, lemak, vitamin, dan mineral. Berikan makanan yang sesuai dengan umur dan perkembangan balita serta pastikan balita mendapat asupan air yang cukup setiap hari. Pastikan balita tidur cukup setiap malam untuk mendukung pertumbuhan dan perkembangannya yang optimal.");
 			  }else if((weightTotal/countdata)<0.75) {
-				  result.put("kesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi Kurang Sehat. Perbaiki pola makan dan jaga perkembangan balita anda");
+				  result.put("kesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi Stunting. Pastikan bahwa anak mengandung nutrisi yang cukup dan seimbang, terutama protein dan kalori. Berikan porsi makanan yang cukup dan jangan lupa untuk memberikan makanan tambahan. Apabila anak tidak dapat makan dengan porsi besar, berikan dalam porsi kecil namun sering.  Konsultasikan lebih lanjut kondisi anak kepada bidan posyandu atau ahli gizi.");
 			  }else if ((weightTotal/countdata)>1.25) {
-				  result.put("kesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi terlalu berat. Tetap jaga pola makan dan perkembangan balita anda");
+				  result.put("kesehatanBasedOnWeight", "Berdasarkan berat balita, Balita anda terindikasi Obesitas. Pastikan bahwa makanan anak mengandung nutrisi yang cukup dan seimbang, terutama serat (Sayur dan buah), protein (Rendah lemak), dan lemak sehat. Kurangi porsi makanan dan hindari memberikan makanan yang tinggi kalori (Seperti makanan instan dan snack) dan lemak jenuh. Dorong balita untuk lebih banyak beraktivitas fisik dan bermain di luar ruangan. Konsultasikan lebih lanjut kondisi anak kepada bidan posyandu atau ahli gizi.");
 			  }
-
+			  
 			  if ((heightTotal/countdata)<=1.25 && (heightTotal/countdata)>=0.75) {
-				  result.put("kesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi Sehat. Tetap jaga pola makan dan perkembangan balita anda");
+				  result.put("kesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi Sehat. Balita sehat, memiliki berat badan dan tinggi badan yang sesuai dengan umurnya. Pertahankan kondisi ini. Pastikan bahwa makanannya mengandung gizi yang cukup dan seimbang, terutama protein, karbohidrat, lemak, vitamin, dan mineral. Berikan makanan yang sesuai dengan umur dan perkembangan balita serta pastikan balita mendapat asupan air yang cukup setiap hari. Pastikan balita tidur cukup setiap malam untuk mendukung pertumbuhan dan perkembangannya yang optimal.");
 			  }else if((heightTotal/countdata)<0.75) {
-				  result.put("kesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi Kurang Sehat. Perbaiki pola makan dan jaga perkembangan balita anda");
+				  result.put("kesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi Stunting. Pastikan bahwa anak mengandung nutrisi yang cukup dan seimbang, terutama protein dan kalori. Berikan porsi makanan yang cukup dan jangan lupa untuk memberikan makanan tambahan. Apabila anak tidak dapat makan dengan porsi besar, berikan dalam porsi kecil namun sering.  Konsultasikan lebih lanjut kondisi anak kepada bidan posyandu atau ahli gizi.");
 			  }else if ((heightTotal/countdata)>1.25) {
-				  result.put("kesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi terlalu berat. Tetap jaga pola makan dan perkembangan balita anda");
+				  result.put("kesehatanBasedOnLength", "Berdasarkan panjang balita, Balita anda terindikasi Obesitas. Pastikan bahwa makanan anak mengandung nutrisi yang cukup dan seimbang, terutama serat (Sayur dan buah), protein (Rendah lemak), dan lemak sehat. Kurangi porsi makanan dan hindari memberikan makanan yang tinggi kalori (Seperti makanan instan dan snack) dan lemak jenuh. Dorong balita untuk lebih banyak beraktivitas fisik dan bermain di luar ruangan. Konsultasikan lebih lanjut kondisi anak kepada bidan posyandu atau ahli gizi.");
 			  }
 			  if(lastData.getIdBalita().getJenisKelaminBalita().contains("Laki")|| lastData.getIdBalita().getJenisKelaminBalita().contains("laki")) {
 				  List<Float> mapDataMedianWeight = new ArrayList<>();

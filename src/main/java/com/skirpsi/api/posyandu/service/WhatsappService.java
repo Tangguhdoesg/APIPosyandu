@@ -6,10 +6,12 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Locale;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.skirpsi.api.posyandu.entity.Balita;
+import com.skirpsi.api.posyandu.entity.User;
 import com.skirpsi.api.posyandu.entity.UserPosyandu;
 import com.skirpsi.api.posyandu.entity.intfc.KegiatanInterface;
 import com.skirpsi.api.posyandu.entity.intfc.UserInterface;
@@ -24,6 +26,8 @@ public class WhatsappService {
 	
 	@Value("${trilio.token}")
 	private String token;
+	
+	@Autowired UserPosyanduService userPosServ;
 	
 	public void testSendAPI() {
 		
@@ -77,7 +81,7 @@ public class WhatsappService {
 	                new PhoneNumber("whatsapp:+14155238886"),
 	                templateMessage)
 	            .create();
-		System.out.println(templateMessage);
+		
 	}
 	
 	public void sendReminderImunisasi(UserPosyandu user, Balita balita) {
@@ -100,12 +104,14 @@ public class WhatsappService {
 	                new PhoneNumber("whatsapp:+14155238886"),
 	                templateMessage)
 	            .create();
-			System.out.println(templateMessage);
+			
 	}
 	
 	public void sendReminderKegiatan(UserInterface user,KegiatanInterface kegiatan) {
 		Twilio.init(usertrilio, token);
 
+		UserInterface petugas = userPosServ.getOneByIdWithoutPassword(kegiatan.getIdUser());
+		
 		LocalDate now = LocalDate.now().plusDays(1);
 		Date date = Date.from(now.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		Locale locale = new Locale("id", "ID");
@@ -118,13 +124,13 @@ public class WhatsappService {
 				+ "Tanggal : " + formatted
 				+ "Pukul : 08.00 WIB\r\n"
 				+ "Apabila Bapak / Ibu tertarik dengan kegiatan tersebut maka dapat langsung datang ke \r\n" + kegiatan.getLokasiKegiatan()
-				+ "Untuk informasi lebih"
+				+ "Untuk informasi lebih lanjut dapat menghubungi " + petugas.getNamaUser() + " - "+petugas.getNoTeleponUser() + "\r\n"
 				+ "Sekian dan Terimakasih.";
 		Message.creator(
 	               new PhoneNumber("whatsapp:"+telpUser),
 	               new PhoneNumber("whatsapp:+14155238886"),
 	               templateMessage)
 	           .create();
-		System.out.println(templateMessage);
+
 	}
 }
