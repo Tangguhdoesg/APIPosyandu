@@ -51,7 +51,7 @@ import com.skirpsi.api.posyandu.service.UserPosyanduService;
 import com.skirpsi.api.posyandu.service.WfaSfaDataService;
 import com.skirpsi.api.posyandu.service.WhatsappService;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(origins = {"http://localhost:4200", "https://aplikasi-posyandu.vercel.app"},maxAge = 3600)
 @RestController
 @RequestMapping("checkup")
 public class CheckupController {

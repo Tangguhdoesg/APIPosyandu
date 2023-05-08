@@ -42,7 +42,7 @@ import com.skirpsi.api.posyandu.security.services.UserDetailsImpl;
 import com.skirpsi.api.posyandu.service.UserPosyanduService;
 import com.skirpsi.api.posyandu.service.WhatsappService;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(origins = {"http://localhost:4200", "https://aplikasi-posyandu.vercel.app"},maxAge = 3600)
 @RestController
 @RequestMapping("user")
 public class UserController {
@@ -95,7 +95,7 @@ public class UserController {
 			userServ.delete(newUser.getIdUser());
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}else {
-//			whatsServ.sendPassword(x);
+			whatsServ.sendPassword(x);
 			User userReq = new User(x.getNoTeleponUser(),
 					 encoder.encode(defPass),x.getIdUser());
 
