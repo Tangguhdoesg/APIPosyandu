@@ -28,7 +28,7 @@ public interface ImunisasiRepository extends JpaRepository<Imunisasi, Integer>{
 	@Query(value = "select idimunisasi, idbalita, namaimunisasi ,tanggalimunisasi ,catatanimunisasi  from imunisasi i", nativeQuery = true)
 	List<ImunisasiInterface> findAllWithourBalita();
 	
-	@Query(value = "select idimunisasi, idbalita, namaimunisasi ,tanggalimunisasi ,catatanimunisasi  from imunisasi i where tanggalimunisasiberikutnya > current_date + interval '1 day' ", nativeQuery = true)
+	@Query(value = "select idimunisasi, idbalita, namaimunisasi ,tanggalimunisasi ,catatanimunisasi  from imunisasi i where tanggalimunisasiberikutnya > current_date + interval '1 day' limit 1", nativeQuery = true)
 	List<ImunisasiInterface> getDataForReminderImunisasi();
 	
 	@Query(value = "select b.idbalita as idBalita , namabalita as namabalita, nikbalita as nikbalita, beratsaatlahirbalita as beratsaatlahirbalita, tinggisaatlahirbalita as tinggisaatlahirbalita, u.alamatuser as alamatuser , u.namauser as namauser, i.namaimunisasi, i.tanggalimunisasi from balita b "

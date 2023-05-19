@@ -125,7 +125,6 @@ public class UserController {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();	
-		System.out.println("Login : " + userDetails.getIdUser());
 		UserPosyandu retUser = userServ.getOneById(userDetails.getIdUser());
 		ObjectMapper oMapper = new ObjectMapper();
 		
@@ -156,11 +155,7 @@ public class UserController {
 		if(_user==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		System.out.println(_user.getNoTeleponUser().equals(user.getNoTeleponUser()));
 		if(!_user.getNoTeleponUser().equals(user.getNoTeleponUser())) {
-			System.out.println(_user.getNoTeleponUser());
-			System.out.println(user.getNoTeleponUser());
-			System.out.println(userServ.checkIfExistByPhone(user.getNoTeleponUser()));
 				if(userServ.checkIfExistByPhone(user.getNoTeleponUser())) {
 					return new ResponseEntity<>(null, HttpStatus.CONFLICT); 
 				}

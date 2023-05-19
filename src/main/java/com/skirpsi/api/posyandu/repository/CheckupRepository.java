@@ -20,7 +20,7 @@ public interface CheckupRepository extends JpaRepository<CheckUp, Integer>{
 	@Query(value="select idcheckup, tinggibadan ,beratbadan ,lingkarkepala ,lingkarlengan , tanggalcheckup ,tanggalcheckupberikutnya ,catatancheckup  from checkup c ",nativeQuery = true)
 	List<CheckupInterface> findAllWithoutBalita();
 	
-	@Query(value="select idcheckup, idbalita , tinggibadan ,beratbadan ,lingkarkepala ,lingkarlengan , tanggalcheckup ,tanggalcheckupberikutnya ,catatancheckup from checkup c  where tanggalcheckupberikutnya > current_date + interval '1 day' ",nativeQuery = true)
+	@Query(value="select idcheckup, idbalita , tinggibadan ,beratbadan ,lingkarkepala ,lingkarlengan , tanggalcheckup ,tanggalcheckupberikutnya ,catatancheckup from checkup c  where tanggalcheckupberikutnya > current_date + interval '1 day' limit 1",nativeQuery = true)
 	List<CheckupInterface> getDataforReminder();
 	
 	@Query(value="select b.idbalita as idBalita , namabalita as namabalita, nikbalita as nikbalita, beratsaatlahirbalita as beratsaatlahirbalita, tinggisaatlahirbalita as tinggisaatlahirbalita, u.alamatuser as alamatuser , u.namauser as namauser, c.tanggalcheckup as tanggalcheckup, c.beratbadan as beratbadan, c.tinggibadan as tinggibadan  from balita b "

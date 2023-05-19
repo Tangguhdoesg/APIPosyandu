@@ -58,9 +58,6 @@ public class KegiatanController {
 	
 	@PostMapping()
 	public ResponseEntity<Map<String, Object>> createKegiatan(@ModelAttribute CreateKegiatan kegiatan,@RequestParam(value = "posterKegiatan",required = false) MultipartFile file){
-		System.out.println(kegiatan.getLokasiKegiatan());
-		System.out.println(kegiatan.getNamaKegiatan());
-		System.out.println(kegiatan.getNikPetugas());
 		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
   		Date date = new Date();
 		try {
@@ -70,7 +67,6 @@ public class KegiatanController {
 		}
   		Timestamp timeStampDate = new Timestamp(date.getTime());
 		try {
-			System.out.println("FILE : " + file.getOriginalFilename());
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}

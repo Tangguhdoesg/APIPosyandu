@@ -63,7 +63,6 @@ public class WhatsappService {
 	
 	public void sendReminderCheckup(UserPosyandu user,Balita balita) {
 		Twilio.init(usertrilio, token);
-
 		LocalDate now = LocalDate.now().plusDays(1);
 		Date date = Date.from(now.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		Locale locale = new Locale("id", "ID");
@@ -109,7 +108,6 @@ public class WhatsappService {
 	
 	public void sendReminderKegiatan(UserInterface user,KegiatanInterface kegiatan) {
 		Twilio.init(usertrilio, token);
-		System.out.println(kegiatan.getIdUser());
 		UserInterface petugas = userPosServ.getOneByIdWithoutPassword(kegiatan.getIdUser());
 		
 		LocalDate now = LocalDate.now().plusDays(1);
@@ -119,12 +117,11 @@ public class WhatsappService {
 		String formatted = dateFormat.format(date);
 		String telpUser = "+6287854472001";
 		String templateMessage="Selamat Pagi, "+user.getNamaUser()+"\r\n"
-				+ "Kami ingin menginformasikan bahwa akan ada kegiatan yang berjudul : "+kegiatan.getNamaKegiatan()+"\r\n"
-				+ "Kegiatan ini akan berlangsung pada : "
-				+ "Tanggal : " + formatted
-				+ "Pukul : 08.00 WIB\r\n"
-				+ "Apabila Bapak / Ibu tertarik dengan kegiatan tersebut maka dapat langsung datang ke \r\n" + kegiatan.getLokasiKegiatan()
-				+ "Untuk informasi lebih lanjut dapat menghubungi " + petugas.getNamaUser() + " - "+petugas.getNoTeleponUser() + "\r\n"
+				+ "Kami ingin menginformasikan bahwa akan ada kegiatan yang berjudul : \r\n"+kegiatan.getNamaKegiatan()+"\r\n"
+				+ "Kegiatan ini akan berlangsung pada : \r\n"
+				+ "Tanggal : " + formatted + " \r\n"
+				+ "Apabila Bapak / Ibu tertarik dengan kegiatan tersebut maka dapat langsung datang ke : " + kegiatan.getLokasiKegiatan()
+				+ "\r\n Untuk informasi lebih lanjut dapat menghubungi " + petugas.getNamaUser() + " - "+petugas.getNoTeleponUser() + "\r\n"
 				+ "Sekian dan Terimakasih.";
 		Message.creator(
 	               new PhoneNumber("whatsapp:"+telpUser),

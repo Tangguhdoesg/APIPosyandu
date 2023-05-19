@@ -38,7 +38,6 @@ public class CheckupService {
 			checkupRepo.save(data);
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println(e);
 			return null;
 		}
 		return data;
@@ -54,7 +53,6 @@ public class CheckupService {
 				checkupRepo.delete(x);
 			} catch (Exception e) {
 				// TODO: handle exception
-				System.out.println(e);
 				return null;
 			}
 		}

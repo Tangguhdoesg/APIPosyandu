@@ -302,11 +302,11 @@ public class ImunisasiController {
 		for(ImunisasiInterface x : res) {
 			  Balita balita = balitaServ.getById(x.getIdBalita());
 			  UserPosyandu user = balita.getIdUser();
-			  
 			  whatServ.sendReminderImunisasi(user, balita);
 		}
 		
 	}
+	
   
   
 }

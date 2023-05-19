@@ -17,7 +17,6 @@ public class ImunisasiService {
 	@Autowired ImunisasiRepository imunisasiRepo;
 	
 	public List<Imunisasi> getAll(){
-		System.out.println("IMUNIASI ALL");
 		List<Imunisasi> ret = imunisasiRepo.findAll();
 		
 		return ret;
@@ -38,7 +37,6 @@ public class ImunisasiService {
 			imunisasiRepo.save(data);
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println(e);
 			return null;
 		}
 		return data;
@@ -54,7 +52,6 @@ public class ImunisasiService {
 				imunisasiRepo.delete(x);
 			} catch (Exception e) {
 				// TODO: handle exception
-				System.out.println(e);
 				return null;
 			}
 		}

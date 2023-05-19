@@ -175,15 +175,10 @@ public class ReportingController {
 		Integer countTidakSehat=0;
 		LocalDate now = LocalDate.now();
 		LocalDate last30 = now.minusDays(30);
-//		System.out.println(now.toString());
-//		System.out.println(last30.toString());
 		List<CheckUp> data = reportServ.getDataForSehat(last30.toString(),now.toString());
 		for (CheckUp x : data ) {
 			Date lahirBalita = x.getIdBalita().getTanggalLahirBalita();
 			Date tanggalCheckup = x.getTanggalCheckup();
-//			System.out.println(lahirBalita);
-//			System.out.println(tanggalCheckup);
-//			System.out.println(x.getIdBalita().getIdBalita());
 			Long umur = getMonthsDifference(lahirBalita, tanggalCheckup);
 			if(x.getIdBalita().getJenisKelaminBalita().contains("Laki")) {
 				Float batasAtas = whoService.sizeForAgesBoys().get(umur.intValue()).getPost2sd();
@@ -196,7 +191,6 @@ public class ReportingController {
 					countTidakSehat++;
 				}
 			}else {
-				System.out.println(umur.intValue());
 				Float batasAtas = whoService.sizeForAgesGirls().get(umur.intValue()).getPost2sd();
 				Float batasBawah = whoService.sizeForAgesGirls().get(umur.intValue()).getNeg2sd();
 				if(x.getBeratBadan()>=batasBawah&&x.getBeratBadan()<= batasAtas) {
@@ -208,9 +202,6 @@ public class ReportingController {
 				}
 			}
 			
-//			System.out.println(x.getTanggalCheckup());
-//			System.out.println(x.getBeratBadan());
-//			System.out.println(x.getTinggiBadan());
 		}
 		ret.add(countSehat);
 		ret.add(countTidakSehat);		

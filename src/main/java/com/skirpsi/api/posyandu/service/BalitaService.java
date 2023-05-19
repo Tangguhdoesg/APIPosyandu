@@ -43,7 +43,6 @@ public class BalitaService {
 		try {
 			balitaRepo.save(data);
 		} catch (Exception e) {
-			System.out.println(e);
 			return null;
 		}
 		return data;
@@ -59,7 +58,6 @@ public class BalitaService {
 				balitaRepo.delete(x);
 			} catch (Exception e) {
 				// TODO: handle exception
-				System.out.println(e);
 				return null;
 			}
 		}
