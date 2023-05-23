@@ -448,19 +448,19 @@ public class CheckupController {
 				  Float berat = x.getBeratBadan();
 				  Float tinggi = x.getTinggiBadan();
 				  
-				  if(berat <= currentWeightMedian.getPost2sd() && berat>= currentWeightMedian.getNeg2sd()) {
+				  if(berat <= currentWeightMedian.getPost1sd() && berat>= currentWeightMedian.getNeg2sd()) {
 					  weightTotal+=1;
 				  }else if(berat<currentWeightMedian.getNeg2sd()) {
 					  weightTotal+=0;
-				  }else if(berat>currentWeightMedian.getPost2sd()) {
+				  }else if(berat>currentWeightMedian.getPost1sd()) {
 					  weightTotal+=2;
 				  }
 				  
-				  if(tinggi <= currentLenghtMedian.getPost2sd() && tinggi>= currentLenghtMedian.getNeg2sd()) {
+				  if(tinggi <= currentLenghtMedian.getPost3sd() && tinggi>= currentLenghtMedian.getNeg2sd()) {
 					  heightTotal+=1;
 				  }else if(tinggi<currentLenghtMedian.getNeg2sd()) {
 					  heightTotal+=0;
-				  }else if(tinggi>currentLenghtMedian.getPost2sd()) {
+				  }else if(tinggi>currentLenghtMedian.getPost3sd()) {
 					  heightTotal+=2;
 				  }
 				  countdata++;
@@ -472,19 +472,19 @@ public class CheckupController {
 				  SfaGirl0to5 currentLenghtMedian = lenghtGirls.get(umur.intValue());
 				  Float berat = x.getBeratBadan();
 				  Float tinggi = x.getTinggiBadan();
-				  if(berat <= currentWeightMedian.getPost2sd() && berat>= currentWeightMedian.getNeg2sd()) {
+				  if(berat <= currentWeightMedian.getPost1sd() && berat>= currentWeightMedian.getNeg2sd()) {
 					  weightTotal+=1;
 				  }else if(berat<currentWeightMedian.getNeg2sd()) {
 					  weightTotal+=0;
-				  }else if(berat>currentWeightMedian.getPost2sd()) {
+				  }else if(berat>currentWeightMedian.getPost1sd()) {
 					  weightTotal+=2;
 				  }
 				  
-				  if(tinggi <= currentLenghtMedian.getPost2sd() && tinggi>= currentLenghtMedian.getNeg2sd()) {
+				  if(tinggi <= currentLenghtMedian.getPost3sd() && tinggi>= currentLenghtMedian.getNeg2sd()) {
 					  heightTotal+=1;
 				  }else if(tinggi<currentLenghtMedian.getNeg2sd()) {
 					  heightTotal+=0;
-				  }else if(tinggi>currentLenghtMedian.getPost2sd()) {
+				  }else if(tinggi>currentLenghtMedian.getPost3sd()) {
 					  heightTotal+=2;
 				  }
 				  countdata++;

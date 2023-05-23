@@ -68,7 +68,7 @@ public class WhatsappService {
 		Locale locale = new Locale("id", "ID");
 		SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, dd MMM yyyy", locale);
 		String formatted = dateFormat.format(date);
-		String telpUser = "+6287854472001";
+		String telpUser = "+62"+user.getNoTeleponUser().substring(1);
 		String templateMessage="Selamat Pagi, "+user.getNamaUser()+"\r\n"
 				+ "Mohon Melakukan Checkup pada Posyandu Anggrek dengan membawa balita "+ balita.getNamaBalita()+"\r\n"
 				+ "Pada Tanggal : "+formatted+"\r\n"
@@ -91,7 +91,7 @@ public class WhatsappService {
 		Locale locale = new Locale("id", "ID");
 		SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, dd MMM yyyy", locale);
 		String formatted = dateFormat.format(date);
-		String telpUser = "+6287854472001";
+		String telpUser = "+62"+user.getNoTeleponUser().substring(1);
 		String templateMessage="Selamat Pagi, "+user.getNamaUser()+"\r\n"
 				+ "Mohon Melakukan Imunisasi pada Posyandu Anggrek dengan membawa balita "+ balita.getNamaBalita()+"\r\n"
 				+ "Pada Tanggal : "+formatted+"\r\n"
@@ -115,7 +115,7 @@ public class WhatsappService {
 		Locale locale = new Locale("id", "ID");
 		SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, dd MMM yyyy", locale);
 		String formatted = dateFormat.format(date);
-		String telpUser = "+6287854472001";
+		String telpUser = "+62"+user.getNoTeleponUser().substring(1);
 		String templateMessage="Selamat Pagi, "+user.getNamaUser()+"\r\n"
 				+ "Kami ingin menginformasikan bahwa akan ada kegiatan yang berjudul : \r\n"+kegiatan.getNamaKegiatan()+"\r\n"
 				+ "Kegiatan ini akan berlangsung pada : \r\n"
