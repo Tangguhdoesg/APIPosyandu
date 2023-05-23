@@ -120,10 +120,10 @@ public class ReportingController {
 			mimeMessageHelper= new MimeMessageHelper(mimeMessage, true);
 			mimeMessageHelper.setFrom(sender);
 			mimeMessageHelper.setTo(report.getEmail());
-			mimeMessageHelper.setText("Kepada Sir, Madam\r\n Berikut terlampir data checkup dan imunisasi Posyandu Anggrek periode " + report.getTanggalAwal()+ " hingga " + report.getTanggalAkhir()+".\r\n"+"Sekian dan Terimakasih \r\n\r\n\r\n Posyandu Anggrek");
+			mimeMessageHelper.setText("Kepada Bapak/Ibu \r\n Berikut terlampir data checkup dan imunisasi Posyandu Anggrek periode " + report.getTanggalAwal()+ " hingga " + report.getTanggalAkhir()+".\r\n"+"Sekian dan Terimakasih \r\n\r\n\r\n Posyandu Anggrek");
 			mimeMessageHelper.setSubject("Data Checkup dan Imunisasi Posyandu Anggrek.");
 			mimeMessageHelper.addAttachment(file.getName(), file);
-			mimeMessageHelper.addAttachment(fileImunisasi.getName(), file);
+			mimeMessageHelper.addAttachment(fileImunisasi.getName(), fileImunisasi);
 			javaMailSender.send(mimeMessage);
 			
 			return new ResponseEntity<String>(HttpStatus.OK);
